@@ -6,13 +6,19 @@ import 'package:flutter/material.dart';
 
 class AuthProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  late final usr.User user;
+
+  bool get isAuth {
+    return user.token != null;
+  }
 
   //sign in with email & password
   Future login(String emailAddress, String password) async {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
-      print(credential);
+      // user = usr.User(uid: );
+      print( credential.user!.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
