@@ -2,8 +2,9 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:careergy_mobile/models/user.dart' as usr;
+import 'package:flutter/material.dart';
 
-class AuthProvider {
+class AuthProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //sign in with email & password
