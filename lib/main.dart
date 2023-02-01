@@ -5,9 +5,10 @@ import 'firebase_options.dart';
 import './screens/auth/auth_screen.dart';
 
 Future<void> main() async {
-  // await Firebase.initializeApp(
-  // options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -18,12 +19,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Careergy',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: false ? const MyHomePage(title: 'Flutter Demo Home Page') : const AuthScreen()
-    );
+        title: 'Careergy',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: false
+            ? const MyHomePage(title: 'Flutter Demo Home Page')
+            : const AuthScreen());
   }
 }
 
@@ -37,14 +39,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: const HomeScreen()
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: const HomeScreen());
   }
 }
