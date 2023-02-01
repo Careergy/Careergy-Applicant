@@ -29,6 +29,13 @@
             {
               "client_id": "581823111503-cgjju50s5i6rs6bek13mrkd2nhu4bhue.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "581823111503-4u1e7la8cn1egjq1soaj2akmn230o5fg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.careergyMobile"
+              }
             }
           ]
         }
