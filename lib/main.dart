@@ -1,4 +1,5 @@
 import 'package:careergy_mobile/screens/home_screen.dart';
+import 'package:careergy_mobile/screens/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -18,12 +19,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Careergy',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: false ? const MyHomePage(title: 'Flutter Demo Home Page') : const AuthScreen()
-    );
+        title: 'Careergy',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: true
+            ? const MyHomePage(title: 'Flutter Demo Home Page')
+            : const AuthScreen());
   }
 }
 
@@ -37,14 +39,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: const HomeScreen()
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: const BottomNavBar());
   }
 }

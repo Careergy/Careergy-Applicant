@@ -40,7 +40,8 @@ class AuthScreen extends StatelessWidget {
                   Flexible(
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 40.0),
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: const Color.fromARGB(117, 7, 0, 145),
@@ -208,7 +209,8 @@ class _AuthCardState extends State<AuthCard> {
                         },
                       ),
                       TextFormField(
-                        decoration: const InputDecoration(labelText: 'Phone Number'),
+                        decoration:
+                            const InputDecoration(labelText: 'Phone Number'),
                         keyboardType: TextInputType.phone,
                         onSaved: (value) {
                           _authData['phone'] = value!;
@@ -274,16 +276,18 @@ class _AuthCardState extends State<AuthCard> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 0, 6, 114)),
-                            padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(
-                              horizontal: 30.0, vertical: 8.0),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color.fromARGB(255, 0, 6, 114)),
+                            padding: const MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(
+                                  horizontal: 30.0, vertical: 8.0),
                             ),
                           ),
-                          child: Text(_authMode == AuthMode.Login
-                                    ? 'LOGIN'
-                                    : 'SIGN UP',
-                                    style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-                                  ),
+                          child: Text(
+                            _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP',
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
                         ),
                       TextButton(
                         onPressed: _switchAuthMode,
@@ -347,23 +351,25 @@ class _AuthCardState extends State<AuthCard> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 0, 6, 114)),
-                            padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(
-                              horizontal: 30.0, vertical: 8.0),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color.fromARGB(255, 0, 6, 114)),
+                            padding: const MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(
+                                  horizontal: 30.0, vertical: 8.0),
                             ),
                           ),
-                          child: Text(_authMode == AuthMode.Login
-                                    ? 'LOGIN'
-                                    : 'SIGN UP',
-                                    style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-                                 ),
+                          child: Text(
+                            _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP',
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
                         ),
                       TextButton(
                         onPressed: _switchAuthMode,
                         style: const ButtonStyle(
-                          padding: MaterialStatePropertyAll(EdgeInsets.symmetric(
-                            horizontal: 30.0, vertical: 4))
-                        ),
+                            padding: MaterialStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                    horizontal: 30.0, vertical: 4))),
                         // textColor: Theme.of(context).primaryColor,
                         child: Text(
                             '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
