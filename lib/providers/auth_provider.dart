@@ -5,21 +5,21 @@ import 'package:flutter/material.dart';
 
 class AuthProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore db = FirebaseFirestore.instance;
-  late final usr.User user;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  late final usr.User? user;
 
-  bool get isAuth {
-    return user.token != null;
+  FirebaseAuth get auth {
+    return _auth;
+  }
+
+  FirebaseFirestore get db {
+    return _db;
   }
 
   //sign in with email & password
   Future login(String emailAddress, String password) async {
     try {
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: emailAddress, password: password);
-      user = usr.User();
-      final data = user.getUserInfo(credential.user!.uid);
-      print(data);
+      await _auth.signInWithEmailAndPassword(email: emailAddress, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -34,10 +34,17 @@ class AuthProvider with ChangeNotifier {
       String emailAddress, String password, String phone, String name) async {
     try {
       final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          await _auth.createUserWithEmailAndPassword(
             email: emailAddress,
             password: password,
           );
+      
+      _db.collection('users').doc(credential.user!.uid).set({
+        'name' : name,
+        'email' : emailAddress,
+        'phone' : phone
+    });
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -50,4 +57,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   //log out
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
 }

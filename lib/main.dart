@@ -1,5 +1,7 @@
+import 'package:careergy_mobile/models/user.dart';
 import 'package:careergy_mobile/providers/auth_provider.dart';
 import 'package:careergy_mobile/screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -22,14 +24,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Careergy',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
         home: MultiProvider(
-            providers: [ChangeNotifierProvider.value(value: AuthProvider())],
-            child: false
-                ? const MyHomePage(title: 'Flutter Demo Home Page')
-                : const AuthScreen()));
+          providers: [
+            ChangeNotifierProvider.value(
+              value: AuthProvider(),
+            ),
+          ],
+          child: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData || false) { // to save time add (|| true)
+                return MyHomePage(title: 'Careergy');
+              } else {
+                return AuthScreen();
+              }
+            },),
+
+        ));
   }
 }
 
