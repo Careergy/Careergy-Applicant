@@ -204,7 +204,7 @@ class _AuthCardState extends State<AuthCard> {
                         },
                         validator: (value) {
                           if (value!.isEmpty || value.length < 2) {
-                            return 'Nmae is too short!';
+                            return 'Name is too short!';
                           }
                         },
                       ),

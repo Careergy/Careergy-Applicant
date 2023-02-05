@@ -19,7 +19,8 @@ class AuthProvider with ChangeNotifier {
   //sign in with email & password
   Future login(String emailAddress, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: emailAddress, password: password);
+      await _auth.signInWithEmailAndPassword(
+          email: emailAddress, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -33,18 +34,15 @@ class AuthProvider with ChangeNotifier {
   Future signup(
       String emailAddress, String password, String phone, String name) async {
     try {
-      final credential =
-          await _auth.createUserWithEmailAndPassword(
-            email: emailAddress,
-            password: password,
-          );
-      
-      _db.collection('users').doc(credential.user!.uid).set({
-        'name' : name,
-        'email' : emailAddress,
-        'phone' : phone
-    });
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: emailAddress,
+        password: password,
+      );
 
+      _db
+          .collection('users')
+          .doc(credential.user!.uid)
+          .set({'name': name, 'email': emailAddress, 'phone': phone});
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
