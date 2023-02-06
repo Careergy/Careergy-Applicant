@@ -5,14 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class User with ChangeNotifier {
   late final String uid;
   String fname;
-
-  get getFname => this.fname;
-
-  set setFname(fname) => this.fname = fname;
-  late final String lname;
+  String lname;
   late final String email;
-  late final String? phone;
-  late final Image? photo;
+  int? phone;
+  Image? photo;
   late final String? token;
   late final DateTime? accountCreationTime = DateTime.now();
 

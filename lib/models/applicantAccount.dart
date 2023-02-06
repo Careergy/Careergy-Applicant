@@ -1,17 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'user.dart';
+import 'user.dart' as user;
 
-class ApplicantAccount {
-  late final String uid;
-  String fname;
-  String lname;
-  late final String email;
-  String? phone;
-  Image? photo;
-  String? token;
-  late final DateTime? accountCreationTime;
+class ApplicantAccount extends user.User {
   DateTime? birthDate;
   String? nationality;
   String? gender;
@@ -22,14 +14,12 @@ class ApplicantAccount {
   String? intrest;
 
   ApplicantAccount(
-      {required this.uid,
-      required this.fname,
-      required this.lname,
-      required this.email,
-      this.phone,
-      this.photo,
-      this.token,
-      this.accountCreationTime,
+      {required super.uid,
+      required super.fname,
+      required super.lname,
+      required super.email,
+      super.phone,
+      super.photo,
       this.birthDate,
       this.nationality,
       this.gender,
@@ -38,11 +28,12 @@ class ApplicantAccount {
       this.softSkills,
       this.intrest});
 
-  void editProfile(fname, lname, phone, photo, birthDate_year, birthDate_month,
-      birthDate_day, nationality, gender) {
+  void editProfile(fname, lname, int phone, Image photo, birthDate_year,
+      birthDate_month, birthDate_day, nationality, gender) {
     this.fname = fname;
     this.lname = lname;
     this.phone = phone;
+    this.photo = photo;
     this.birthDate =
         DateTime.utc(birthDate_year, birthDate_month, birthDate_day);
     this.nationality = nationality;

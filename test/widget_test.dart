@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:careergy_mobile/main.dart';
 import 'package:careergy_mobile/models/ApplicantAccount.dart';
+import 'package:careergy_mobile/models/user.dart';
 
 void main() {
   // testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -28,12 +29,16 @@ void main() {
   //   expect(find.text('0'), findsNothing);
   //   expect(find.text('1'), findsOneWidget);
   // });
+
   ApplicantAccount a = ApplicantAccount(
-      uid: "uid", fname: "fname", lname: "lname", email: "email");
+      uid: "uid",
+      fname: "fname",
+      lname: "lname",
+      email: "email",
+      phone: 0,
+      photo: Image.asset("name"));
+  a.editProfile("aqeel", "almosa", 055555, Image.asset("name"), 2000, 10, 13,
+      "Saudi", "Male");
 
-  print(a.fname);
-
-  a.editProfile(
-      "aqeel", "almosa", "3456", "photo", 2000, 10, 13, "Saudi", "Male");
-  print(a.birthDate);
+  print(a.toString());
 }
