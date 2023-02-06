@@ -4,13 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User with ChangeNotifier {
   late final String uid;
-  late final String fname;
+  String fname;
+
+  get getFname => this.fname;
+
+  set setFname(fname) => this.fname = fname;
   late final String lname;
   late final String email;
   late final String? phone;
   late final Image? photo;
   late final String? token;
-  late final DateTime? accountCreationTime;
+  late final DateTime? accountCreationTime = DateTime.now();
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -22,7 +26,6 @@ class User with ChangeNotifier {
     this.phone,
     this.photo,
     this.token,
-    this.accountCreationTime,
   });
 
   Future getUserInfo(String uid) async {

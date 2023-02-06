@@ -5,21 +5,21 @@ import 'user.dart';
 
 class ApplicantAccount {
   late final String uid;
-  late final String fname;
-  late final String lname;
+  String fname;
+  String lname;
   late final String email;
-  late final String? phone;
-  late final Image? photo;
-  late final String? token;
+  String? phone;
+  Image? photo;
+  String? token;
   late final DateTime? accountCreationTime;
-  late final DateTime? birthDate;
-  late final String? nationality;
-  late final String? gender;
+  DateTime? birthDate;
+  String? nationality;
+  String? gender;
 
-  late final String? major;
-  late final List? majorSkills;
-  late final List? softSkills;
-  late final String? intrest;
+  String? major;
+  List? majorSkills;
+  List? softSkills;
+  String? intrest;
 
   ApplicantAccount(
       {required this.uid,
@@ -38,12 +38,13 @@ class ApplicantAccount {
       this.softSkills,
       this.intrest});
 
-  void editProfile(
-      firstName, lastName, phone, photo, birthDate, nationality, gender) {
-    this.fname = firstName;
-    this.lname = lastName;
+  void editProfile(fname, lname, phone, photo, birthDate_year, birthDate_month,
+      birthDate_day, nationality, gender) {
+    this.fname = fname;
+    this.lname = lname;
     this.phone = phone;
-    this.birthDate = birthDate;
+    this.birthDate =
+        DateTime.utc(birthDate_year, birthDate_month, birthDate_day);
     this.nationality = nationality;
     this.gender = gender;
   }
