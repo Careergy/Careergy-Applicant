@@ -1,14 +1,19 @@
+import 'package:careergy_mobile/models/user.dart';
+import 'package:careergy_mobile/providers/auth_provider.dart';
 import 'package:careergy_mobile/screens/home_screen.dart';
 import 'package:careergy_mobile/screens/nav_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import './screens/auth/auth_screen.dart';
 
 Future<void> main() async {
-  // await Firebase.initializeApp(
-  // options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -23,7 +28,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: true
+        home: false
             ? const MyHomePage(title: 'Flutter Demo Home Page')
             : const AuthScreen());
   }
@@ -45,6 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: const BottomNavBar());
+        body: const HomeScreen());
   }
 }

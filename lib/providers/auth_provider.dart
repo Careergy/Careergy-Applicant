@@ -1,8 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:careergy_mobile/models/user.dart' as usr;
+import 'package:flutter/material.dart';
 
-class AuthProvider {
+class AuthProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  late final usr.User? user;
+
+  FirebaseAuth get auth {
+    return _auth;
+  }
+
+  FirebaseFirestore get db {
+    return _db;
+  }
 
   //sign in with email & password
   Future login(String emailAddress, String password) async {
@@ -23,11 +35,15 @@ class AuthProvider {
   Future signup(
       String emailAddress, String password, String phone, String name) async {
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential = await _auth.createUserWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
+
+      _db
+          .collection('users')
+          .doc(credential.user!.uid)
+          .set({'name': name, 'email': emailAddress, 'phone': phone});
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
