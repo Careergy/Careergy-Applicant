@@ -1,4 +1,6 @@
+import 'package:careergy_mobile/constants.dart';
 import 'package:careergy_mobile/providers/auth_provider.dart';
+import 'package:careergy_mobile/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,16 +9,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context, listen: false);
+    //final auth = Provider.of<AuthProvider>(context, listen: false);
 
-    return Center(
-      child: Column(
-        children: [
-          Text(auth.auth.currentUser!.displayName ?? ''),
-          Text(auth.auth.currentUser!.email ?? ''),
-          //ElevatedButton(onPressed: auth.logout , child: const Text('Logout'))
-        ],
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      appBar: const CustomAppBar(
+        title: 'Home',
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [Text('Home Screen')],
+        ),
       ),
     );
   }

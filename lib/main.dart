@@ -28,9 +28,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: false
-            ? const MyHomePage(title: 'Flutter Demo Home Page')
-            : const AuthScreen());
+        home: true ? const BottomNavBar() : const AuthScreen());
   }
 }
 
