@@ -1,6 +1,7 @@
 import 'package:careergy_mobile/constants.dart';
 import 'package:careergy_mobile/providers/auth_provider.dart';
 import 'package:careergy_mobile/widgets/custom_appbar.dart';
+import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,7 @@ class HomeScreen extends StatelessWidget {
     //final auth = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: const CustomAppBar(
         title: 'Home',
       ),

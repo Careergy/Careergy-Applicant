@@ -1,3 +1,4 @@
+import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -14,6 +15,7 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: const CustomAppBar(title: 'Attachments'),
       body: SingleChildScrollView(
         child: Padding(

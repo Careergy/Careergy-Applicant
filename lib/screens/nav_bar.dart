@@ -5,8 +5,6 @@ import 'package:careergy_mobile/screens/home_screen.dart';
 import 'package:careergy_mobile/screens/profile_screen.dart';
 import 'package:careergy_mobile/screens/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:careergy_mobile/constants.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -29,44 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        backgroundColor: kBlue,
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: kBlue,
-              ),
-              child: Text(
-                'Careergy',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            ListTile(
-              title: const Text(
-                'Settings',
-                style: TextStyle(color: Colors.white),
-              ),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'About us',
-                style: TextStyle(color: Colors.white),
-              ),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-          ],
-        ),
-      ),
+      //drawer: CustomDrawer(),
       body: IndexedStack(
         index: navBarIndex,
         children: screens,
@@ -110,3 +71,51 @@ class _BottomNavBarState extends State<BottomNavBar> {
     );
   }
 }
+
+// class CustomDrawer extends StatelessWidget {
+//   const CustomDrawer({
+//     super.key,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Drawer(
+//       backgroundColor: kBlue,
+//       child: ListView(
+//         // Important: Remove any padding from the ListView.
+//         padding: EdgeInsets.zero,
+//         children: [
+//           const DrawerHeader(
+//             decoration: BoxDecoration(
+//               color: kBlue,
+//             ),
+//             child: Text(
+//               'Careergy',
+//               style: TextStyle(color: Colors.white),
+//             ),
+//           ),
+//           ListTile(
+//             title: const Text(
+//               'Settings',
+//               style: TextStyle(color: Colors.white),
+//             ),
+//             onTap: () {
+//               // Update the state of the app.
+//               // ...
+//             },
+//           ),
+//           ListTile(
+//             title: const Text(
+//               'About us',
+//               style: TextStyle(color: Colors.white),
+//             ),
+//             onTap: () {
+//               // Update the state of the app.
+//               // ...
+//             },
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
