@@ -8,10 +8,13 @@ class ApplicantAccount extends user.User {
   String? nationality;
   String? gender;
 
-  String? major;
-  List? majorSkills;
-  List? softSkills;
+  List<String>? major;
+  List<String>? majorSkills;
+  List<String>? softSkills;
   String? intrest;
+  int? graduationYear;
+  int? yearsOfExperience;
+  List<String>? degrees;
 
   ApplicantAccount(
       {required super.uid,
@@ -26,8 +29,12 @@ class ApplicantAccount extends user.User {
       this.major,
       this.majorSkills,
       this.softSkills,
-      this.intrest});
+      this.intrest,
+      this.graduationYear,
+      this.yearsOfExperience,
+      this.degrees});
 
+  // get all profile info then update the changes
   void editProfile(fname, lname, int phone, Image photo, birthDate_year,
       birthDate_month, birthDate_day, nationality, gender) {
     this.fname = fname;
@@ -40,10 +47,21 @@ class ApplicantAccount extends user.User {
     this.gender = gender;
   }
 
-  void makeBriefCV(major, majorSkills, softSkills, intrest) {
+  // this method for making or editing Brief CV.
+  //for edit: use getBriefCV() info then update changes
+  void makeBriefCV(major, majorSkills, softSkills, intrest, graduationYear,
+      yearsOfExperience, degrees) {
     this.major = major;
     this.majorSkills = majorSkills;
     this.softSkills = softSkills;
     this.intrest = intrest;
+    this.graduationYear = graduationYear;
+    this.yearsOfExperience = yearsOfExperience;
+    this.degrees = degrees;
+  }
+
+  // get Brief CV info from database
+  Future getBriefCV() async {
+    return [];
   }
 }
