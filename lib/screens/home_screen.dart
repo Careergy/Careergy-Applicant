@@ -18,8 +18,15 @@ class HomeScreen extends StatelessWidget {
         title: 'Home',
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
-          children: [Text('Home Screen')],
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            Text(
+              'Home Screen',
+            ),
+          ],
         ),
       ),
     );
