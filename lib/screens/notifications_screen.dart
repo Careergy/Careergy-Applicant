@@ -1,3 +1,4 @@
+import 'package:careergy_mobile/constants.dart';
 import 'package:careergy_mobile/widgets/custom_appbar.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const CustomDrawer(),
-      appBar: const CustomAppBar(title: 'Notifications'),
+      appBar: AppBar(
+        title: Text('Notifications'),
+        automaticallyImplyLeading: false,
+        backgroundColor: kBlue,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
