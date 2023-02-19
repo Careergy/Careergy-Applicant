@@ -1,3 +1,4 @@
+import 'package:careergy_mobile/screens/nav_bar.dart';
 import 'package:careergy_mobile/screens/notifications_screen.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';

@@ -16,10 +16,17 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //bottomNavigationBar: ,
       drawer: const CustomDrawer(),
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Text('Notifications'),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: kBlue,
       ),
       body: SingleChildScrollView(
