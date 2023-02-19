@@ -1,3 +1,4 @@
+import 'package:careergy_mobile/screens/brief_cv.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -20,14 +21,23 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              Text(
-                'Attachments Screen',
-              ),
-            ],
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('Attachments Screen'),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const BriefCV()));
+                  },
+                  child: Text('Brief CV'),
+                )
+              ],
+            ),
           ),
         ),
       ),
