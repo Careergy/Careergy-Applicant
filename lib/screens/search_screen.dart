@@ -1,3 +1,4 @@
+import 'package:careergy_mobile/screens/company_profile.dart';
 import 'package:careergy_mobile/widgets/custom_appbar.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,19 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
+            children: [
               Text(
                 'Search Screen',
               ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CompanyProfile()));
+                },
+                child: Text('company profile'),
+              )
             ],
           ),
         ),
