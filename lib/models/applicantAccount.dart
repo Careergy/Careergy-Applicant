@@ -35,7 +35,7 @@ class ApplicantAccount extends user.User {
       this.degrees});
 
   // get all profile info then update the changes
-  void editProfile(fname, lname, int phone, Image photo, birthDate_year,
+  void editProfile(fname, lname, phone, Image photo, birthDate_year,
       birthDate_month, birthDate_day, nationality, gender) {
     this.fname = fname;
     this.lname = lname;
