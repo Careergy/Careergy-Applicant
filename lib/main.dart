@@ -24,11 +24,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Careergy',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: true ? const BottomNavBar() : const AuthScreen());
+      title: 'Careergy',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: true ? const BottomNavBar() : const AuthScreen(),
+    );
   }
 }
 

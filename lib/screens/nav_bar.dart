@@ -2,6 +2,7 @@ import 'package:careergy_mobile/screens/applied_screen.dart';
 import 'package:careergy_mobile/screens/attachments_screen.dart';
 import 'package:careergy_mobile/screens/auth/auth_screen.dart';
 import 'package:careergy_mobile/screens/home_screen.dart';
+import 'package:careergy_mobile/screens/notifications_screen.dart';
 import 'package:careergy_mobile/screens/profile_screen.dart';
 import 'package:careergy_mobile/screens/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,16 +23,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const AttatchmentsScreen(),
     const AppliedScreen(),
     const ProfileScreen(),
+    const NotificationScreen()
   ];
+
+  selectPage(int index) {
+    setState(() {
+      navBarIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //drawer: CustomDrawer(),
-      body: IndexedStack(
-        index: navBarIndex,
-        children: screens,
-      ),
+      body: screens[navBarIndex],
       bottomNavigationBar: Theme(
         data: ThemeData(
           canvasColor: kBlue,

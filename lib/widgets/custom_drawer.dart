@@ -1,3 +1,4 @@
+import 'package:careergy_mobile/screens/contact_us_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -42,6 +43,27 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               // Update the state of the app.
               // ...
+            },
+          ),
+          ListTile(
+            title: Row(
+              children: const [
+                Icon(
+                  Icons.message,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  'Contact us',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ContactUsScreen()));
             },
           ),
         ],

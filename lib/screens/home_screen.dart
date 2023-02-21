@@ -17,16 +17,24 @@ class HomeScreen extends StatelessWidget {
       appBar: const CustomAppBar(
         title: 'Home',
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Text(
-              'Home Screen',
-            ),
-          ],
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Home Screen',
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  print('log out');
+                },
+                child: const Text('log out'),
+              )
+            ],
+          ),
         ),
       ),
     );
