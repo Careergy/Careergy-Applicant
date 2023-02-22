@@ -16,13 +16,13 @@ class CustomDrawer extends StatelessWidget {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
+          DrawerHeader(
             decoration: BoxDecoration(
               color: kBlue,
             ),
-            child: Text(
-              'Careergy',
-              style: TextStyle(color: Colors.white),
+            child: Image.asset(
+              'assets/images/Careergy.png',
+              scale: 0.5,
             ),
           ),
           ListTile(
