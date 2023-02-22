@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:careergy_mobile/models/user.dart' as usr;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AuthProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -55,4 +56,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   //log out
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
 }

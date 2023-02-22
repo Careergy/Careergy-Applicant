@@ -3,14 +3,17 @@ import 'package:careergy_mobile/providers/auth_provider.dart';
 import 'package:careergy_mobile/widgets/custom_appbar.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
+// import 'package:riverpod/riverpod.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //final auth = Provider.of<AuthProvider>(context, listen: false);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    // final authRef = ref.watch(auth);
 
     return Scaffold(
       drawer: CustomDrawer(),
@@ -29,7 +32,7 @@ class HomeScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  print('log out');
+                  auth.logout();
                 },
                 child: const Text('log out'),
               )
