@@ -20,8 +20,6 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-// final auth = Provider((ref) => AuthProvider(),);
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -29,30 +27,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Careergy',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider.value(
-            value: AuthProvider(),
-          ),
-        ],
-        child: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData || false) {
-              // to save time add (|| true)
-              return const BottomNavBar();
-            } else {
-              return const AuthScreen();
-            }
-          },
+        title: 'Careergy',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
-      )
-      // home: false ? const BottomNavBar() : const AuthScreen(),
-    );
+        home: MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(
+              value: AuthProvider(),
+            ),
+          ],
+          child: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData || false) {
+                // to save time add (|| true)
+                return const BottomNavBar();
+              } else {
+                return const AuthScreen();
+              }
+            },
+          ),
+        )
+        // home: false ? const BottomNavBar() : const AuthScreen(),
+        );
   }
 }
 
