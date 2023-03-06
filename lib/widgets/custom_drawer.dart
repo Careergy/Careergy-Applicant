@@ -21,8 +21,9 @@ class CustomDrawer extends StatelessWidget {
               color: kBlue,
             ),
             child: Image.asset(
-              'assets/images/Careergy.png',
-              scale: 0.5,
+              'assets/images/logo.png',
+              //scale: 0.1,
+              fit: BoxFit.contain,
             ),
           ),
           ListTile(
@@ -49,7 +50,7 @@ class CustomDrawer extends StatelessWidget {
             title: Row(
               children: const [
                 Icon(
-                  Icons.message,
+                  Icons.contact_support_rounded,
                   color: Colors.white,
                 ),
                 SizedBox(width: 10),
