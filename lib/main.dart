@@ -5,7 +5,9 @@ import 'package:careergy_mobile/screens/nav_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
+// import 'package:riverpod/riverpod.dart';
 import 'firebase_options.dart';
 import './screens/auth/auth_screen.dart';
 
@@ -14,8 +16,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // runApp(const ProviderScope(child: MyApp()));
   runApp(const MyApp());
 }
+
+// final auth = Provider((ref) => AuthProvider(),);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -28,7 +33,25 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: true ? const BottomNavBar() : const AuthScreen(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(
+            value: AuthProvider(),
+          ),
+        ],
+        child: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData || false) {
+              // to save time add (|| true)
+              return const BottomNavBar();
+            } else {
+              return const AuthScreen();
+            }
+          },
+        ),
+      )
+      // home: false ? const BottomNavBar() : const AuthScreen(),
     );
   }
 }
