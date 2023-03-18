@@ -27,15 +27,15 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text('Attachments Screen'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BriefCV()));
-                  },
-                  child: Text('Brief CV'),
-                )
+                // ElevatedButton(
+                //   onPressed: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => const BriefCV()));
+                //   },
+                //   child: Text('Brief CV'),
+                // )
               ],
             ),
           ),
