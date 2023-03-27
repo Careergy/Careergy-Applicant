@@ -302,11 +302,11 @@ class _BriefCVState extends State<BriefCV> {
                     briefcvs
                         .doc(user!.uid)
                         .set({
-                          'job_title': job_titles_val,
-                          'intrests': intrests_val,
-                          'major_skills': major_skills_val,
-                          'soft_skills': soft_skills_val,
-                          'other': other_skills_val,
+                          'job_title': [job_titles_val],
+                          'intrests': [intrests_val],
+                          'major_skills': [major_skills_val],
+                          'soft_skills': [soft_skills_val],
+                          'other': [other_skills_val],
                         })
                         .then((value) => {
                               print("User Updated"),

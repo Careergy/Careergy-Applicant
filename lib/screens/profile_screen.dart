@@ -29,11 +29,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String birthdate = '';
   String major = '';
   bool breifcv_exists = false;
-  String intrests = '';
-  String major_skills = '';
-  String soft_skills = '';
-  String other_skills = '';
-  String job_title = '';
+  List<dynamic> intrests = [''];
+  List<dynamic> major_skills = [''];
+  List<dynamic> soft_skills = [''];
+  List<dynamic> other_skills = [''];
+  List<dynamic> job_title = [''];
   String location = '';
 
   void getUserInfo(String uid) {
@@ -58,24 +58,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     briefcvs.doc(uid).get().then((DocumentSnapshot ds) {
       if (ds.exists) {
-        // print('Document data: ${ds.data()}');
+        Map<String, dynamic> data = ds!.data() as Map<String, dynamic>;
+        print('Document data: ${ds.data()}');
+        print(data['job_title']);
         breifcv_exists = true;
         setState(() {
+          print('hi');
           intrests = ds.data().toString().contains('intrests')
-              ? ds.get('intrests')
-              : '';
+              ? data['intrests']
+              : [''];
           major_skills = ds.data().toString().contains('major_skills')
-              ? ds.get('major_skills')
-              : '';
+              ? data['major_skills']
+              : [''];
           soft_skills = ds.data().toString().contains('soft_skills')
-              ? ds.get('soft_skills')
-              : '';
+              ? data['soft_skills']
+              : [''];
           other_skills = ds.data().toString().contains('other_skills')
-              ? ds.get('other_skills')
-              : '';
-          job_title = ds.data().toString().contains('job_title')
-              ? ds.get('job_title')
-              : '';
+              ? data['other_skills']
+              : [''];
+          job_title = ds.data().toString().contains('soft_skills')
+              ? data['job_title']
+              : [''];
           location = ds.data().toString().contains('location')
               ? ds.get('location')
               : '';
@@ -99,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // print();
+    print(job_title);
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: const CustomAppBar(title: 'Profile'),
@@ -136,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -298,8 +301,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      // job_title.isNotEmpty ?
                                       Text(
-                                        'Job Title: $job_title',
+                                        'Job title: ${job_title[0]}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 16,
@@ -308,7 +312,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 : Colors.grey),
                                       ),
                                       Text(
-                                        'Intrests: $intrests',
+                                        'Intrests: ${intrests[0]}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 16,
@@ -317,7 +321,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 : Colors.grey),
                                       ),
                                       Text(
-                                        'Major skills: $major_skills',
+                                        'Major skills: ${major_skills[0]}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 16,
@@ -326,7 +330,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 : Colors.grey),
                                       ),
                                       Text(
-                                        'Soft skills: $soft_skills',
+                                        'Soft skills: ${soft_skills[0]}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 16,
@@ -335,7 +339,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 : Colors.grey),
                                       ),
                                       Text(
-                                        'Other skills: $other_skills',
+                                        'Other skills: ${other_skills[0]}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 16,
