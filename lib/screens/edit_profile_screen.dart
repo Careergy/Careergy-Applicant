@@ -65,6 +65,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   File? image;
   Future pickImage() async {
     try {
+      print('clicked');
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
@@ -109,7 +110,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             color: Colors.blue,
                             onPressed: () {
                               print('photo');
-                              // pickImage();
+                              pickImage();
                             },
                           ),
                         ),

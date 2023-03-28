@@ -24,17 +24,17 @@ class _BriefCVState extends State<BriefCV> {
   CollectionReference briefcvs =
       FirebaseFirestore.instance.collection('briefcvs');
   // Initial Selected Value
-  String intrests_val = 'None';
-  String job_titles_val = 'None';
-  String major_skills_val = 'None';
-  String soft_skills_val = 'None';
-  String other_skills_val = 'None';
+  String intrests_val = 'none';
+  String job_titles_val = 'none';
+  String major_skills_val = 'none';
+  String soft_skills_val = 'none';
+  String other_skills_val = 'none';
 
-  var intrests = ['None'];
-  var job_titles = ['None'];
-  var major_skills = ['None'];
-  var soft_skills = ['None'];
-  var other_skills = ['None'];
+  var intrests = ['none'];
+  var job_titles = ['none'];
+  var major_skills = ['none'];
+  var soft_skills = ['none'];
+  var other_skills = ['none'];
 
   late TextEditingController other_skills_controller;
 

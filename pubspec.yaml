@@ -43,6 +43,7 @@ dependencies:
   firebase_storage: ^11.0.16
   file_picker: ^5.2.6
   flutter_document_picker: ^5.1.0
+  syncfusion_flutter_pdfviewer: ^21.1.35
 
 dev_dependencies:
   flutter_test:
