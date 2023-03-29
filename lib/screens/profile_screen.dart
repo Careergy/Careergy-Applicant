@@ -1,7 +1,4 @@
-// import 'dart:html';
-
 import 'dart:io';
-
 import 'package:careergy_mobile/screens/brief_cv.dart';
 import 'package:careergy_mobile/screens/edit_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/custom_appbar.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -42,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String imageUrl = '';
 
   Future<void> getUserInfo(String uid) async {
+    EasyLoading.show(status: 'loading...');
     imageUrl = await FirebaseStorage.instance
         .ref('photos/${user!.uid}')
         .getDownloadURL();
@@ -91,6 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         print('Document does not exist on the database');
       }
     });
+    EasyLoading.dismiss();
   }
 
   @override
@@ -116,12 +116,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 30),
+                  padding: const EdgeInsets.only(top: 10, bottom: 30),
                   child: CircleAvatar(
                       radius: 50,
                       backgroundImage: imageUrl != ''
                           ? NetworkImage(imageUrl!)
-                          : AssetImage('assets/images/avatarPlaceholder.png')
+                          : const AssetImage(
+                                  'assets/images/avatarPlaceholder.png')
                               as ImageProvider),
                 ),
                 Row(
@@ -302,58 +303,111 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             breifcv_exists
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Job title: ${job_title[0]}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: birthdate != ''
-                                                ? Colors.black
-                                                : Colors.grey),
-                                      ),
-                                      Text(
-                                        'Intrests: ${intrests[0]}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: birthdate != ''
-                                                ? Colors.black
-                                                : Colors.grey),
-                                      ),
-                                      Text(
-                                        'Major skills: ${major_skills[0]}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: birthdate != ''
-                                                ? Colors.black
-                                                : Colors.grey),
-                                      ),
-                                      Text(
-                                        'Soft skills: ${soft_skills[0]}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: birthdate != ''
-                                                ? Colors.black
-                                                : Colors.grey),
-                                      ),
-                                      Text(
-                                        'Other skills: ${other_skills[0]}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: birthdate != ''
-                                                ? Colors.black
-                                                : Colors.grey),
-                                      ),
-                                    ],
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, top: 10, bottom: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Job title',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.blue),
+                                        ),
+                                        Text(
+                                          job_title[0],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16,
+                                              color: job_title[0] != 'none'
+                                                  ? Colors.black
+                                                  : Colors.grey),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          'Intrests',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.blue),
+                                        ),
+                                        Text(
+                                          intrests[0],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16,
+                                              color: intrests[0] != 'none'
+                                                  ? Colors.black
+                                                  : Colors.grey),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          'Major skills',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.blue),
+                                        ),
+                                        Text(
+                                          major_skills[0],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16,
+                                              color: major_skills[0] != 'none'
+                                                  ? Colors.black
+                                                  : Colors.grey),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          'Soft skills',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.blue),
+                                        ),
+                                        Text(
+                                          soft_skills[0],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16,
+                                              color: soft_skills[0] != 'none'
+                                                  ? Colors.black
+                                                  : Colors.grey),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          'Other skills',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.blue),
+                                        ),
+                                        Text(
+                                          other_skills[0] != ''
+                                              ? other_skills[0]
+                                              : 'none',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16,
+                                              color: other_skills[0] != ''
+                                                  ? Colors.black
+                                                  : Colors.grey),
+                                        ),
+                                      ],
+                                    ),
                                   )
-                                : SizedBox(),
+                                : const SizedBox(),
                             Center(
                               child: TextButton(
                                   onPressed: () {
@@ -362,7 +416,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                BriefCV())).then((value) {
+                                                const BriefCV())).then((value) {
                                       getUserInfo(user!.uid);
                                     });
                                   },
@@ -416,7 +470,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             getUserInfo(user!.uid);
           });
         },
-        child: Icon(Icons.edit),
+        child: const Icon(Icons.edit),
       ),
     );
   }
