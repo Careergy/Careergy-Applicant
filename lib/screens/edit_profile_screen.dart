@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../constants.dart';
@@ -40,13 +41,15 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final user = FirebaseAuth.instance.currentUser;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final photosReference = FirebaseStorage.instance.ref('photos/');
   TextEditingController name_controller = new TextEditingController();
   TextEditingController email_controller = new TextEditingController();
   TextEditingController phone_controller = new TextEditingController();
   TextEditingController bio_controller = new TextEditingController();
   TextEditingController major_controller = new TextEditingController();
   TextEditingController birthdate_controller = new TextEditingController();
-  TextEditingController photo_controller = new TextEditingController();
+  String imageUrl = '';
+  // TextEditingController photo_controller = new TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -57,7 +60,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     bio_controller.text = widget.bio;
     major_controller.text = widget.major;
     birthdate_controller.text = widget.birthdate;
-    photo_controller.text = widget.photo;
+    imageUrl = widget.photo;
   }
 
   final ImagePicker _picker = ImagePicker();
@@ -65,7 +68,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   File? image;
   Future pickImage() async {
     try {
-      print('clicked');
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
@@ -87,29 +89,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           padding: const EdgeInsets.all(10),
           child: Center(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 30),
+                  padding: const EdgeInsets.only(top: 10, bottom: 30),
                   child: CircleAvatar(
                     radius: 50.0,
                     backgroundColor: Colors.white,
                     child: CircleAvatar(
                       radius: 50.0,
-                      backgroundImage:
-                          AssetImage('assets/images/avatarPlaceholder.png'),
+                      backgroundImage: image != null
+                          ? AssetImage(image!.path)
+                          : imageUrl != ''
+                              ? NetworkImage(imageUrl)
+                              : const AssetImage(
+                                      'assets/images/avatarPlaceholder.png')
+                                  as ImageProvider,
                       child: Align(
                         alignment: Alignment.bottomRight,
                         child: CircleAvatar(
                           backgroundColor: Colors.white,
                           // radius: 20.0,
                           child: IconButton(
-                            icon: Icon(Icons.camera_alt),
+                            icon: const Icon(Icons.camera_alt),
                             iconSize: 20.0,
                             color: Colors.blue,
                             onPressed: () {
-                              print('photo');
                               pickImage();
                             },
                           ),
@@ -135,11 +140,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                       TextField(
-                        // obscureText: true,
                         controller: name_controller,
                         decoration: const InputDecoration(
-                            // border: OutlineInputBorder(),
-                            // labelText: '_controller',
                             constraints: BoxConstraints(maxHeight: 30)),
                       ),
                       const SizedBox(
@@ -158,11 +160,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                       TextField(
-                        // obscureText: true,
                         controller: email_controller,
                         decoration: const InputDecoration(
-                            // border: OutlineInputBorder(),
-                            // labelText: '_controller',
                             constraints: BoxConstraints(maxHeight: 30)),
                       ),
                       const SizedBox(
@@ -181,11 +180,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                       TextField(
-                        // obscureText: true,
                         controller: phone_controller,
                         decoration: const InputDecoration(
-                            // border: OutlineInputBorder(),
-                            // labelText: '_controller',
                             constraints: BoxConstraints(maxHeight: 30)),
                       ),
                       const SizedBox(
@@ -204,14 +200,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                       TextField(
-                        // obscureText: true,
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         controller: bio_controller,
-                        // decoration: const InputDecoration(
-                        //     // border: OutlineInputBorder(),
-                        //     // labelText: '_controller',
-                        //     constraints: BoxConstraints(maxHeight: 30)),
                       ),
                       const SizedBox(
                         height: 20,
@@ -229,11 +220,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                       TextField(
-                        // obscureText: true,
                         controller: major_controller,
                         decoration: const InputDecoration(
-                            // border: OutlineInputBorder(),
-                            // labelText: '_controller',
                             constraints: BoxConstraints(maxHeight: 30)),
                       ),
                       const SizedBox(
@@ -252,11 +240,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                       TextField(
-                        // obscureText: true,
                         controller: birthdate_controller,
                         decoration: const InputDecoration(
-                            // border: OutlineInputBorder(),
-                            // labelText: '_controller',
                             constraints: BoxConstraints(maxHeight: 30)),
                       ),
                     ],
@@ -268,7 +253,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          if (image != null) {
+            await photosReference.child(user!.uid).putFile(image!);
+          }
+
           users
               .doc(user!.uid)
               .update({
@@ -278,38 +267,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 'bio': bio_controller.text,
                 'major': major_controller.text,
                 'birthdate': birthdate_controller.text,
-                'photo': photo_controller.text,
+                // 'photo': photo_controller.text,
               })
               .then((value) => {
                     print("User Updated"),
                     Navigator.pop(context),
                   })
               .catchError((error) => print("Failed to update user: $error"));
-          ;
-          // Navigator.pop(context);
         },
         child: const Text('Save'),
       ),
     );
   }
 }
-// class EditProfileScreen extends StatelessWidget {
-//   const EditProfileScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Second Route'),
-//       ),
-//       body: Center(
-//         child: ElevatedButton(
-//           onPressed: () {
-//             // Navigate back to first route when tapped.
-//           },
-//           child: const Text('Go back!'),
-//         ),
-//       ),
-//     );
-//   }
-// }

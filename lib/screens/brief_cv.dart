@@ -275,7 +275,7 @@ class _BriefCVState extends State<BriefCV> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'Other',
+                    'Other skills',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
