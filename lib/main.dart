@@ -20,8 +20,6 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-// final auth = Provider((ref) => AuthProvider(),);
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -42,7 +40,7 @@ class MyApp extends StatelessWidget {
           child: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
-              if (snapshot.hasData || true) {
+              if (snapshot.hasData || false) {
                 // to save time add (|| true)
                 return const BottomNavBar();
               } else {
