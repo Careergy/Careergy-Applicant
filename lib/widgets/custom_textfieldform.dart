@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final String hint;
   Function onChanged;
   Function validator;
+  EdgeInsetsGeometry? contentPadding;
 
   CustomTextField({
     super.key,
@@ -16,6 +17,7 @@ class CustomTextField extends StatelessWidget {
     required this.hint,
     required this.onChanged,
     required this.validator,
+    this.contentPadding,
   });
 
   @override
@@ -26,13 +28,14 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       cursorColor: kBlue,
       decoration: InputDecoration(
+        contentPadding: contentPadding,
         labelText: label,
         hintText: hint,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(
             //make the border color black
-            color: Colors.red,
+            color: Colors.black,
           ),
         ),
         border: OutlineInputBorder(
@@ -41,9 +44,9 @@ class CustomTextField extends StatelessWidget {
         focusColor: Colors.black,
         fillColor: Colors.black,
       ),
-      validator: (value) => validator(value),
+      //validator: (value) => validator(value),
       //TODO: check correctnes of this line
-      onChanged: (value) => onChanged(value),
+      //onChanged: (value) => onChanged(value),
     );
   }
 }
