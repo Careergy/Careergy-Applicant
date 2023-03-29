@@ -1,3 +1,4 @@
+import 'package:careergy_mobile/widgets/custom_textfieldform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -17,14 +18,42 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kBlue,
-        title: Text('Brief CV'),
+        title: Text('Contact Us'),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text('Contact us Screen'),
-            Text('Form to contact // To do')
+            SizedBox(height: 16),
+            CustomTextField(
+              label: 'Title',
+              hint: 'hint',
+              onChanged: (v) {
+                print(v);
+              },
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter the Title';
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 32),
+            CustomTextField(
+              contentPadding: const EdgeInsets.symmetric(vertical: 200),
+              label: 'Message',
+              hint: 'Enter the message',
+              onChanged: (v) {
+                print(v);
+              },
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter the message';
+                }
+                return null;
+              },
+            )
           ],
         ),
       ),
