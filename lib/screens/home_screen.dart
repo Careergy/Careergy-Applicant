@@ -1,5 +1,7 @@
 import 'package:careergy_mobile/constants.dart';
 import 'package:careergy_mobile/providers/auth_provider.dart';
+import 'package:careergy_mobile/screens/apply_for_company_screen.dart';
+import 'package:careergy_mobile/screens/company_profile.dart';
 import 'package:careergy_mobile/widgets/custom_appbar.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,20 @@ class HomeScreen extends StatelessWidget {
                   auth.logout();
                 },
                 child: const Text('log out'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ApplyForCompanyScreen()));
+                },
+                child: const Text('This is a company'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CompanyProfile()));
+                },
+                child: const Text('a company profile'),
               )
             ],
           ),
