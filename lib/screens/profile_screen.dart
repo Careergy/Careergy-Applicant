@@ -1,13 +1,14 @@
-// import 'dart:html';
-
+import 'dart:io';
 import 'package:careergy_mobile/screens/brief_cv.dart';
 import 'package:careergy_mobile/screens/edit_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/custom_appbar.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -21,6 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference briefcvs =
       FirebaseFirestore.instance.collection('briefcvs');
+
   String name = '';
   String email = '';
   String phone = '';
@@ -35,11 +37,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<dynamic> other_skills = [''];
   List<dynamic> job_title = [''];
   String location = '';
+  String imageUrl = '';
 
-  void getUserInfo(String uid) {
+  Future<void> getUserInfo(String uid) async {
+    EasyLoading.show(status: 'loading...');
+    imageUrl = await FirebaseStorage.instance
+        .ref('photos/${user!.uid}')
+        .getDownloadURL();
     users.doc(uid).get().then((DocumentSnapshot ds) {
       if (ds.exists) {
-        // print('Document data: ${ds.data()}');
         setState(() {
           name = ds.data().toString().contains('name') ? ds.get('name') : '';
           email = ds.data().toString().contains('email') ? ds.get('email') : '';
@@ -59,8 +65,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     briefcvs.doc(uid).get().then((DocumentSnapshot ds) {
       if (ds.exists) {
         Map<String, dynamic> data = ds!.data() as Map<String, dynamic>;
-        // print('Document data: ${ds.data()}');
-        // print(data['job_title']);
         breifcv_exists = true;
         setState(() {
           intrests = ds.data().toString().contains('intrests')
@@ -86,21 +90,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         print('Document does not exist on the database');
       }
     });
+    EasyLoading.dismiss();
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      // do something
-      // getUserInfo(user!.uid);
-      // print("Build Completed");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       getUserInfo(user!.uid);
-      // users.doc(user!.uid).snapshots().listen(
-      //       (event) => getUserInfo(user!.uid),
-      //       onError: (error) => print("Listen failed: $error"),
-      //     );
     });
   }
 
@@ -115,19 +113,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.all(10),
           child: Center(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 30),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 30),
                   child: CircleAvatar(
-                    radius: 50,
-                    child: ClipOval(
-                      child: Image(
-                          image: AssetImage(
-                              'assets/images/avatarPlaceholder.png')),
-                    ),
-                  ),
+                      radius: 50,
+                      backgroundImage: imageUrl != ''
+                          ? NetworkImage(imageUrl!)
+                          : const AssetImage(
+                                  'assets/images/avatarPlaceholder.png')
+                              as ImageProvider),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,250 +143,307 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Flexible(
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Email',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.blue),
-                            )
-                          ],
-                        ),
-                        Row(
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Email',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.blue),
+                          )
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            email != '' ? email : 'empty',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                color:
+                                    email != '' ? Colors.black : Colors.grey),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Phone',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.blue),
+                          )
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            phone != '' ? phone : 'empty',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                color:
+                                    phone != '' ? Colors.black : Colors.grey),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'Bio',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Colors.blue),
+                              )
+                            ],
+                          ),
+                          Text(
+                            bio != '' ? bio : 'empty',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                color: bio != '' ? Colors.black : Colors.grey),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Major',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.blue),
+                          )
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            major != '' ? major : 'empty',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                color:
+                                    major != '' ? Colors.black : Colors.grey),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Birthdate',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.blue),
+                          )
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            birthdate != '' ? birthdate : 'empty',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                color: birthdate != ''
+                                    ? Colors.black
+                                    : Colors.grey),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Brief CV',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.blue),
+                          )
+                        ],
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              email != '' ? email : 'empty',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  color:
-                                      email != '' ? Colors.black : Colors.grey),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Phone',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.blue),
-                            )
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              phone != '' ? phone : 'empty',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  color:
-                                      phone != '' ? Colors.black : Colors.grey),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Bio',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.blue),
-                            )
-                          ],
-                        ),
-                        Text(
-                          bio != '' ? bio : 'empty',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: bio != '' ? Colors.black : Colors.grey),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Major',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.blue),
-                            )
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              major != '' ? major : 'empty',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  color:
-                                      major != '' ? Colors.black : Colors.grey),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Birthdate',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.blue),
-                            )
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              birthdate != '' ? birthdate : 'empty',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  color: birthdate != ''
-                                      ? Colors.black
-                                      : Colors.grey),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Brief CV',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.blue),
-                            )
-                          ],
-                        ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              breifcv_exists
-                                  ? Column(
+                            breifcv_exists
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, top: 10, bottom: 10),
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        // job_title.isNotEmpty ?
+                                        const Text(
+                                          'Job title',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.blue),
+                                        ),
                                         Text(
-                                          'Job title: ${job_title[0]}',
+                                          job_title[0],
                                           style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 16,
-                                              color: birthdate != ''
+                                              color: job_title[0] != 'none'
                                                   ? Colors.black
                                                   : Colors.grey),
                                         ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          'Intrests',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.blue),
+                                        ),
                                         Text(
-                                          'Intrests: ${intrests[0]}',
+                                          intrests[0],
                                           style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 16,
-                                              color: birthdate != ''
+                                              color: intrests[0] != 'none'
                                                   ? Colors.black
                                                   : Colors.grey),
                                         ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          'Major skills',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.blue),
+                                        ),
                                         Text(
-                                          'Major skills: ${major_skills[0]}',
+                                          major_skills[0],
                                           style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 16,
-                                              color: birthdate != ''
+                                              color: major_skills[0] != 'none'
                                                   ? Colors.black
                                                   : Colors.grey),
                                         ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          'Soft skills',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.blue),
+                                        ),
                                         Text(
-                                          'Soft skills: ${soft_skills[0]}',
+                                          soft_skills[0],
                                           style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 16,
-                                              color: birthdate != ''
+                                              color: soft_skills[0] != 'none'
                                                   ? Colors.black
                                                   : Colors.grey),
                                         ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          'Other skills',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.blue),
+                                        ),
                                         Text(
-                                          'Other skills: ${other_skills[0]}',
+                                          other_skills[0] != ''
+                                              ? other_skills[0]
+                                              : 'none',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 16,
-                                              color: birthdate != ''
+                                              color: other_skills[0] != ''
                                                   ? Colors.black
                                                   : Colors.grey),
                                         ),
                                       ],
-                                    )
-                                  : Center(
-                                      child: TextButton(
-                                          onPressed: () {
-                                            print('brief cv button');
-                                            Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            BriefCV()))
-                                                .then((value) {
-                                              getUserInfo(user!.uid);
-                                            });
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.blue,
-                                                ),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(20))),
-                                            // color: Colors.blue,
-                                            child: const Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 10,
-                                                    horizontal: 100),
-                                                child: Text(
-                                                  'Add',
-                                                  // style: TextStyle(color: Colors.white),
-                                                )),
-                                          )),
-                                    )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                                    ),
+                                  )
+                                : const SizedBox(),
+                            Center(
+                              child: TextButton(
+                                  onPressed: () {
+                                    print('brief cv button');
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const BriefCV())).then((value) {
+                                      getUserInfo(user!.uid);
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.blue,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(20))),
+                                    // color: Colors.blue,
+                                    child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 100),
+                                        child: breifcv_exists
+                                            ? const Text(
+                                                'Update',
+                                              )
+                                            : const Text(
+                                                'Add',
+                                              )),
+                                  )),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],
@@ -411,13 +464,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       bio: bio,
                       major: major,
                       birthdate: birthdate,
-                      photo: photo,
+                      photo: imageUrl,
                     )),
           ).then((value) {
             getUserInfo(user!.uid);
           });
         },
-        child: Icon(Icons.edit),
+        child: const Icon(Icons.edit),
       ),
     );
   }

@@ -275,7 +275,7 @@ class _BriefCVState extends State<BriefCV> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'Other',
+                    'Other skills',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -306,7 +306,7 @@ class _BriefCVState extends State<BriefCV> {
                           'intrests': [intrests_val],
                           'major_skills': [major_skills_val],
                           'soft_skills': [soft_skills_val],
-                          'other': [other_skills_val],
+                          'other_skills': [other_skills_val],
                         })
                         .then((value) => {
                               print("User Updated"),

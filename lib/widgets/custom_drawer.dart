@@ -21,9 +21,9 @@ class CustomDrawer extends StatelessWidget {
               color: kBlue,
             ),
             child: Image.asset(
-              'assets/images/logo.png',
-              //scale: 0.1,
-              fit: BoxFit.contain,
+              'assets/images/Careergy.png',
+              // scale: 1,
+              // fit: BoxFit.contain,
             ),
           ),
           ListTile(
