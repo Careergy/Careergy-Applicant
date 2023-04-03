@@ -1,32 +1,28 @@
 import 'package:careergy_mobile/constants.dart';
 import 'package:flutter/material.dart';
 
-// A custom text field form that has a label and a hint text.
-// also has a validator to check if the input is empty or not.
-// aslo has a theme that works with ios and android.
 class CustomTextField extends StatelessWidget {
   final String label;
   final String hint;
-  Function onChanged;
-  Function validator;
-  EdgeInsetsGeometry? contentPadding;
+  final Function onChanged;
+  final Function validator;
+  final EdgeInsetsGeometry? contentPadding;
+  final TextEditingController? controller;
 
   CustomTextField({
-    super.key,
+    Key? key,
     required this.label,
     required this.hint,
     required this.onChanged,
     required this.validator,
     this.contentPadding,
-  });
+    required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // A custom text field form that has a label and a hint text.
-// also has a validator to check if the input is empty or not.
-// aslo has a theme that works with ios and android.
     return TextFormField(
-      cursorColor: kBlue,
+      cursorColor: Colors.blue,
       decoration: InputDecoration(
         contentPadding: contentPadding,
         labelText: label,
@@ -44,9 +40,9 @@ class CustomTextField extends StatelessWidget {
         focusColor: Colors.black,
         fillColor: Colors.black,
       ),
-      //validator: (value) => validator(value),
-      //TODO: check correctnes of this line
-      //onChanged: (value) => onChanged(value),
+      controller: controller,
+      onChanged: (value) => onChanged(value),
+      validator: (value) => validator(value),
     );
   }
 }
