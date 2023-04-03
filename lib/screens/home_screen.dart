@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CompanyProfile()));
                 },
-                child: const Text('a company profile'),
+                child: const Text('a company profile example'),
               )
             ],
           ),
