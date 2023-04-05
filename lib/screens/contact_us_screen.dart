@@ -1,10 +1,13 @@
 import 'package:careergy_mobile/widgets/custom_textfieldform.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import '../constants.dart';
+import '../models/user.dart';
 
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _messageController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
 
   void _sendData() {
     final title = _titleController.text;
@@ -25,6 +29,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     if (title.isNotEmpty && message.isNotEmpty) {
       final database = FirebaseFirestore.instance;
       database.collection('ApplicantComplaints').add({
+        'userID': _auth.currentUser!.uid,
         'title': title,
         'message': message,
         'timestamp': DateTime.now().millisecondsSinceEpoch,
@@ -32,7 +37,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       _titleController.clear();
       _messageController.clear();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Message sent successfully!'),
         ),
       );
@@ -43,7 +48,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: kBlue,
         title: const Text('Contact Us'),
       ),
       body: Padding(
