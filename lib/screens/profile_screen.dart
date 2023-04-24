@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:careergy_mobile/models/user.dart';
 import 'package:careergy_mobile/screens/brief_cv.dart';
 import 'package:careergy_mobile/screens/edit_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

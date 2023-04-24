@@ -71,7 +71,7 @@ flutter:
   assets:
     - assets/images/Careergy.png
     - assets/images/avatarPlaceholder.png
-    #  - assets/images/logo.png
+    - assets/images/jahez.png
     #  - assets/images/logoCareergy.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
