@@ -4,13 +4,50 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 class ApplyForCompanyScreen extends StatefulWidget {
-  const ApplyForCompanyScreen({super.key});
+  final String company_uid;
+  final String post_uid;
+  final String post_image;
+  final String job_title;
+  final String descreption;
+  final String yearsOfExperience;
+  final String location;
+
+  const ApplyForCompanyScreen(
+      {super.key,
+      required this.company_uid,
+      required this.post_uid,
+      required this.post_image,
+      required this.job_title,
+      required this.descreption,
+      required this.yearsOfExperience,
+      required this.location});
 
   @override
   State<ApplyForCompanyScreen> createState() => _ApplyForCompanyScreenState();
 }
 
 class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
+  String company_uid = '';
+  String post_uid = '';
+  String post_image = '';
+  String job_title = '';
+  String descreption = '';
+  String yearsOfExperience = '';
+  String location = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    company_uid = widget.company_uid;
+    post_uid = widget.post_uid;
+    post_image = widget.post_image;
+    job_title = widget.job_title;
+    descreption = widget.descreption;
+    yearsOfExperience = widget.yearsOfExperience;
+    location = widget.location;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,24 +55,32 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
           backgroundColor: Colors.blue,
           title: const Text('Job Offer'),
         ),
-        body: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
-                  'Company information and job desciption here',
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ApplyForCompanyScnd()));
-                  },
-                  child: const Text('Apply'),
-                )
-              ],
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    job_title,
+                  ),
+                  Text(
+                    descreption,
+                  ),
+                  Text(
+                    yearsOfExperience,
+                  ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.of(context).push(MaterialPageRoute(
+                  //         builder: (context) => ApplyForCompanyScnd()));
+                  //   },
+                  //   child: const Text('Apply'),
+                  // )
+                ],
+              ),
             ),
           ),
         ));

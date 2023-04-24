@@ -22,8 +22,6 @@ class AttatchmentsScreen extends StatefulWidget {
   State<AttatchmentsScreen> createState() => _AttatchmentsScreenState();
 }
 
-var added = false;
-
 class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   final user = FirebaseAuth.instance.currentUser;
