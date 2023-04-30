@@ -1,6 +1,8 @@
 import 'package:careergy_mobile/screens/contact_us_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../providers/auth_provider.dart';
+
 import '../constants.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -65,6 +67,24 @@ class CustomDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const ContactUsScreen()));
+            },
+          ),
+          ListTile(
+            title: Row(
+              children: const [
+                Icon(
+                  Icons.logout_rounded,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  'Log out',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+            onTap: () async {
+              await AuthProvider().logout();
             },
           ),
         ],

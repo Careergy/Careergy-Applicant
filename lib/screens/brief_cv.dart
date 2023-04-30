@@ -1,12 +1,14 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:careergy_mobile/constants.dart';
+import 'package:careergy_mobile/widgets/briefcv_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 
 import '../widgets/custom_textfieldform.dart';
 
@@ -104,6 +106,12 @@ class _BriefCVState extends State<BriefCV> {
     super.dispose();
   }
 
+  TextfieldTagsController jobTitleController = TextfieldTagsController();
+  TextfieldTagsController majorSkillsController = TextfieldTagsController();
+  TextfieldTagsController softSkillsController = TextfieldTagsController();
+  TextfieldTagsController interestsController = TextfieldTagsController();
+  TextfieldTagsController otherSkillsController = TextfieldTagsController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,12 +121,9 @@ class _BriefCVState extends State<BriefCV> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(30),
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(
-                height: 40,
-              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
@@ -132,150 +137,101 @@ class _BriefCVState extends State<BriefCV> {
                 ],
               ),
               const SizedBox(
-                height: 60,
+                height: 30,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'Job title',
+                    'Job titles:',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.blue),
                   )
-                ],
-              ),
-              Row(
-                children: [
-                  DropdownButton(
-                    value: job_titles_val,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    items: job_titles.map((String job_titles) {
-                      return DropdownMenuItem(
-                        value: job_titles,
-                        child: Text(job_titles),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        job_titles_val = newValue!;
-                      });
-                    },
-                  ),
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 2.5,
+              ),
+              BriefCVField(
+                  label: 'Job Titles:',
+                  keysName: 'job_titles',
+                  controller: jobTitleController),
+              const SizedBox(
+                height: 10,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'Intrests',
+                    'Major Skills:',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.blue),
                   )
-                ],
-              ),
-              Row(
-                children: [
-                  DropdownButton(
-                    value: intrests_val,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    items: intrests.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Text(items),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        intrests_val = newValue!;
-                      });
-                      print(job_titles.toString());
-                    },
-                  ),
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 2.5,
+              ),
+              BriefCVField(
+                  label: 'Major Skills:',
+                  keysName: 'major_skills',
+                  controller: majorSkillsController),
+              const SizedBox(
+                height: 10,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'Major skills',
+                    'Soft Skills:',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.blue),
                   )
-                ],
-              ),
-              Row(
-                children: [
-                  DropdownButton(
-                    value: major_skills_val,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    items: major_skills.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Text(items),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        major_skills_val = newValue!;
-                      });
-                    },
-                  ),
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 2.5,
+              ),
+              BriefCVField(
+                  label: 'Soft Skills:',
+                  keysName: 'soft_skills',
+                  controller: softSkillsController),
+              const SizedBox(
+                height: 10,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'Soft skills',
+                    'Interests:',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.blue),
                   )
-                ],
-              ),
-              Row(
-                children: [
-                  DropdownButton(
-                    value: soft_skills_val,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    items: soft_skills.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Text(items),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        soft_skills_val = newValue!;
-                      });
-                    },
-                  ),
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 2.5,
+              ),
+              BriefCVField(
+                  label: 'Interests:',
+                  keysName: 'interests',
+                  controller: interestsController),
+              const SizedBox(
+                height: 10,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'Other skills',
+                    'Other Skills:',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -283,16 +239,174 @@ class _BriefCVState extends State<BriefCV> {
                   )
                 ],
               ),
-              TextField(
-                // obscureText: true,
-                onChanged: (text) {
-                  other_skills_val = text;
-                },
-                decoration: const InputDecoration(
-                    // border: OutlineInputBorder(),
-                    // labelText: 'Input',
-                    constraints: BoxConstraints(maxHeight: 30)),
+              const SizedBox(
+                height: 2.5,
               ),
+              BriefCVField(
+                label: 'Other Skills:',
+                helper: 'Skills are separated using a Comma (,)',
+                controller: otherSkillsController,
+                mode: false,
+              ),
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: const [
+              //     Text(
+              //       'Job title',
+              //       style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 16,
+              //           color: Colors.blue),
+              //     )
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     DropdownButton(
+              //       value: job_titles_val,
+              //       icon: const Icon(Icons.keyboard_arrow_down),
+              //       items: job_titles.map((String job_titles) {
+              //         return DropdownMenuItem(
+              //           value: job_titles,
+              //           child: Text(job_titles),
+              //         );
+              //       }).toList(),
+              //       onChanged: (String? newValue) {
+              //         setState(() {
+              //           job_titles_val = newValue!;
+              //         });
+              //       },
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: const [
+              //     Text(
+              //       'Intrests',
+              //       style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 16,
+              //           color: Colors.blue),
+              //     )
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     DropdownButton(
+              //       value: intrests_val,
+              //       icon: const Icon(Icons.keyboard_arrow_down),
+              //       items: intrests.map((String items) {
+              //         return DropdownMenuItem(
+              //           value: items,
+              //           child: Text(items),
+              //         );
+              //       }).toList(),
+              //       onChanged: (String? newValue) {
+              //         setState(() {
+              //           intrests_val = newValue!;
+              //         });
+              //         print(job_titles.toString());
+              //       },
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: const [
+              //     Text(
+              //       'Major skills',
+              //       style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 16,
+              //           color: Colors.blue),
+              //     )
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     DropdownButton(
+              //       value: major_skills_val,
+              //       icon: const Icon(Icons.keyboard_arrow_down),
+              //       items: major_skills.map((String items) {
+              //         return DropdownMenuItem(
+              //           value: items,
+              //           child: Text(items),
+              //         );
+              //       }).toList(),
+              //       onChanged: (String? newValue) {
+              //         setState(() {
+              //           major_skills_val = newValue!;
+              //         });
+              //       },
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: const [
+              //     Text(
+              //       'Soft skills',
+              //       style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 16,
+              //           color: Colors.blue),
+              //     )
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     DropdownButton(
+              //       value: soft_skills_val,
+              //       icon: const Icon(Icons.keyboard_arrow_down),
+              //       items: soft_skills.map((String items) {
+              //         return DropdownMenuItem(
+              //           value: items,
+              //           child: Text(items),
+              //         );
+              //       }).toList(),
+              //       onChanged: (String? newValue) {
+              //         setState(() {
+              //           soft_skills_val = newValue!;
+              //         });
+              //       },
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: const [
+              //     Text(
+              //       'Other skills',
+              //       style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 16,
+              //           color: Colors.blue),
+              //     )
+              //   ],
+              // ),
+              // TextField(
+              //   // obscureText: true,
+              //   onChanged: (text) {
+              //     other_skills_val = text;
+              //   },
+              //   decoration: const InputDecoration(
+              //       // border: OutlineInputBorder(),
+              //       // labelText: 'Input',
+              //       constraints: BoxConstraints(maxHeight: 30)),
+              // ),
               const SizedBox(
                 height: 40,
               ),

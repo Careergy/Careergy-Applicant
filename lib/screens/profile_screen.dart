@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/custom_appbar.dart';
+import '../widgets/briefcv_field.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -99,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      getUserInfo(user!.uid);
+      // getUserInfo(user!.uid);
     });
   }
 
@@ -418,7 +419,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const BriefCV())).then((value) {
-                                      getUserInfo(user!.uid);
+                                      // getUserInfo(user!.uid);
                                     });
                                   },
                                   child: Container(
@@ -468,7 +469,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       photo: imageUrl,
                     )),
           ).then((value) {
-            getUserInfo(user!.uid);
+            // getUserInfo(user!.uid);
           });
         },
         child: const Icon(Icons.edit),
