@@ -1,3 +1,4 @@
+import 'package:careergy_mobile/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -14,7 +15,7 @@ class _TimeslotScreenState extends State<TimeslotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue,
+          backgroundColor: kBlue,
           title: const Text('Timeslots'),
         ),
         body: Center(

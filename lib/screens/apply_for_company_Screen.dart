@@ -1,4 +1,5 @@
 import 'package:careergy_mobile/screens/apply_for_company-scnd.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -29,6 +30,8 @@ class ApplyForCompanyScreen extends StatefulWidget {
 }
 
 class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
+  CollectionReference companies =
+      FirebaseFirestore.instance.collection('companies');
   String company_uid = '';
   String post_uid = '';
   String post_image = '';
@@ -37,10 +40,25 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
   String yearsOfExperience = '';
   String location = '';
 
+  String company_name = '';
+
+  Future<void> getPostInfo(String uid) async {
+    companies.doc(uid).get().then((DocumentSnapshot ds) {
+      if (ds.exists) {
+        setState(() {
+          company_name =
+              ds.data().toString().contains('name') ? ds.get('name') : '';
+        });
+      } else {
+        print('Document does not exist on the database');
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-
+    getPostInfo(widget.company_uid);
     company_uid = widget.company_uid;
     post_uid = widget.post_uid;
     post_image = widget.post_image;
@@ -57,50 +75,142 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
         backgroundColor: kBlue,
         title: const Text('Job Application'),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    height: 90,
-                    width: 90,
-                    child: Image.network('https://picsum.photos/200/300'),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  height: 90,
+                  width: 90,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(
+                      'assets/images/jahez.png',
+                      // scale: 1,
+                      // fit: BoxFit.contain,
+                    ),
                   ),
-                  Column(
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                  width: 220,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Title: $job_title',
-                        style: TextStyle(fontSize: 16),
+                        company_name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      SizedBox(height: 8),
                       Text(
-                        'Years of experience: $yearsOfExperience',
-                        style: TextStyle(fontSize: 16),
+                        job_title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        location,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey),
+                      ),
+                      // SizedBox(height: 8),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: kBlue,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(2),
+                          child: Text(
+                            '$yearsOfExperience Years of experience',
+                            maxLines: 1,
+                            // overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 13),
+                          ),
+                        ),
                       ),
                     ],
-                  )
-                ],
+                  ),
+                )
+              ],
+            ),
+            const Divider(),
+            const SizedBox(
+              height: 15,
+            ),
+            const Text(
+              'Job Description',
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
               ),
-              Divider(),
-              Text('Description:'),
-              Container(
-                height: 200,
+            ),
+            Expanded(
+              child: Container(
+                // height: 200,
                 child: SingleChildScrollView(
                   child: Text(descreption),
                 ),
               ),
-              const Text(
-                'CV',
-                style: TextStyle(
-                    color: kBlue, fontSize: 26.0, fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
+            ),
+            Center(
+              child: TextButton(
+                  onPressed: () {
+                    print('brief cv button');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ApplyForCompanyScnd(
+                                company_name: company_name,
+                                company_uid: company_uid,
+                                descreption: descreption,
+                                job_title: job_title,
+                                location: location,
+                                post_image: post_image,
+                                post_uid: post_uid,
+                                yearsOfExperience: yearsOfExperience)));
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: kBlue,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    // color: Colors.blue,
+                    child: const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 100),
+                        child: Text(
+                          'Apply',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  )),
+            )
+            // const Text(
+            //   'CV',
+            //   style: TextStyle(
+            //       color: kBlue, fontSize: 26.0, fontWeight: FontWeight.bold),
+            // )
+          ],
         ),
       ),
     );

@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../constants.dart';
 import '../widgets/custom_appbar.dart';
@@ -33,6 +34,7 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
   List<dynamic> attachments_format_list = [];
 
   Future<void> getUserAttachments(uid) async {
+    EasyLoading.show(status: 'loading...');
     attachments_list.clear();
     attachments_ref_list.clear();
     attachments_format_list.clear();
@@ -50,6 +52,7 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
         attachments_format_list.add(format);
       });
     }
+    EasyLoading.dismiss();
   }
 
   void refresh() {
@@ -104,11 +107,11 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
                     });
                   },
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(5),
                     decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 224, 224, 224),
                         borderRadius: BorderRadius.all(Radius.circular(15))),
-                    height: 70,
+                    height: 50,
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
                     child: Row(

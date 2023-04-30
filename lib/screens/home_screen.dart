@@ -9,6 +9,7 @@ import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 
@@ -80,8 +81,10 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      EasyLoading.show(status: 'loading...');
       await getRecentPosts();
       await getRecomendedPosts();
+      EasyLoading.dismiss();
     });
   }
 
