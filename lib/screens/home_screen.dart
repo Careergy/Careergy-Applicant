@@ -48,6 +48,10 @@ class _HomeScreenState extends State<HomeScreen> {
     // print(allDataUid);
   }
 
+  Future getLogo(String uid) async {
+    //TODO: Get image from the uid of getPosts
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -79,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black),
             ),
             const Text(
-              'apply now, and find your job!',
+              'apply now, and find your next job!',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -191,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   color: Colors.black),
                                             ),
                                             Text(
-                                              'Lcation: ${posts[i]['city']}',
+                                              'Location: ${posts[i]['city']}',
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(

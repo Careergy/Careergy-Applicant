@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
+import '../constants.dart';
+
 class ApplyForCompanyScreen extends StatefulWidget {
   final String company_uid;
   final String post_uid;
@@ -51,38 +53,56 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          title: const Text('Job Offer'),
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+      appBar: AppBar(
+        backgroundColor: kBlue,
+        title: const Text('Job Application'),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  Text(
-                    job_title,
+                  SizedBox(
+                    height: 90,
+                    width: 90,
+                    child: Image.network('https://picsum.photos/200/300'),
                   ),
-                  Text(
-                    descreption,
-                  ),
-                  Text(
-                    yearsOfExperience,
-                  ),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     Navigator.of(context).push(MaterialPageRoute(
-                  //         builder: (context) => ApplyForCompanyScnd()));
-                  //   },
-                  //   child: const Text('Apply'),
-                  // )
+                  Column(
+                    children: [
+                      Text(
+                        'Title: $job_title',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Years of experience: $yearsOfExperience',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  )
                 ],
               ),
-            ),
+              Divider(),
+              Text('Description:'),
+              Container(
+                height: 200,
+                child: SingleChildScrollView(
+                  child: Text(descreption),
+                ),
+              ),
+              const Text(
+                'CV',
+                style: TextStyle(
+                    color: kBlue, fontSize: 26.0, fontWeight: FontWeight.bold),
+              )
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
