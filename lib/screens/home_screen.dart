@@ -26,10 +26,13 @@ class _HomeScreenState extends State<HomeScreen> {
   // final authRef = ref.watch(auth);
   final user = FirebaseAuth.instance.currentUser;
 
-  List posts = [];
-  List posts_uid = [];
+  List recent_posts = [];
+  List recent_posts_uid = [];
 
-  Future getPosts() async {
+  List recommended_posts = [];
+  List recommended_posts_uid = [];
+
+  Future getRecentPosts() async {
     // Get docs from collection reference
     Query<Map<String, dynamic>> posts_ref = await FirebaseFirestore.instance
         .collection("posts")
@@ -42,8 +45,28 @@ class _HomeScreenState extends State<HomeScreen> {
     final allDataUid =
         querySnapshot.docs.map((doc) => doc.reference.id).toList();
     setState(() {
-      posts = allData;
-      posts_uid = allDataUid;
+      recent_posts = allData;
+      recent_posts_uid = allDataUid;
+    });
+    // print(allDataUid);
+  }
+
+  Future getRecomendedPosts() async {
+    // Get docs from collection reference
+    Query<Map<String, dynamic>> posts_ref = await FirebaseFirestore.instance
+        .collection("posts")
+        .where('active', isEqualTo: true)
+        .where('major', isEqualTo: 'software engineering')
+        .orderBy("timestamp", descending: true);
+    QuerySnapshot querySnapshot = await posts_ref.get();
+
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    final allDataUid =
+        querySnapshot.docs.map((doc) => doc.reference.id).toList();
+    setState(() {
+      recommended_posts = allData;
+      recommended_posts_uid = allDataUid;
     });
     // print(allDataUid);
   }
@@ -57,7 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getPosts();
+      await getRecentPosts();
+      await getRecomendedPosts();
     });
   }
 
@@ -75,194 +99,314 @@ class _HomeScreenState extends State<HomeScreen> {
           // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Welcome, ...!',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.black),
-            ),
-            const Text(
-              'apply now, and find your next job!',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.black),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              child: Text(
-                'Recent Jobs',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black),
-              ),
-            ),
-            posts.isNotEmpty
-                ? SizedBox(
-                    // margin: const EdgeInsets.symmetric(vertical: 20.0),
-                    height: 120.0,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: List.generate(posts.length, (i) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ApplyForCompanyScreen(
-                                        company_uid: posts[i]['uid'],
-                                        post_uid: posts_uid[i],
-                                        post_image: '',
-                                        job_title: posts[i]['job_title'],
-                                        descreption: posts[i]['descreption'],
-                                        yearsOfExperience: posts[i]
-                                            ['experience_years'],
-                                        location: posts[i]['city'],
-                                      )),
-                            ).then((value) {
-                              print('object');
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Container(
-                              width: 240,
-                              decoration: BoxDecoration(
-                                  color: Colors.blue[100],
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(15))),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Welcome, ...!',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black),
+                ),
+                const Text(
+                  'apply now, and find your job!',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    'Recent Jobs',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.black),
+                  ),
+                ),
+                recent_posts.isNotEmpty
+                    ? SizedBox(
+                        // margin: const EdgeInsets.symmetric(vertical: 20.0),
+                        height: 120.0,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: List.generate(recent_posts.length, (i) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ApplyForCompanyScreen(
+                                            company_uid: recent_posts[i]['uid'],
+                                            post_uid: recent_posts_uid[i],
+                                            post_image: '',
+                                            job_title: recent_posts[i]
+                                                ['job_title'],
+                                            descreption: recent_posts[i]
+                                                ['descreption'],
+                                            yearsOfExperience: recent_posts[i]
+                                                ['experience_years'],
+                                            location: recent_posts[i]['city'],
+                                          )),
+                                ).then((value) {
+                                  print('object');
+                                });
+                              },
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      height: 70,
-                                      width: 70,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.asset(
-                                          'assets/images/jahez.png',
-                                          // scale: 1,
-                                          // fit: BoxFit.contain,
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Container(
+                                  width: 240,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue[100],
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(15))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 70,
+                                          width: 70,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.asset(
+                                              'assets/images/jahez.png',
+                                              // scale: 1,
+                                              // fit: BoxFit.contain,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 150,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              posts[i]['job_title'],
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black),
+                                        SizedBox(
+                                          width: 150,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  recent_posts[i]['job_title'],
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                Text(
+                                                  recent_posts[i]
+                                                      ['descreption'],
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: Colors.black),
+                                                ),
+                                                const SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Text(
+                                                  '${recent_posts[i]['experience_years']} years of experience',
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 10,
+                                                      // fontWeight: FontWeight,
+                                                      color: Colors.black),
+                                                ),
+                                                Text(
+                                                  'Lcation: ${recent_posts[i]['city']}',
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: Colors.black),
+                                                ),
+                                              ],
                                             ),
-                                            const SizedBox(
-                                              height: 3,
-                                            ),
-                                            Text(
-                                              posts[i]['descreption'],
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Colors.black),
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            Text(
-                                              '${posts[i]['experience_years']} years of experience',
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  fontSize: 10,
-                                                  // fontWeight: FontWeight,
-                                                  color: Colors.black),
-                                            ),
-                                            Text(
-                                              'Location: ${posts[i]['city']}',
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Colors.black),
-                                            ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      }
-                          // [
-                          //   Container(
-                          //     width: 220,
-                          //     decoration: BoxDecoration(
-                          //         color: Colors.blue[100],
-                          //         borderRadius:
-                          //             BorderRadius.all(Radius.circular(15))),
-                          //     child: Column(
-                          //       mainAxisAlignment: MainAxisAlignment.center,
-                          //       children: [
-                          //         Padding(
-                          //           padding: const EdgeInsets.all(8.0),
-                          //           child: Row(
-                          //             children: [
-                          //               const Text('image'),
-                          //               Padding(
-                          //                 padding: const EdgeInsets.all(8.0),
-                          //                 child: Column(
-                          //                   mainAxisAlignment:
-                          //                       MainAxisAlignment.center,
-                          //                   children: [
-                          //                     Text(
-                          //                       posts[0]['city'],
-                          //                       style: const TextStyle(
-                          //                           fontSize: 18,
-                          //                           color: Colors.white),
-                          //                     ),
-                          //                   ],
-                          //                 ),
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-                          //   Container(
-                          //     width: 200,
-                          //     color: Colors.purple[600],
-                          //     child: Center(
-                          //         child: Text(
-                          //       posts[0]['city'],
-                          //       style: TextStyle(fontSize: 18, color: Colors.white),
-                          //     )),
-                          //   ),
-                          // ],
-                          ),
-                    ))
-                : const Text('Empty'),
+                            );
+                          }),
+                        ))
+                    : const Text('Empty'),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    'Recommended Jobs',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.black),
+                  ),
+                ),
+                recommended_posts.isNotEmpty
+                    ? SizedBox(
+                        // margin: const EdgeInsets.symmetric(vertical: 20.0),
+                        height: 120.0,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children:
+                              List.generate(recommended_posts.length, (i) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ApplyForCompanyScreen(
+                                            company_uid: recommended_posts[i]
+                                                ['uid'],
+                                            post_uid: recommended_posts_uid[i],
+                                            post_image: '',
+                                            job_title: recommended_posts[i]
+                                                ['job_title'],
+                                            descreption: recommended_posts[i]
+                                                ['descreption'],
+                                            yearsOfExperience:
+                                                recommended_posts[i]
+                                                    ['experience_years'],
+                                            location: recommended_posts[i]
+                                                ['city'],
+                                          )),
+                                ).then((value) {
+                                  print('object');
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Container(
+                                  width: 240,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue[100],
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(15))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 70,
+                                          width: 70,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.asset(
+                                              'assets/images/jahez.png',
+                                              // scale: 1,
+                                              // fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 150,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  recommended_posts[i]
+                                                      ['job_title'],
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                Text(
+                                                  recommended_posts[i]
+                                                      ['descreption'],
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: Colors.black),
+                                                ),
+                                                const SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Text(
+                                                  '${recommended_posts[i]['experience_years']} years of experience',
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 10,
+                                                      // fontWeight: FontWeight,
+                                                      color: Colors.black),
+                                                ),
+                                                Text(
+                                                  'Lcation: ${recommended_posts[i]['city']}',
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: Colors.black),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                        ))
+                    : const Text('Empty'),
+              ],
+            ),
 
             // const Text(
             //   'Home Screen',
