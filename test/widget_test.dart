@@ -30,15 +30,15 @@ void main() {
   //   expect(find.text('1'), findsOneWidget);
   // });
 
-  ApplicantAccount a = ApplicantAccount(
-      uid: "uid",
-      fname: "fname",
-      lname: "lname",
-      email: "email",
-      phone: 0,
-      photo: Image.asset("name"));
-  a.editProfile("aqeel", "almosa", 055555, Image.asset("name"), 2000, 10, 13,
-      "Saudi", "Male");
+  // ApplicantAccount a = ApplicantAccount(
+  //     uid: "uid",
+  //     fname: "fname",
+  //     lname: "lname",
+  //     email: "email",
+  //     phone: 0,
+  //     photo: Image.asset("name"));
+  // a.editProfile("aqeel", "almosa", 055555, Image.asset("name"), 2000, 10, 13,
+  //     "Saudi", "Male");
 
-  print(a.toString());
+  // print(a.toString());
 }
