@@ -1,3 +1,4 @@
+import 'package:careergy_mobile/providers/keywords_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 import 'package:flutter_autocomplete_label/autocomplete_label.dart';
@@ -7,7 +8,7 @@ class BriefCVField extends StatefulWidget {
     super.key,
     required this.label,
     required this.controller,
-    this.separaters = const [','],
+    this.separaters = const [],
     this.keysName,
     this.initialTags,
     this.helper,
@@ -28,11 +29,7 @@ class BriefCVField extends StatefulWidget {
 
 class _BriefCVFieldState extends State<BriefCVField> {
   late double _distanceToField;
-  List<String> keyWords = [
-    'laravel developer',
-    'flutter developer',
-    'java developer'
-  ];
+  List<String> keyWords = [];
 
   final bool _keepAutofocus = false;
 
@@ -103,9 +100,13 @@ class _BriefCVFieldState extends State<BriefCVField> {
                 (context, tec, fn, error, onChanged, onSubmitted) {
               return (context, sc, tags, onDeleteTag) {
                 return Autocomplete(
-                  optionsBuilder: (text) {
-                    print('it works');
-                    if (text.text == '') {
+                  optionsBuilder: (text) async {
+                    if (widget.mode) {
+                      keyWords = await Keywords().getKeywords(widget.keysName??'');
+                    }
+                    // print('it works');
+                    if (tec.text.isEmpty && text.text.isEmpty) {
+                      // print(text.text);
                       return const Iterable<String>.empty();
                     }
                     return keyWords.where((String option) {
@@ -129,7 +130,7 @@ class _BriefCVFieldState extends State<BriefCVField> {
                         itemCount: options.length,
                         itemBuilder: (context, index) {
                           final option = options.elementAt(index);
-                          print('object');
+                          // print('object');
                           return Material(
                             child: InkWell(
                               onTap: () => onSelected(option),
@@ -248,90 +249,89 @@ class _BriefCVFieldState extends State<BriefCVField> {
             },
             inputfieldBuilder:
                 (context, tec, fn, error, onChanged, onSubmitted) {
-                  return (context, sc, tags, onDeleteTag) {
-                    return TextField(
-                      controller: tec,
-                      focusNode: fn,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromARGB(255, 58, 105, 186),
-                            width: 3.0,
-                          ),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromARGB(255, 58, 105, 186),
-                            width: 3.0,
-                          ),
-                        ),
-                        helperText: widget.helper,
-                        helperStyle: const TextStyle(
-                          color: Color.fromARGB(255, 58, 105, 186),
-                        ),
-                        hintText:
-                            widget.controller.hasTags ? '' : "Enter tag...",
-                        errorText: error,
-                        prefixIconConstraints:
-                            BoxConstraints(maxWidth: _distanceToField * 0.74),
-                        prefixIcon: tags.isNotEmpty
-                            ? SingleChildScrollView(
-                                controller: sc,
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                    children: tags.map((String tag) {
-                                  return Container(
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0),
-                                      ),
-                                      color: Color.fromARGB(255, 58, 105, 186),
-                                    ),
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 5.0),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0, vertical: 5.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        InkWell(
-                                          child: Text(
-                                            tag,
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                          onTap: () {
-                                            print("$tag selected");
-                                          },
-                                        ),
-                                        const SizedBox(width: 4.0),
-                                        InkWell(
-                                          child: const Icon(
-                                            Icons.cancel,
-                                            size: 14.0,
-                                            color: Color.fromARGB(
-                                                255, 233, 233, 233),
-                                          ),
-                                          onTap: () {
-                                            tags.remove(tag);
-                                            widget.controller.onTagDelete(tag);
-                                            setState(() {});
-                                          },
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                }).toList()),
-                              )
-                            : null,
+              return (context, sc, tags, onDeleteTag) {
+                return TextField(
+                  controller: tec,
+                  focusNode: fn,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(255, 58, 105, 186),
+                        width: 3.0,
                       ),
-                      onChanged: onChanged,
-                      onSubmitted: onSubmitted,
-                    );
-                  };
-                },
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(255, 58, 105, 186),
+                        width: 3.0,
+                      ),
+                    ),
+                    helperText: widget.helper,
+                    helperStyle: const TextStyle(
+                      color: Color.fromARGB(255, 58, 105, 186),
+                    ),
+                    hintText: widget.controller.hasTags ? '' : "Enter tag...",
+                    errorText: error,
+                    prefixIconConstraints:
+                        BoxConstraints(maxWidth: _distanceToField * 0.74),
+                    prefixIcon: tags.isNotEmpty
+                        ? SingleChildScrollView(
+                            controller: sc,
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                                children: tags.map((String tag) {
+                              return Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(20.0),
+                                  ),
+                                  color: Color.fromARGB(255, 58, 105, 186),
+                                ),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0, vertical: 5.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    InkWell(
+                                      child: Text(
+                                        tag,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                      onTap: () {
+                                        print("$tag selected");
+                                      },
+                                    ),
+                                    const SizedBox(width: 4.0),
+                                    InkWell(
+                                      child: const Icon(
+                                        Icons.cancel,
+                                        size: 14.0,
+                                        color:
+                                            Color.fromARGB(255, 233, 233, 233),
+                                      ),
+                                      onTap: () {
+                                        tags.remove(tag);
+                                        widget.controller.onTagDelete(tag);
+                                        setState(() {});
+                                      },
+                                    )
+                                  ],
+                                ),
+                              );
+                            }).toList()),
+                          )
+                        : null,
+                  ),
+                  onChanged: onChanged,
+                  onSubmitted: onSubmitted,
+                );
+              };
+            },
           );
   }
 }

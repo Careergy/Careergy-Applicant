@@ -28,9 +28,13 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 flutter_ios_podfile_setup
 
 target 'Runner' do
-  use_frameworks!
-  use_modular_headers!
-
+  # Flutter Pod
+    
+  use_frameworks! #add here
+    
+  copied_flutter_dir = File.join(__dir__, 'Flutter')
+  copied_framework_path = File.join(copied_flutter_dir, 'Flutter.framework')
+  copied_podspec_path = File.join(copied_flutter_dir, 'Flutter.podspec')
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 

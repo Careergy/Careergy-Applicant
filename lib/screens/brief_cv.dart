@@ -111,6 +111,7 @@ class _BriefCVState extends State<BriefCV> {
   TextfieldTagsController softSkillsController = TextfieldTagsController();
   TextfieldTagsController interestsController = TextfieldTagsController();
   TextfieldTagsController otherSkillsController = TextfieldTagsController();
+  TextfieldTagsController locationsController = TextfieldTagsController();
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +223,7 @@ class _BriefCVState extends State<BriefCV> {
               ),
               BriefCVField(
                   label: 'Interests:',
-                  keysName: 'interests',
+                  keysName: 'intrests',
                   controller: interestsController),
               const SizedBox(
                 height: 10,
@@ -247,7 +248,30 @@ class _BriefCVState extends State<BriefCV> {
                 helper: 'Skills are separated using a Comma (,)',
                 controller: otherSkillsController,
                 mode: false,
+                separaters: const [','],
               ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    'Prefered Locations:',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.blue),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 2.5,
+              ),
+              BriefCVField(
+                  label: 'Prefered Locations:',
+                  keysName: 'locations',
+                  controller: locationsController),
               // Row(
               //   crossAxisAlignment: CrossAxisAlignment.start,
               //   children: const [
