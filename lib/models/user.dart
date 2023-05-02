@@ -35,6 +35,8 @@ class User with ChangeNotifier {
       return;
     }
     final ref = db.collection('users').doc(uid);
+    photoUrl =
+        await FirebaseStorage.instance.ref('photos/$uid').getDownloadURL();
     await ref.get().then(
       (DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
@@ -42,7 +44,7 @@ class User with ChangeNotifier {
         name = data['name'] ?? '';
         email = data['email'] ?? '';
         phone = data['phone'] ?? '';
-        photoUrl = data['photoUrl'] ?? '';
+        // photoUrl = data['photoUrl'] ?? '';
         birthdate = data['birthdate'] ?? '';
         bio = data['bio'] ?? '';
       },
@@ -58,12 +60,19 @@ class User with ChangeNotifier {
     await ref.get().then((value) {
       if (value.exists) {
         final data = value.data();
-        final jobTitles = (data!['job_title'] as List).map((e) => e as String).toList();
-        final majorSkills = (data['major_skills'] as List).map((e) => e as String).toList();
-        final softSkills = (data['soft_skills'] as List).map((e) => e as String).toList();
-        final intrests = (data['intrests'] as List).map((e) => e as String).toList();
-        final otherSkills = (data['other_skills'] as List).map((e) => e as String).toList();
-        final locations = (data['prefered_locations'] as List).map((e) => e as String).toList();
+        final jobTitles =
+            (data!['job_title'] as List).map((e) => e as String).toList();
+        final majorSkills =
+            (data['major_skills'] as List).map((e) => e as String).toList();
+        final softSkills =
+            (data['soft_skills'] as List).map((e) => e as String).toList();
+        final intrests =
+            (data['intrests'] as List).map((e) => e as String).toList();
+        final otherSkills =
+            (data['other_skills'] as List).map((e) => e as String).toList();
+        final locations = (data['prefered_locations'] as List)
+            .map((e) => e as String)
+            .toList();
         briefcv = {
           'job_title': jobTitles,
           'major_skills': majorSkills,

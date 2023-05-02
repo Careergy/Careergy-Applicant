@@ -125,18 +125,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 30),
-                        child: CircleAvatar(
-                          radius: 50,
-                          child: ClipOval(child: user.photo),
-                        ),
-                      ),
+                          padding: const EdgeInsets.only(top: 10, bottom: 30),
+                          child: user.photoUrl == null
+                              ? CircleAvatar(
+                                  radius: 50,
+                                  child: ClipOval(child: user.photo))
+                              : ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(100.0)),
+                                  child: Image.network(
+                                    user.photoUrl ?? 'https://www.google.com/',
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                )),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            user.name??'empty',
+                            user.name ?? 'empty',
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -167,7 +176,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  user.email != '' ? user.email??'empty' : 'empty',
+                                  user.email != ''
+                                      ? user.email ?? 'empty'
+                                      : 'empty',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,
@@ -228,7 +239,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                 ),
                                 Text(
-                                  user.bio != '' ? user.bio??'empty' : 'empty',
+                                  user.bio != ''
+                                      ? user.bio ?? 'empty'
+                                      : 'empty',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,
@@ -286,7 +299,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text(
                                   user.birthdate != ''
-                                      ? user.birthdate??'empty'
+                                      ? user.birthdate ?? 'empty'
                                       : 'empty',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,

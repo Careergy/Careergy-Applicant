@@ -46,9 +46,9 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  // final user = FirebaseAuth.instance.currentUser;
+  final user_ = FirebaseAuth.instance.currentUser;
   // CollectionReference users = FirebaseFirestore.instance.collection('users');
-  // final photosReference = FirebaseStorage.instance.ref('photos/');
+  final photosReference = FirebaseStorage.instance.ref('photos/');
   TextEditingController name_controller = TextEditingController();
   TextEditingController email_controller = TextEditingController();
   TextEditingController phone_controller = TextEditingController();
@@ -89,13 +89,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<usr.User>(context);
-    name_controller.text = widget.user.name??'';
-    email_controller.text = widget.user.email??'';
+    name_controller.text = widget.user.name ?? '';
+    email_controller.text = widget.user.email ?? '';
     phone_controller.text = widget.user.phone ?? '';
-    bio_controller.text = widget.user.bio??'';
+    bio_controller.text = widget.user.bio ?? '';
     // major_controller.text = user.major;
-    birthdate_controller.text = widget.user.birthdate??'';
-    // imageUrl = user.photo??;
+    birthdate_controller.text = widget.user.birthdate ?? '';
+    imageUrl = user.photoUrl ?? '';
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
@@ -275,9 +275,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          // if (image != null) {
-          //   await photosReference.child(user!.uid).putFile(image!);
-          // }
+          if (image != null) {
+            await photosReference.child(user_!.uid).putFile(image!);
+          }
 
           setState(() {
             isLoading = true;
