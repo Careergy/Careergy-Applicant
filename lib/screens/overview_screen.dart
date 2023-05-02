@@ -1,4 +1,7 @@
 import 'package:careergy_mobile/constants.dart';
+import 'package:careergy_mobile/screens/home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -31,6 +34,10 @@ class OverviewScreen extends StatefulWidget {
 }
 
 class _OverviewScreenState extends State<OverviewScreen> {
+  CollectionReference applications =
+      FirebaseFirestore.instance.collection('applications');
+  final user = FirebaseAuth.instance.currentUser;
+
   String company_uid = '';
   String post_uid = '';
   String post_image = '';
@@ -341,6 +348,21 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 TextButton(
                   onPressed: () {
                     print('Apply');
+                    applications
+                        .add({
+                          'post_uid': post_uid,
+                          'company_uid': company_uid,
+                          'applicant_uid': user!.uid,
+                          'attachments': choosen_attachments_List,
+                          'timestamp': DateTime.now().millisecondsSinceEpoch
+                        })
+                        .then((value) => {
+                              print("Applied"),
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst)
+                            })
+                        .catchError(
+                            (error) => print("Failed to apply: $error"));
                   },
                   child: Container(
                     decoration: const BoxDecoration(
