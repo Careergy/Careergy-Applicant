@@ -1,6 +1,8 @@
+import 'package:careergy_mobile/models/user.dart' as usr;
 import 'package:careergy_mobile/providers/auth_provider.dart';
 import 'package:careergy_mobile/screens/contact_us_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 
@@ -11,6 +13,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<usr.User>(context);
     return Drawer(
       backgroundColor: kBlue,
       child: ListView(
@@ -84,6 +87,7 @@ class CustomDrawer extends StatelessWidget {
             ),
             onTap: () async {
               await AuthProvider().logout();
+              user.discard();
             },
           ),
         ],

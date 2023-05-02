@@ -89,12 +89,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<usr.User>(context);
-    name_controller.text = widget.user.name;
-    email_controller.text = widget.user.email;
+    name_controller.text = widget.user.name??'';
+    email_controller.text = widget.user.email??'';
     phone_controller.text = widget.user.phone ?? '';
-    bio_controller.text = widget.user.bio;
+    bio_controller.text = widget.user.bio??'';
     // major_controller.text = user.major;
-    birthdate_controller.text = widget.user.birthdate;
+    birthdate_controller.text = widget.user.birthdate??'';
     // imageUrl = user.photo??;
     return Scaffold(
       appBar: AppBar(

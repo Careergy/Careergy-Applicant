@@ -136,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            user.name,
+                            user.name??'empty',
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -167,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  user.email != '' ? user.email : 'empty',
+                                  user.email != '' ? user.email??'empty' : 'empty',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,
@@ -196,13 +196,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  user.phone ?? 'empty',
+                                  user.phone == ''
+                                      ? 'empty'
+                                      : user.phone ?? 'empty',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,
-                                      color: user.phone != null
-                                          ? Colors.black
-                                          : Colors.grey),
+                                      color:
+                                          user.phone != null && user.phone != ''
+                                              ? Colors.black
+                                              : Colors.grey),
                                 )
                               ],
                             ),
@@ -225,7 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                 ),
                                 Text(
-                                  user.bio != '' ? user.bio : 'empty',
+                                  user.bio != '' ? user.bio??'empty' : 'empty',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,
@@ -283,7 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text(
                                   user.birthdate != ''
-                                      ? user.birthdate
+                                      ? user.birthdate??'empty'
                                       : 'empty',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
@@ -422,41 +425,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   //     : const SizedBox(),
                                   Center(
                                     child: TextButton(
-                                        onPressed: () {
-                                          print('brief cv button');
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const BriefCV(),
+                                      onPressed: () {
+                                        print('brief cv button');
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const BriefCV(),
+                                          ),
+                                        ).then((value) {
+                                          setState(() {});
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.blue,
                                             ),
-                                          ).then((value) {
-                                            setState(() {});
-                                          });
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.blue,
-                                              ),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(20))),
-                                          // color: Colors.blue,
-                                          child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 10,
-                                                      horizontal: 100),
-                                              child: user.breifcvExists
-                                                  ? const Text(
-                                                      'Update',
-                                                    )
-                                                  : const Text(
-                                                      'Add',
-                                                    )),
-                                        )),
-                                  )
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(20))),
+                                        // color: Colors.blue,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 100),
+                                          child: user.breifcvExists
+                                              ? const Text(
+                                                  'View/Edit',
+                                                )
+                                              : const Text(
+                                                  'Add',
+                                                ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             )

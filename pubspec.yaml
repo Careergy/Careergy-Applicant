@@ -45,6 +45,8 @@ dependencies:
   flutter_document_picker: ^5.1.0
   syncfusion_flutter_pdfviewer: ^21.1.35
   flutter_easyloading: ^3.0.5
+  textfield_tags: ^2.0.2
+  flutter_autocomplete_label: ^1.0.0
 
 dev_dependencies:
   flutter_test:
