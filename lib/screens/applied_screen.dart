@@ -28,6 +28,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
   List applied_posts = [];
   List applied_posts_uid = [];
   List company_names = [];
+  List company_photos = [];
 
   Future getApplications() async {
     // Get docs from collection reference
@@ -75,6 +76,9 @@ class _AppliedScreenState extends State<AppliedScreen> {
                 company_names.add(ds.data().toString().contains('name')
                     ? ds.get('name')
                     : '');
+                company_photos.add(ds.data().toString().contains('photoUrl')
+                    ? ds.get('photoUrl')
+                    : '');
               });
             } else {
               print('Document does not exist on the database');
@@ -85,7 +89,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
         onError: (e) => print("Error getting document: $e"),
       );
     }
-    if (applications.length == 0) {
+    if (applications.isEmpty) {
       setState(() {
         note = 'You have no applied jobs';
       });
@@ -113,14 +117,15 @@ class _AppliedScreenState extends State<AppliedScreen> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               applied_posts.isNotEmpty
                   ? SizedBox(
                       // margin: const EdgeInsets.symmetric(vertical: 20.0),
                       height: MediaQuery.of(context).size.height,
                       child: ListView(
+                        physics: NeverScrollableScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         children: List.generate(applications.length, (i) {
                           return InkWell(
@@ -131,7 +136,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                     builder: (context) => AppliedOverviewScreen(
                                           company_uid: applied_posts[i]['uid'],
                                           post_uid: applied_posts_uid[i],
-                                          post_image: '',
+                                          post_image: company_photos[i],
                                           job_title: applied_posts[i]
                                               ['job_title'],
                                           descreption: applied_posts[i]
@@ -167,10 +172,12 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(8.0),
-                                          child: Image.asset(
-                                            'assets/images/jahez.png',
+                                          child: Image.network(
+                                            company_photos.isNotEmpty
+                                                ? company_photos[i]
+                                                : 'https://firebasestorage.googleapis.com/v0/b/careergy-3e171.appspot.com/o/photos%2FCareergy.png?alt=media&token=d5d0a2b7-e143-4644-970d-c63fc573a5ba',
                                             // scale: 1,
-                                            // fit: BoxFit.contain,
+                                            // fit: BoxFit.fitWidth,
                                           ),
                                         ),
                                       ),

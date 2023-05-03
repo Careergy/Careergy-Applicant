@@ -227,26 +227,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                            //   children: const [
-                            //     Text(
-                            //       'Major',
-                            //       style: TextStyle(
-                            //           fontWeight: FontWeight.bold,
-                            //           fontSize: 16,
-                            //           color: Colors.blue),
-                            //     )
-                            //   ],
-                            // ),
-                            // TextField(
-                            //   controller: major_controller,
-                            //   decoration: const InputDecoration(
-                            //       constraints: BoxConstraints(maxHeight: 30)),
-                            // ),
-                            // const SizedBox(
-                            //   height: 20,
-                            // ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
@@ -277,6 +257,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         onPressed: () async {
           if (image != null) {
             await photosReference.child(user_!.uid).putFile(image!);
+            await FirebaseStorage.instance
+                .ref('photos/${user.uid}')
+                .getDownloadURL()
+                .then((value) => user.photoUrl = value)
+                .onError(
+              (error, stackTrace) {
+                // photoUrl = null;
+                return 'error';
+              },
+            );
           }
 
           setState(() {
@@ -288,29 +278,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           user.phone = phone_controller.text;
           user.bio = bio_controller.text;
           user.birthdate = birthdate_controller.text;
-
+          // user.photo = image!;
           await user.setUserInfo();
+          await user.getUserInfo();
           setState(() {
             isLoading = false;
             Navigator.pop(context);
           });
-
-          // users
-          //     .doc(user!.uid)
-          //     .update({
-          //       'name': name_controller.text,
-          //       'email': email_controller.text,
-          //       'phone': phone_controller.text,
-          //       'bio': bio_controller.text,
-          //       'major': major_controller.text,
-          //       'birthdate': birthdate_controller.text,
-          //       // 'photo': photo_controller.text,
-          //     })
-          //     .then((value) => {
-          //           print("User Updated"),
-          //           Navigator.pop(context),
-          //         })
-          //     .catchError((error) => print("Failed to update user: $error"));
         },
         child: isLoading
             ? const CircularProgressIndicator(color: Colors.white)

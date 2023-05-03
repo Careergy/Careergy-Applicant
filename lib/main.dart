@@ -1,3 +1,5 @@
+import 'package:careergy_mobile/constants.dart';
+
 import './models/user.dart' as usr;
 import 'package:careergy_mobile/providers/auth_provider.dart';
 import 'package:careergy_mobile/screens/home_screen.dart';
@@ -22,14 +24,14 @@ Future<void> main() async {
 void configLoading() {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
-    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorType = EasyLoadingIndicatorType.ring
+    ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 45.0
     ..radius = 10.0
-    ..progressColor = Colors.yellow
-    ..backgroundColor = Colors.green
-    ..indicatorColor = Colors.yellow
-    ..textColor = Colors.yellow
+    ..progressColor = kBlue
+    ..backgroundColor = kBlue
+    ..indicatorColor = Colors.white
+    ..textColor = Colors.white
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = true
     ..dismissOnTap = false;

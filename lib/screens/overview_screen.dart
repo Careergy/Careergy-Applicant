@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class OverviewScreen extends StatefulWidget {
   final String company_uid;
@@ -193,8 +194,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                               width: 60,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
-                                child: Image.asset(
-                                  'assets/images/jahez.png',
+                                child: Image.network(
+                                  post_image,
                                   // scale: 1,
                                   // fit: BoxFit.contain,
                                 ),
@@ -270,6 +271,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   fontWeight: FontWeight.bold, fontSize: 12),
                             ),
                           ],
+                        ),
+                        const SizedBox(
+                          height: 5,
                         ),
                         Expanded(
                           child: Container(
@@ -359,11 +363,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                         })
                         .then((value) => {
                               print("Applied"),
+                              EasyLoading.showSuccess('Applied succefully'),
                               Navigator.of(context)
-                                  .popUntil((route) => route.isFirst)
+                                  .popUntil((route) => route.isFirst),
                             })
-                        .catchError(
-                            (error) => print("Failed to apply: $error"));
+                        .catchError((error) => {
+                              print("Failed to apply: $error"),
+                              EasyLoading.showError('Applied failed')
+                            });
                   },
                   child: Container(
                     decoration: const BoxDecoration(

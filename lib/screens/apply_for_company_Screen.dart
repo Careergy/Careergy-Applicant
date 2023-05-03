@@ -87,8 +87,8 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
                   width: 90,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      'assets/images/jahez.png',
+                    child: Image.network(
+                      post_image,
                       // scale: 1,
                       // fit: BoxFit.contain,
                     ),

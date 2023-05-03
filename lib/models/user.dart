@@ -45,7 +45,7 @@ class User with ChangeNotifier {
         return 'error';
       },
     );
-    print(photoUrl);
+
     await ref.get().then(
       (DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
@@ -53,7 +53,7 @@ class User with ChangeNotifier {
         name = data['name'] ?? '';
         email = data['email'] ?? '';
         phone = data['phone'] ?? '';
-        // photoUrl = data['photoUrl'] ?? '';
+        photoUrl = data['photoUrl'];
         birthdate = data['birthdate'] ?? '';
         bio = data['bio'] ?? '';
       },
@@ -85,7 +85,7 @@ class User with ChangeNotifier {
             .map((e) => e as String)
             .toList();
         briefcv = {
-          'majors' : majors,
+          'majors': majors,
           'job_title': jobTitles,
           'major_skills': majorSkills,
           'soft_skills': softSkills,
@@ -97,7 +97,6 @@ class User with ChangeNotifier {
       }
       briefcv = null;
     });
-    // return;
   }
 
   Future setBriefCV() async {
@@ -112,7 +111,8 @@ class User with ChangeNotifier {
       'email': email,
       'phone': phone,
       'bio': bio,
-      'birthdate': birthdate
+      'birthdate': birthdate,
+      'photoUrl': photoUrl
     });
     notifyListeners();
   }
@@ -141,6 +141,6 @@ class User with ChangeNotifier {
     birthdate = null;
     briefcv = null;
     notifyListeners();
-    dispose();
+    // dispose();
   }
 }

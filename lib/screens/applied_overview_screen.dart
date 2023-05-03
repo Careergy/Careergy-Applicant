@@ -128,8 +128,8 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                               width: 60,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
-                                child: Image.asset(
-                                  'assets/images/jahez.png',
+                                child: Image.network(
+                                  post_image,
                                   // scale: 1,
                                   // fit: BoxFit.contain,
                                 ),
@@ -205,6 +205,9 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                   fontWeight: FontWeight.bold, fontSize: 12),
                             ),
                           ],
+                        ),
+                        const SizedBox(
+                          height: 5,
                         ),
                         Expanded(
                           child: Container(

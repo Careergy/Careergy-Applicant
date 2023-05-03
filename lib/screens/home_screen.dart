@@ -32,9 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
   String recommended_posts_note = '';
 
   List recent_posts = [];
+  List recent_posts_photos = [];
   List recent_posts_uid = [];
 
   List recommended_posts = [];
+  List recommended_posts_photos = [];
   List recommended_posts_uid = [];
 
   Future getRecentPosts() async {
@@ -56,6 +58,22 @@ class _HomeScreenState extends State<HomeScreen> {
     if (recent_posts.isEmpty) {
       recent_posts_note = 'No recent posts found';
     }
+    CollectionReference companies =
+        FirebaseFirestore.instance.collection('companies');
+    for (var i = 0; i < recent_posts_uid.length; i++) {
+      companies.doc(recent_posts[i]['uid']).get().then((DocumentSnapshot ds) {
+        if (ds.exists) {
+          setState(() {
+            recent_posts_photos.add(ds.data().toString().contains('photoUrl')
+                ? ds.get('photoUrl')
+                : '');
+          });
+        } else {
+          print('Document does not exist on the database');
+        }
+      });
+    }
+
     // print(allDataUid);
   }
 
@@ -79,6 +97,25 @@ class _HomeScreenState extends State<HomeScreen> {
     if (recommended_posts.isEmpty) {
       recommended_posts_note = 'No recommended posts found';
     }
+    CollectionReference companies =
+        FirebaseFirestore.instance.collection('companies');
+    for (var i = 0; i < recommended_posts_uid.length; i++) {
+      companies
+          .doc(recommended_posts[i]['uid'])
+          .get()
+          .then((DocumentSnapshot ds) {
+        if (ds.exists) {
+          setState(() {
+            recommended_posts_photos.add(
+                ds.data().toString().contains('photoUrl')
+                    ? ds.get('photoUrl')
+                    : '');
+          });
+        } else {
+          print('Document does not exist on the database');
+        }
+      });
+    }
     // print(allDataUid);
   }
 
@@ -92,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       EasyLoading.show(status: 'loading...');
+      // await
       await getRecentPosts();
       await getRecomendedPosts();
       EasyLoading.dismiss();
@@ -101,48 +139,58 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context, listen: false);
-    // final user_provider = Provider.of<usr.User>(context);
+    final user_provider = Provider.of<usr.User>(context);
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: const CustomAppBar(
         title: 'Home',
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        // padding: const EdgeInsets.all(20),
+
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        'Welcome, ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.black),
+                      ),
+                      Text(
+                        user_provider.name ?? '...',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: kBlue),
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    'apply now, and find your job!',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    const Text(
-                      'Welcome, ',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black),
-                    ),
-                    // Text(
-                    //   user_provider.name ?? '...',
-                    //   style: const TextStyle(
-                    //       fontWeight: FontWeight.bold,
-                    //       fontSize: 16,
-                    //       color: kBlue),
-                    // ),
-                  ],
-                ),
-                const Text(
-                  'apply now, and find your job!',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.black),
-                ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: EdgeInsets.fromLTRB(10, 10, 0, 5),
                   child: Text(
                     'Recent Jobs',
                     style: TextStyle(
@@ -167,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ApplyForCompanyScreen(
                                             company_uid: recent_posts[i]['uid'],
                                             post_uid: recent_posts_uid[i],
-                                            post_image: '',
+                                            post_image: recent_posts_photos[i],
                                             job_title: recent_posts[i]
                                                 ['job_title'],
                                             descreption: recent_posts[i]
@@ -181,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 });
                               },
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
+                                padding: const EdgeInsets.only(left: 8.0),
                                 child: Container(
                                   width: 240,
                                   height: 100,
@@ -199,10 +247,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
-                                            child: Image.asset(
-                                              'assets/images/jahez.png',
+                                            child: Image.network(
+                                              recent_posts_photos.isNotEmpty
+                                                  ? recent_posts_photos[i]
+                                                  : 'https://firebasestorage.googleapis.com/v0/b/careergy-3e171.appspot.com/o/photos%2FCareergy.png?alt=media&token=d5d0a2b7-e143-4644-970d-c63fc573a5ba',
                                               // scale: 1,
-                                              // fit: BoxFit.contain,
+                                              // fit: BoxFit.fitWidth,
                                             ),
                                           ),
                                         ),
@@ -289,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: EdgeInsets.fromLTRB(10, 10, 0, 5),
                   child: Text(
                     'Recommended Jobs',
                     style: TextStyle(
@@ -316,7 +366,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             company_uid: recommended_posts[i]
                                                 ['uid'],
                                             post_uid: recommended_posts_uid[i],
-                                            post_image: '',
+                                            post_image:
+                                                recommended_posts_photos[i],
                                             job_title: recommended_posts[i]
                                                 ['job_title'],
                                             descreption: recommended_posts[i]
@@ -332,7 +383,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 });
                               },
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
+                                padding: const EdgeInsets.only(left: 8.0),
                                 child: Container(
                                   width: 240,
                                   decoration: BoxDecoration(
@@ -349,10 +400,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
-                                            child: Image.asset(
-                                              'assets/images/jahez.png',
+                                            child: Image.network(
+                                              recommended_posts_photos
+                                                      .isNotEmpty
+                                                  ? recommended_posts_photos[i]
+                                                  : 'https://firebasestorage.googleapis.com/v0/b/careergy-3e171.appspot.com/o/photos%2FCareergy.png?alt=media&token=d5d0a2b7-e143-4644-970d-c63fc573a5ba',
                                               // scale: 1,
-                                              // fit: BoxFit.contain,
+                                              // fit: BoxFit.fitWidth,
                                             ),
                                           ),
                                         ),
