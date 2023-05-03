@@ -53,7 +53,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
   Future getAppliedPosts() async {
     CollectionReference companies =
         FirebaseFirestore.instance.collection('companies');
-    for (var i = 0; i < applications.length; i++) {
+    for (var i = applications.length - 1; i >= 0; i--) {
       DocumentReference<Map<String, dynamic>> posts_ref = FirebaseFirestore
           .instance
           .collection("posts")
