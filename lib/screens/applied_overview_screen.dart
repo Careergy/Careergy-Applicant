@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class OverviewScreen extends StatefulWidget {
+class AppliedOverviewScreen extends StatefulWidget {
   final String company_uid;
   final String post_uid;
   final String post_image;
@@ -14,10 +14,11 @@ class OverviewScreen extends StatefulWidget {
   final String descreption;
   final String yearsOfExperience;
   final String location;
+  final String status;
   final String company_name;
   final List choosen_attachments_List;
 
-  const OverviewScreen(
+  const AppliedOverviewScreen(
       {super.key,
       required this.company_uid,
       required this.post_uid,
@@ -26,14 +27,15 @@ class OverviewScreen extends StatefulWidget {
       required this.descreption,
       required this.yearsOfExperience,
       required this.location,
+      required this.status,
       required this.company_name,
       required this.choosen_attachments_List});
 
   @override
-  State<OverviewScreen> createState() => _OverviewScreenState();
+  State<AppliedOverviewScreen> createState() => _AppliedOverviewScreenState();
 }
 
-class _OverviewScreenState extends State<OverviewScreen> {
+class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
   CollectionReference applications =
       FirebaseFirestore.instance.collection('applications');
   final user = FirebaseAuth.instance.currentUser;
@@ -45,6 +47,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   String descreption = '';
   String yearsOfExperience = '';
   String location = '';
+  String status = '';
 
   String company_name = '';
 
@@ -61,6 +64,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     descreption = widget.descreption;
     yearsOfExperience = widget.yearsOfExperience;
     location = widget.location;
+    status = widget.status;
     company_name = widget.company_name;
     choosen_attachments_List = widget.choosen_attachments_List;
   }
@@ -79,106 +83,37 @@ class _OverviewScreenState extends State<OverviewScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
-                Column(
+                Row(
                   children: [
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'job',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                        // Spacer(),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 5,
-                        ),
-                        const Text(
-                          'attachments',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                        // Spacer(),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 6,
-                        ),
-                        const Text(
-                          'agreements',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                        const Spacer(),
-                        const Text(
-                          'overview',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 1,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 10,
-                          height: 10,
-                          decoration: const BoxDecoration(
-                            color: kBlue,
-                            shape: BoxShape.circle,
+                          'Status of job application',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Flexible(
-                          child: Container(
-                              width: MediaQuery.of(context).size.width / 3,
-                              height: 2,
+                        Text(
+                          status,
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
                               color: kBlue),
-                        ),
-                        Container(
-                          width: 10,
-                          height: 10,
-                          decoration: const BoxDecoration(
-                            color: kBlue,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        Flexible(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            height: 2,
-                            color: kBlue,
-                          ),
-                        ),
-                        Container(
-                          width: 10,
-                          height: 10,
-                          decoration: const BoxDecoration(
-                            color: kBlue,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        Flexible(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            height: 2,
-                            color: kBlue,
-                          ),
-                        ),
-                        Container(
-                          width: 15,
-                          height: 15,
-                          decoration: const BoxDecoration(
-                            color: kBlue,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
+                        )
                       ],
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 60,
+                  height: 10,
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height / 1.8,
-                  width: MediaQuery.of(context).size.width - 70,
+                  height: MediaQuery.of(context).size.height / 1.5,
+                  // width: MediaQuery.of(context).size.width - 70,
                   decoration:
                       BoxDecoration(border: Border.all(color: Colors.grey)),
                   child: Padding(
@@ -345,42 +280,41 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   ),
                 ),
                 const Spacer(),
-                TextButton(
-                  onPressed: () {
-                    print('Apply');
-                    applications
-                        .add({
-                          'post_uid': post_uid,
-                          'company_uid': company_uid,
-                          'applicant_uid': user!.uid,
-                          'attachments': choosen_attachments_List,
-                          'status': 'pending',
-                          'timestamp': DateTime.now().millisecondsSinceEpoch
-                        })
-                        .then((value) => {
-                              print("Applied"),
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst)
-                            })
-                        .catchError(
-                            (error) => print("Failed to apply: $error"));
-                  },
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: kBlue,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 100),
-                        child: Text(
-                          'Apply',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                ),
+                // TextButton(
+                //   onPressed: () {
+                //     print('Apply');
+                //     applications
+                //         .add({
+                //           'post_uid': post_uid,
+                //           'company_uid': company_uid,
+                //           'applicant_uid': user!.uid,
+                //           'attachments': choosen_attachments_List,
+                //           'timestamp': DateTime.now().millisecondsSinceEpoch
+                //         })
+                //         .then((value) => {
+                //               print("Applied"),
+                //               Navigator.of(context)
+                //                   .popUntil((route) => route.isFirst)
+                //             })
+                //         .catchError(
+                //             (error) => print("Failed to apply: $error"));
+                //   },
+                //   child: Container(
+                //     decoration: const BoxDecoration(
+                //         color: kBlue,
+                //         borderRadius: BorderRadius.all(Radius.circular(20))),
+                //     child: const Padding(
+                //         padding:
+                //             EdgeInsets.symmetric(vertical: 10, horizontal: 100),
+                //         child: Text(
+                //           'Apply',
+                //           style: TextStyle(
+                //               color: Colors.white,
+                //               fontSize: 15,
+                //               fontWeight: FontWeight.bold),
+                //         )),
+                //   ),
+                // ),
               ]),
         ));
   }

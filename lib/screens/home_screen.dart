@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:careergy_mobile/models/user.dart' as usr;
 import 'package:careergy_mobile/constants.dart';
 import 'package:careergy_mobile/providers/auth_provider.dart';
 // import 'package:careergy_mobile/screens/apply_for_company_screen.dart';
@@ -27,6 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
   // final authRef = ref.watch(auth);
   final user = FirebaseAuth.instance.currentUser;
 
+  String recent_posts_note = '';
+  String recommended_posts_note = '';
+
   List recent_posts = [];
   List recent_posts_uid = [];
 
@@ -49,6 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
       recent_posts = allData;
       recent_posts_uid = allDataUid;
     });
+    if (recent_posts.isEmpty) {
+      recent_posts_note = 'No recent posts found';
+    }
     // print(allDataUid);
   }
 
@@ -69,6 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
       recommended_posts = allData;
       recommended_posts_uid = allDataUid;
     });
+    if (recommended_posts.isEmpty) {
+      recommended_posts_note = 'No recommended posts found';
+    }
     // print(allDataUid);
   }
 
@@ -91,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context, listen: false);
+    // final user_provider = Provider.of<usr.User>(context);
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: const CustomAppBar(
@@ -105,12 +116,23 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Welcome, ...!',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.black),
+                Row(
+                  children: [
+                    const Text(
+                      'Welcome, ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.black),
+                    ),
+                    // Text(
+                    //   user_provider.name ?? '...',
+                    //   style: const TextStyle(
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 16,
+                    //       color: kBlue),
+                    // ),
+                  ],
                 ),
                 const Text(
                   'apply now, and find your job!',
@@ -162,6 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: Container(
                                   width: 240,
+                                  height: 100,
                                   decoration: BoxDecoration(
                                       color: Colors.blue[100],
                                       borderRadius: const BorderRadius.all(
@@ -256,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }),
                         ))
-                    : const Text('Empty'),
+                    : Text(recent_posts_note),
               ],
             ),
             const SizedBox(
@@ -407,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }),
                         ))
-                    : const Text('Empty'),
+                    : Text(recommended_posts_note),
               ],
             ),
 

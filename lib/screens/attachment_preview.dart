@@ -129,37 +129,37 @@ class _AttachmentPreviewState extends State<AttachmentPreview> {
                               ),
                             )),
                       ),
-                      Expanded(
-                        child: TextButton(
-                            onPressed: () async {
-                              print('download');
-                              // try {
-                              //   const oneMegabyte = 1024 * 1024;
-                              //   final Uint8List? data =
-                              //       await doc_ref.getData(oneMegabyte);
-                              //   // Data for "images/island.jpg" is returned, use this as needed.
-                              // } on FirebaseException catch (e) {
-                              //   // Handle any errors.
-                              // }
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(10),
-                              decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 224, 224, 224),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15))),
-                              height: 40,
-                              width: 150,
-                              child: const Text(
-                                'Download',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15),
-                              ),
-                            )),
-                      )
+                      // Expanded(
+                      //   child: TextButton(
+                      //       onPressed: () async {
+                      //         print('download');
+                      //         // try {
+                      //         //   const oneMegabyte = 1024 * 1024;
+                      //         //   final Uint8List? data =
+                      //         //       await doc_ref.getData(oneMegabyte);
+                      //         //   // Data for "images/island.jpg" is returned, use this as needed.
+                      //         // } on FirebaseException catch (e) {
+                      //         //   // Handle any errors.
+                      //         // }
+                      //       },
+                      //       child: Container(
+                      //         alignment: Alignment.center,
+                      //         padding: EdgeInsets.all(10),
+                      //         decoration: const BoxDecoration(
+                      //             color: Color.fromARGB(255, 224, 224, 224),
+                      //             borderRadius:
+                      //                 BorderRadius.all(Radius.circular(15))),
+                      //         height: 40,
+                      //         width: 150,
+                      //         child: const Text(
+                      //           'Download',
+                      //           style: TextStyle(
+                      //               color: Colors.blue,
+                      //               fontWeight: FontWeight.w600,
+                      //               fontSize: 15),
+                      //         ),
+                      //       )),
+                      // )
                     ],
                   ),
                 )
@@ -179,7 +179,7 @@ showAlertDialog(BuildContext context, doc_ref, user, doc_name) {
 
       try {
         // Navigator.pop(context);
-        Timer(Duration(seconds: 3), () {
+        Timer(Duration(seconds: 1), () {
           Navigator.pop(context); // Dismisses dialog
           Navigator.pop(context); // Navigates back to previous screen
         });
