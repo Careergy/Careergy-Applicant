@@ -6,15 +6,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class User with ChangeNotifier {
-  late String? uid;
-  late String? name;
-  late String? email;
-  late String? phone;
-  late String? photoUrl;
-  late String? birthdate;
+  String? uid;
+  String? name;
+  String? email;
+  String? phone;
+  String? photoUrl;
+  String? birthdate;
   Image photo =
       const Image(image: AssetImage('assets/images/avatarPlaceholder.png'));
-  late String? bio;
+  String? bio;
   Map<String, List?>? briefcv;
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -35,8 +35,17 @@ class User with ChangeNotifier {
       return;
     }
     final ref = db.collection('users').doc(uid);
-    photoUrl =
-        await FirebaseStorage.instance.ref('photos/$uid').getDownloadURL();
+    await FirebaseStorage.instance
+        .ref('photos/$uid')
+        .getDownloadURL()
+        .then((value) => photoUrl = value)
+        .onError(
+      (error, stackTrace) {
+        photoUrl = null;
+        return 'error';
+      },
+    );
+    print(photoUrl);
     await ref.get().then(
       (DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
@@ -60,8 +69,10 @@ class User with ChangeNotifier {
     await ref.get().then((value) {
       if (value.exists) {
         final data = value.data();
+        final majors =
+            (data!['majors'] as List).map((e) => e as String).toList();
         final jobTitles =
-            (data!['job_title'] as List).map((e) => e as String).toList();
+            (data['job_title'] as List).map((e) => e as String).toList();
         final majorSkills =
             (data['major_skills'] as List).map((e) => e as String).toList();
         final softSkills =
@@ -74,6 +85,7 @@ class User with ChangeNotifier {
             .map((e) => e as String)
             .toList();
         briefcv = {
+          'majors' : majors,
           'job_title': jobTitles,
           'major_skills': majorSkills,
           'soft_skills': softSkills,
@@ -85,6 +97,7 @@ class User with ChangeNotifier {
       }
       briefcv = null;
     });
+    // return;
   }
 
   Future setBriefCV() async {

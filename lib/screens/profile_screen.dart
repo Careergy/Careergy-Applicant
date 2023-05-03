@@ -105,14 +105,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //   });
   // }
 
+  late usr.User user;
+
+  Future refresh() async {
+    if (user.uid != null) {
+      return;
+    }
+    await user.getUserInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<usr.User>(context);
+    user = Provider.of<usr.User>(context);
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: const CustomAppBar(title: 'Profile'),
       body: FutureBuilder(
-        future: user.getUserInfo(),
+        future: refresh(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
