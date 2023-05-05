@@ -65,7 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
     CollectionReference companies =
         FirebaseFirestore.instance.collection('companies');
     for (var i = 0; i < recent_posts_uid.length; i++) {
-      companies.doc(recent_posts[i]['uid']).get().then((DocumentSnapshot ds) {
+      await companies
+          .doc(recent_posts[i]['uid'])
+          .get()
+          .then((DocumentSnapshot ds) {
         if (ds.exists) {
           setState(() {
             recent_posts_photos.add(ds.data().toString().contains('photoUrl')
@@ -77,29 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
     }
-
-    // print(allDataUid);
   }
-
-  // Future getUserMajors() async {
-  //   // Get docs from collection reference
-  //   CollectionReference user__breifcv_ref =
-  //       FirebaseFirestore.instance.collection('briefcvs');
-  //   // for (var i = 0; i < recommended_posts_uid.length; i++) {
-  //   user__breifcv_ref.doc(user!.uid).get().then((DocumentSnapshot ds) {
-  //     if (ds.exists) {
-  //       setState(() {
-  //         user_majors =
-  //             ds.data().toString().contains('majors') ? ds.get('majors') : '';
-  //         print(user_majors);
-  //       });
-  //     } else {
-  //       print('Document does not exist on the database');
-  //     }
-  //   });
-  //   // }
-  //   // print(user_job_titles);
-  // }
 
   Future getRecomendedPosts() async {
     // Get docs from collection reference
@@ -135,10 +116,11 @@ class _HomeScreenState extends State<HomeScreen> {
           CollectionReference companies =
               FirebaseFirestore.instance.collection('companies');
           for (var i = 0; i < recommended_posts_uid.length; i++) {
-            companies
+            await companies
                 .doc(recommended_posts[i]['uid'])
                 .get()
                 .then((DocumentSnapshot ds) {
+              // print(i);
               if (ds.exists) {
                 setState(() {
                   recommended_posts_photos.add(
@@ -168,29 +150,30 @@ class _HomeScreenState extends State<HomeScreen> {
     //TODO: Get image from the uid of getPosts
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // EasyLoading.show(status: 'loading...');
-      await getRecentPosts();
-      await getRecomendedPosts();
-      // print('object');
-      // EasyLoading.dismiss();
-    });
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) async {
+  //     // EasyLoading.show(status: 'loading...');
+  //     await getRecentPosts();
+  //     await getRecomendedPosts();
+  //     // print('object');
+  //     // EasyLoading.dismiss();
+  //   });
+  // }
 
   usr.User? user_provider;
 
   Future getInfo() async {
-    if (user_provider!.uid != null) {
+    if (user_provider!.uid != null &&
+        recent_posts.isNotEmpty &&
+        recommended_posts.isNotEmpty) {
       return;
     }
     await user_provider!.getUserInfo();
-    // await getRecentPosts();
-    // // await getUserMajors();
-    // await getRecomendedPosts();
+    await getRecentPosts();
+    await getRecomendedPosts();
   }
 
   @override
