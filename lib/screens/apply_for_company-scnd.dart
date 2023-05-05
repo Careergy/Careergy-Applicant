@@ -268,8 +268,8 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                                           : choosen_attachments_List
                                               .remove(attachments_list[i]);
                                     });
-                                    print(choosen_attachments_List);
-                                    print(attachments_ref_list[i].fullPath);
+                                    // print(choosen_attachments_List);
+                                    // print(attachments_ref_list[i].fullPath);
                                   }),
                               // Container(
                               //   width: 30,

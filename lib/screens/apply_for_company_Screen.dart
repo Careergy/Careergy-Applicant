@@ -14,6 +14,7 @@ class ApplyForCompanyScreen extends StatefulWidget {
   final String descreption;
   final String yearsOfExperience;
   final String location;
+  final String major;
 
   const ApplyForCompanyScreen(
       {super.key,
@@ -23,7 +24,8 @@ class ApplyForCompanyScreen extends StatefulWidget {
       required this.job_title,
       required this.descreption,
       required this.yearsOfExperience,
-      required this.location});
+      required this.location,
+      required this.major});
 
   @override
   State<ApplyForCompanyScreen> createState() => _ApplyForCompanyScreenState();
@@ -39,6 +41,7 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
   String descreption = '';
   String yearsOfExperience = '';
   String location = '';
+  String major = '';
 
   String company_name = '';
 
@@ -66,6 +69,7 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
     descreption = widget.descreption;
     yearsOfExperience = widget.yearsOfExperience;
     location = widget.location;
+    major = widget.major;
   }
 
   @override
@@ -156,10 +160,18 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
             const SizedBox(
               height: 15,
             ),
+            Text(
+              major,
+              style: TextStyle(
+                  fontSize: 17, fontWeight: FontWeight.bold, color: kBlue),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
             const Text(
               'Job Description',
               style: TextStyle(
-                fontSize: 17,
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
             ),

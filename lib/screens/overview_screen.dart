@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:careergy_mobile/constants.dart';
 import 'package:careergy_mobile/screens/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -353,24 +355,35 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   onPressed: () {
                     print('Apply');
                     applications
-                        .add({
-                          'post_uid': post_uid,
-                          'company_uid': company_uid,
-                          'applicant_uid': user!.uid,
-                          'attachments': choosen_attachments_List,
-                          'status': 'pending',
-                          'timestamp': DateTime.now().millisecondsSinceEpoch
-                        })
-                        .then((value) => {
-                              print("Applied"),
-                              EasyLoading.showSuccess('Applied succefully'),
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst),
+                        .where('applicant_uid', isEqualTo: user!.uid)
+                        .where('post_uid', isEqualTo: post_uid)
+                        .get()
+                        .then((QuerySnapshot ds) async {
+                      if (ds.docs.isEmpty) {
+                        applications
+                            .add({
+                              'post_uid': post_uid,
+                              'company_uid': company_uid,
+                              'applicant_uid': user!.uid,
+                              'attachments': choosen_attachments_List,
+                              'status': 'pending',
+                              'timestamp': DateTime.now().millisecondsSinceEpoch
                             })
-                        .catchError((error) => {
-                              print("Failed to apply: $error"),
-                              EasyLoading.showError('Applied failed')
-                            });
+                            .then((value) => {
+                                  print("Applied"),
+                                  EasyLoading.showSuccess('Applied succefully'),
+                                  Navigator.of(context)
+                                      .popUntil((route) => route.isFirst),
+                                })
+                            .catchError((error) => {
+                                  print("Failed to apply: $error"),
+                                  EasyLoading.showError('Applied failed')
+                                });
+                      } else {
+                        EasyLoading.showError('Already Applied');
+                        print('already applied');
+                      }
+                    });
                   },
                   child: Container(
                     decoration: const BoxDecoration(
