@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../widgets/custom_appbar.dart';
@@ -255,6 +256,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          EasyLoading.show(status: 'Saving...');
           if (image != null) {
             await photosReference.child(user_!.uid).putFile(image!);
             await FirebaseStorage.instance
@@ -281,6 +283,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           // user.photo = image!;
           await user.setUserInfo();
           await user.getUserInfo();
+          EasyLoading.dismiss();
           setState(() {
             isLoading = false;
             Navigator.pop(context);
