@@ -61,7 +61,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    print('has data');
+                    // print('has data');
                     final List<DocumentSnapshot> documents =
                         snapshot.data!.docs;
                     return ListView.builder(
@@ -77,10 +77,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       },
                     );
                   } else if (snapshot.hasError) {
-                    print('has error');
+                    // print('has error');
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    print('else');
+                    // print('else');
                     return const Center(child: CircularProgressIndicator());
                   }
                 },
