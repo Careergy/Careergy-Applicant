@@ -167,17 +167,20 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
     Widget addButton = TextButton(
       child: Text("Add"),
       onPressed: () async {
+        Navigator.of(context).pop();
+        EasyLoading.show(status: 'loading...');
         File file = File(path!);
         try {
           await mainReference.child(user!.uid).child(doc_name).putFile(file);
           setState(() {
             getUserAttachments(user!.uid);
           });
+          EasyLoading.showSuccess('Added succesully');
         } on FirebaseException catch (e) {
           // ...
+          EasyLoading.showError('Failed adding');
           print(e);
         }
-        Navigator.of(context).pop();
       },
     );
 
