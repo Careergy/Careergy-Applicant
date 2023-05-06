@@ -12,6 +12,8 @@ import 'firebase_options.dart';
 import './screens/auth/auth_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
