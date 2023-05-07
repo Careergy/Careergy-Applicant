@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 
 import 'apply_for_company_Screen.dart';
 // import 'package:riverpod/riverpod.dart';
@@ -28,6 +29,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // final authRef = ref.watch(auth);
   final user = FirebaseAuth.instance.currentUser;
+  final Stream<QuerySnapshot<Map<String, dynamic>>> userAppliedStream =
+      FirebaseFirestore.instance
+          .collection('applications')
+          .where('applicant_uid',
+              isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .snapshots();
 
   String recent_posts_note = '';
   String recommended_posts_note = '';
@@ -151,19 +158,115 @@ class _HomeScreenState extends State<HomeScreen> {
     //TODO: Get image from the uid of getPosts
   }
 
+  Future popup() async {
+    userAppliedStream.listen((event) {
+      event.docChanges.forEach((element) async {
+        final doc = element.doc.data();
+        final status = await doc!['status'];
+
+        var title = '';
+        var text = '';
+        var desc = 'check your notifications for more information.';
+        QuickAlertType type = QuickAlertType.custom;
+        if (status != 'pending' &&
+            (doc!['seen'] == null || doc!['seen'] == false)) {
+          if (status == 'waiting') {
+            print('re');
+            title = 'Congratulations 👏 !';
+            text =
+                'Your applied job got accepted and waiting for you to accept the meeting.';
+            QuickAlert.show(
+                context: context,
+                type: type,
+                barrierDismissible: true,
+                confirmBtnText: 'Ok',
+                confirmBtnTextStyle: const TextStyle(color: kBlue),
+                confirmBtnColor: Colors.white,
+                backgroundColor: kBlue,
+                customAsset: 'assets/images/noti_gif3.gif',
+                widget: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    desc,
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
+                  ),
+                ),
+                title: title,
+                titleColor: Colors.white,
+                text: text,
+                textColor: Colors.white);
+          } else if (status == 'approved') {
+            title = 'Congratulations 🤝 !';
+            text = 'Your applied job got approved ✍️ !';
+            type = QuickAlertType.success;
+            QuickAlert.show(
+                context: context,
+                type: type,
+                barrierDismissible: true,
+                confirmBtnText: 'Ok',
+                confirmBtnTextStyle: const TextStyle(color: kBlue),
+                confirmBtnColor: Colors.white,
+                backgroundColor: kBlue,
+                widget: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    desc,
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
+                  ),
+                ),
+                title: title,
+                titleColor: Colors.white,
+                text: text,
+                textColor: Colors.white);
+          } else if (status == 'rejected') {
+            title = 'Sorry 😢 !';
+            text = 'Your applied job got rejected.';
+            type = QuickAlertType.error;
+            QuickAlert.show(
+                context: context,
+                type: type,
+                barrierDismissible: true,
+                confirmBtnText: 'Ok',
+                confirmBtnTextStyle: const TextStyle(color: kBlue),
+                confirmBtnColor: Colors.white,
+                backgroundColor: kBlue,
+                widget: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    desc,
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
+                  ),
+                ),
+                title: title,
+                titleColor: Colors.white,
+                text: text,
+                textColor: Colors.white);
+          }
+          if (status == 'waiting' ||
+              status == 'approved' ||
+              status == 'rejected') {
+            DocumentReference application_ref = FirebaseFirestore.instance
+                .collection('applications')
+                .doc(element.doc.reference.id);
+            await application_ref.update({'seen': true});
+          }
+        }
+      });
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    // super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       EasyLoading.show(status: 'loading...');
       user_provider!.getUserInfo();
       await getRecentPosts();
       await getRecomendedPosts();
+      await popup();
       setState(() {
         finish = true;
       });
-      print('object');
       EasyLoading.dismiss();
     });
     getToken();
@@ -254,7 +357,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -414,7 +516,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
                           recent_posts_note,
-                          style: TextStyle(color: Colors.grey),
+                          style: const TextStyle(color: Colors.grey),
                         ),
                       ),
               ],
@@ -588,50 +690,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
                           recommended_posts_note,
-                          style: TextStyle(color: Colors.grey),
+                          style: const TextStyle(color: Colors.grey),
                         ),
                       ),
-                // FloatingActionButton(
-                //   onPressed: () {
-                //     getToken();
-                //     print(token);
-                //   },
-                //   child: Icon(Icons.print),
-                // ),
-                // Text(token)
               ],
             ),
-
-            // const Text(
-            //   'Home Screen',
-            // ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     auth.logout();
-            //   },
-            //   child: const Text('log out'),
-            // ),
-            // ElevatedButton(
-            //   onPressed: () {
-            // Navigator.of(context).push(MaterialPageRoute(
-            //     builder: (context) => ApplyForCompanyScreen()));
-            //   },
-            //   child: const Text('This is a company'),
-            // ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.of(context).push(
-            //         MaterialPageRoute(builder: (context) => CompanyProfile()));
-            //   },
-            //   child: const Text('a company profile example'),
-            // )
           ],
         ),
       ),
     );
-    // }
-    // }
-    // )
-    // ;
   }
 }
