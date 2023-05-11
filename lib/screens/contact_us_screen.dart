@@ -48,7 +48,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kBlue,
+        backgroundColor: canvasColor,
         title: const Text('Contact Us'),
       ),
       body: Padding(

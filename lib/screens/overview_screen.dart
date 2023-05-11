@@ -72,7 +72,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: kBlue,
+          backgroundColor: canvasColor,
           title: const Text('Overview'),
         ),
         body: Padding(
@@ -124,7 +124,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           width: 10,
                           height: 10,
                           decoration: const BoxDecoration(
-                            color: kBlue,
+                            color: canvasColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -132,13 +132,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           child: Container(
                               width: MediaQuery.of(context).size.width / 3,
                               height: 2,
-                              color: kBlue),
+                              color: canvasColor),
                         ),
                         Container(
                           width: 10,
                           height: 10,
                           decoration: const BoxDecoration(
-                            color: kBlue,
+                            color: canvasColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -146,14 +146,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           child: Container(
                             width: MediaQuery.of(context).size.width / 3,
                             height: 2,
-                            color: kBlue,
+                            color: canvasColor,
                           ),
                         ),
                         Container(
                           width: 10,
                           height: 10,
                           decoration: const BoxDecoration(
-                            color: kBlue,
+                            color: canvasColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -161,14 +161,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           child: Container(
                             width: MediaQuery.of(context).size.width / 3,
                             height: 2,
-                            color: kBlue,
+                            color: canvasColor,
                           ),
                         ),
                         Container(
                           width: 15,
                           height: 15,
                           decoration: const BoxDecoration(
-                            color: kBlue,
+                            color: canvasColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -242,7 +242,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   Container(
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: kBlue,
+                                          color: canvasColor,
                                         ),
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(5))),
@@ -387,7 +387,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   },
                   child: Container(
                     decoration: const BoxDecoration(
-                        color: kBlue,
+                        color: canvasColor,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     child: const Padding(
                         padding:

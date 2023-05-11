@@ -180,9 +180,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 type: type,
                 barrierDismissible: true,
                 confirmBtnText: 'Ok',
-                confirmBtnTextStyle: const TextStyle(color: kBlue),
+                confirmBtnTextStyle: const TextStyle(color: canvasColor),
                 confirmBtnColor: Colors.white,
-                backgroundColor: kBlue,
+                backgroundColor: canvasColor,
                 customAsset: 'assets/images/noti_gif3.gif',
                 widget: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
@@ -204,9 +204,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 type: type,
                 barrierDismissible: true,
                 confirmBtnText: 'Ok',
-                confirmBtnTextStyle: const TextStyle(color: kBlue),
+                confirmBtnTextStyle: const TextStyle(color: canvasColor),
                 confirmBtnColor: Colors.white,
-                backgroundColor: kBlue,
+                backgroundColor: canvasColor,
                 widget: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
@@ -227,9 +227,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 type: type,
                 barrierDismissible: true,
                 confirmBtnText: 'Ok',
-                confirmBtnTextStyle: const TextStyle(color: kBlue),
+                confirmBtnTextStyle: const TextStyle(color: canvasColor),
                 confirmBtnColor: Colors.white,
-                backgroundColor: kBlue,
+                backgroundColor: canvasColor,
                 widget: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
@@ -317,6 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: const CustomAppBar(
         title: 'Home',
       ),
+      backgroundColor: accentCanvasColor,
       body: SingleChildScrollView(
         // padding: const EdgeInsets.all(20),
 
@@ -336,14 +337,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: Colors.black),
+                            color: white),
                       ),
                       Text(
                         user_provider!.name ?? '...',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: kBlue),
+                            color: primaryColor),
                       ),
                     ],
                   ),
@@ -352,7 +353,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: Colors.black),
+                        color: white),
                   ),
                 ],
               ),
@@ -367,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Colors.black),
+                        color: white),
                   ),
                 ),
                 recent_posts.isNotEmpty && finish
@@ -406,7 +407,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 240,
                                   height: 100,
                                   decoration: BoxDecoration(
-                                      color: Colors.blue[100],
+                                      color: canvasColor,
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(15))),
                                   child: Padding(
@@ -423,8 +424,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                               recent_posts_photos.isNotEmpty
                                                   ? recent_posts_photos[i]
                                                   : 'https://firebasestorage.googleapis.com/v0/b/careergy-3e171.appspot.com/o/photos%2FCareergy.png?alt=media&token=d5d0a2b7-e143-4644-970d-c63fc573a5ba',
-                                              // scale: 1,
-                                              // fit: BoxFit.fitWidth,
                                             ),
                                           ),
                                         ),
@@ -448,7 +447,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: Colors.black),
+                                                      color: white),
                                                 ),
                                                 const SizedBox(
                                                   height: 3,
@@ -463,7 +462,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       fontSize: 10,
                                                       fontWeight:
                                                           FontWeight.w300,
-                                                      color: Colors.black),
+                                                      color: white),
                                                 ),
                                                 const SizedBox(
                                                   height: 10,
@@ -476,7 +475,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   style: const TextStyle(
                                                       fontSize: 10,
                                                       // fontWeight: FontWeight,
-                                                      color: Colors.black),
+                                                      color: white),
                                                 ),
                                                 Text(
                                                   'Lcation: ${recent_posts[i]['city']}',
@@ -487,7 +486,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       fontSize: 10,
                                                       fontWeight:
                                                           FontWeight.w300,
-                                                      color: Colors.black),
+                                                      color: white),
                                                 ),
                                                 Text(
                                                   recent_posts[i]['major'],
@@ -498,7 +497,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       fontSize: 9,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: Colors.black),
+                                                      color: white),
                                                 ),
                                               ],
                                             ),
@@ -534,7 +533,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Colors.black),
+                        color: white),
                   ),
                 ),
                 recommended_posts.isNotEmpty && finish
@@ -578,7 +577,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Container(
                                   width: 240,
                                   decoration: BoxDecoration(
-                                      color: Colors.blue[100],
+                                      color: canvasColor,
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(15))),
                                   child: Padding(
@@ -622,7 +621,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: Colors.black),
+                                                      color: white),
                                                 ),
                                                 const SizedBox(
                                                   height: 3,
@@ -637,7 +636,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       fontSize: 10,
                                                       fontWeight:
                                                           FontWeight.w300,
-                                                      color: Colors.black),
+                                                      color: white),
                                                 ),
                                                 const SizedBox(
                                                   height: 10,
@@ -650,7 +649,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   style: const TextStyle(
                                                       fontSize: 10,
                                                       // fontWeight: FontWeight,
-                                                      color: Colors.black),
+                                                      color: white),
                                                 ),
                                                 Text(
                                                   'Lcation: ${recommended_posts[i]['city']}',
@@ -661,7 +660,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       fontSize: 10,
                                                       fontWeight:
                                                           FontWeight.w300,
-                                                      color: Colors.black),
+                                                      color: white),
                                                 ),
                                                 Text(
                                                   recommended_posts[i]['major'],
@@ -672,7 +671,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       fontSize: 9,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: Colors.black),
+                                                      color: white),
                                                 ),
                                               ],
                                             ),

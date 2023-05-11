@@ -15,7 +15,7 @@ class _ContactCompanyState extends State<ContactCompany> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kBlue,
+        backgroundColor: canvasColor,
         title: Text('Contact Company'),
       ),
       body: Center(

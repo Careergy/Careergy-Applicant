@@ -76,7 +76,7 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kBlue,
+        backgroundColor: canvasColor,
         title: const Text('Job Application'),
       ),
       body: Padding(
@@ -137,7 +137,7 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
                       Container(
                         decoration: BoxDecoration(
                             border: Border.all(
-                              color: kBlue,
+                              color: canvasColor,
                             ),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(5))),
@@ -163,7 +163,9 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
             Text(
               major,
               style: TextStyle(
-                  fontSize: 17, fontWeight: FontWeight.bold, color: kBlue),
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: canvasColor),
             ),
             const SizedBox(
               height: 5,
@@ -202,7 +204,7 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
                   },
                   child: Container(
                     decoration: const BoxDecoration(
-                        color: kBlue,
+                        color: canvasColor,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     // color: Colors.blue,
                     child: const Padding(
@@ -220,7 +222,7 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
             // const Text(
             //   'CV',
             //   style: TextStyle(
-            //       color: kBlue, fontSize: 26.0, fontWeight: FontWeight.bold),
+            //       color: canvasColor, fontSize: 26.0, fontWeight: FontWeight.bold),
             // )
           ],
         ),

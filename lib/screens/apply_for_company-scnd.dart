@@ -100,7 +100,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: kBlue,
+          backgroundColor: canvasColor,
           title: const Text('Attachments'),
         ),
         body: Padding(
@@ -149,7 +149,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                         width: 10,
                         height: 10,
                         decoration: const BoxDecoration(
-                          color: kBlue,
+                          color: canvasColor,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -157,13 +157,13 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                         child: Container(
                             width: MediaQuery.of(context).size.width / 3,
                             height: 2,
-                            color: kBlue),
+                            color: canvasColor),
                       ),
                       Container(
                         width: 15,
                         height: 15,
                         decoration: const BoxDecoration(
-                          color: kBlue,
+                          color: canvasColor,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -212,7 +212,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: kBlue),
+                        color: canvasColor),
                   ),
                 ],
               ),
@@ -257,7 +257,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                               ),
                               const Spacer(),
                               Checkbox(
-                                  activeColor: kBlue,
+                                  activeColor: canvasColor,
                                   value: choosen_attachments_List
                                       .contains(attachments_list[i]),
                                   onChanged: (bool? newValue) {
@@ -315,7 +315,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                 },
                 child: Container(
                   decoration: const BoxDecoration(
-                      color: kBlue,
+                      color: canvasColor,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   // color: Colors.blue,
                   child: const Padding(

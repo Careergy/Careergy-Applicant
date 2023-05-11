@@ -39,7 +39,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       body: screens[navBarIndex],
       bottomNavigationBar: Theme(
         data: ThemeData(
-          canvasColor: kBlue,
+          canvasColor: canvasColor,
         ),
         child: BottomNavigationBar(
           currentIndex: navBarIndex,
@@ -85,14 +85,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Drawer(
-//       backgroundColor: kBlue,
+//       backgroundColor: canvasColor,
 //       child: ListView(
 //         // Important: Remove any padding from the ListView.
 //         padding: EdgeInsets.zero,
 //         children: [
 //           const DrawerHeader(
 //             decoration: BoxDecoration(
-//               color: kBlue,
+//               color: canvasColor,
 //             ),
 //             child: Text(
 //               'Careergy',

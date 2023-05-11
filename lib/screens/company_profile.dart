@@ -20,7 +20,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Company Profile'),
-        backgroundColor: kBlue,
+        backgroundColor: canvasColor,
       ),
       body: Center(
         child: Column(

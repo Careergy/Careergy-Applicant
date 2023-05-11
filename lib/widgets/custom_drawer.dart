@@ -15,14 +15,14 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<usr.User>(context);
     return Drawer(
-      backgroundColor: kBlue,
+      backgroundColor: canvasColor,
       child: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: kBlue,
+              color: canvasColor,
             ),
             child: Image.asset(
               'assets/images/Careergy.png',

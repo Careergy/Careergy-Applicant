@@ -66,7 +66,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: kBlue,
+          backgroundColor: canvasColor,
           title: const Text('Agreements'),
         ),
         body: Padding(
@@ -118,7 +118,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                           width: 10,
                           height: 10,
                           decoration: const BoxDecoration(
-                            color: kBlue,
+                            color: canvasColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -126,13 +126,13 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                           child: Container(
                               width: MediaQuery.of(context).size.width / 3,
                               height: 2,
-                              color: kBlue),
+                              color: canvasColor),
                         ),
                         Container(
                           width: 10,
                           height: 10,
                           decoration: const BoxDecoration(
-                            color: kBlue,
+                            color: canvasColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -140,14 +140,14 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                           child: Container(
                             width: MediaQuery.of(context).size.width / 3,
                             height: 2,
-                            color: kBlue,
+                            color: canvasColor,
                           ),
                         ),
                         Container(
                           width: 15,
                           height: 15,
                           decoration: const BoxDecoration(
-                            color: kBlue,
+                            color: canvasColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -266,7 +266,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                   child: Container(
                     decoration: BoxDecoration(
                         color: terms_of_service && acknowledge_correct_info
-                            ? kBlue
+                            ? canvasColor
                             : Colors.black38,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(20))),

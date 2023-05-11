@@ -124,7 +124,7 @@ class _BriefCVState extends State<BriefCV> {
     // }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kBlue,
+        backgroundColor: canvasColor,
         title: const Text('Brief CV'),
       ),
       body: FutureBuilder(
@@ -524,7 +524,7 @@ class _BriefCVState extends State<BriefCV> {
                             });
 
                             user.briefcv = {
-                              'majors' : majorsController.getTags,
+                              'majors': majorsController.getTags,
                               'job_title': jobTitleController.getTags,
                               'major_skills': majorSkillsController.getTags,
                               'soft_skills': softSkillsController.getTags,
