@@ -22,23 +22,39 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      cursorColor: Colors.blue,
+      style: const TextStyle(
+        color: Colors.white,
+      ),
+      cursorColor: primaryColor,
       decoration: InputDecoration(
         contentPadding: contentPadding,
         labelText: label,
+        labelStyle: const TextStyle(
+          color: primaryColor,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(
+            //make the border color black
+            color: primaryColor,
+          ),
+        ),
         hintText: hint,
+        hintStyle: TextStyle(
+          color: Colors.white70,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(
             //make the border color black
-            color: Colors.black,
+            color: primaryColor,
           ),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        focusColor: Colors.black,
-        fillColor: Colors.black,
+        focusColor: primaryColor,
+        fillColor: primaryColor,
       ),
       controller: controller,
       onChanged: (value) => onChanged(value),

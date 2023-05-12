@@ -50,6 +50,7 @@ dependencies:
   firebase_messaging: ^14.5.0
   cloud_functions: ^4.2.0
   quickalert: ^1.0.1
+  calendar_date_picker2: ^0.5.2
 
 dev_dependencies:
   flutter_test:
