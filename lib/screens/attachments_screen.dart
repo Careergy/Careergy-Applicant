@@ -141,7 +141,7 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
                                 attachments_list[i],
                                 maxLines: 1,
                                 style: const TextStyle(
-                                    color: primaryColor,
+                                    color: Colors.white70,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18),
                               ),

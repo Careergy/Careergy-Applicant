@@ -19,6 +19,9 @@ class ApplyForCompanyScnd extends StatefulWidget {
   final String yearsOfExperience;
   final String location;
   final String company_name;
+  final String type;
+  final String formatted_timestamp;
+  final String major;
 
   const ApplyForCompanyScnd(
       {super.key,
@@ -29,7 +32,10 @@ class ApplyForCompanyScnd extends StatefulWidget {
       required this.descreption,
       required this.yearsOfExperience,
       required this.location,
-      required this.company_name});
+      required this.company_name,
+      required this.type,
+      required this.major,
+      required this.formatted_timestamp});
 
   @override
   State<ApplyForCompanyScnd> createState() => _ApplyForCompanyScndState();
@@ -48,6 +54,9 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
   String descreption = '';
   String yearsOfExperience = '';
   String location = '';
+  String type = '';
+  String formatted_timestamp = '';
+  String major = '';
 
   String company_name = '';
 
@@ -91,6 +100,9 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
     yearsOfExperience = widget.yearsOfExperience;
     location = widget.location;
     company_name = widget.company_name;
+    type = widget.type;
+    major = widget.major;
+    formatted_timestamp = widget.formatted_timestamp;
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       getUserAttachments(user!.uid);
     });
@@ -103,6 +115,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
           backgroundColor: canvasColor,
           title: const Text('Attachments'),
         ),
+        backgroundColor: accentCanvasColor,
         body: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -118,7 +131,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                     children: [
                       const Text(
                         'job',
-                        style: TextStyle(fontSize: 10),
+                        style: TextStyle(fontSize: 10, color: white),
                       ),
                       // Spacer(),
                       SizedBox(
@@ -126,7 +139,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                       ),
                       const Text(
                         'attachments',
-                        style: TextStyle(fontSize: 10),
+                        style: TextStyle(fontSize: 10, color: white),
                       ),
                       // Spacer(),
                       SizedBox(
@@ -134,12 +147,12 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                       ),
                       const Text(
                         'agreements',
-                        style: TextStyle(fontSize: 10),
+                        style: TextStyle(fontSize: 10, color: white),
                       ),
                       const Spacer(),
                       const Text(
                         'overview',
-                        style: TextStyle(fontSize: 10),
+                        style: TextStyle(fontSize: 10, color: white),
                       ),
                     ],
                   ),
@@ -149,7 +162,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                         width: 10,
                         height: 10,
                         decoration: const BoxDecoration(
-                          color: canvasColor,
+                          color: primaryColor,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -157,13 +170,13 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                         child: Container(
                             width: MediaQuery.of(context).size.width / 3,
                             height: 2,
-                            color: canvasColor),
+                            color: primaryColor),
                       ),
                       Container(
                         width: 15,
                         height: 15,
                         decoration: const BoxDecoration(
-                          color: canvasColor,
+                          color: primaryColor,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -212,7 +225,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: canvasColor),
+                        color: primaryColor),
                   ),
                 ],
               ),
@@ -228,7 +241,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                         child: Container(
                           padding: const EdgeInsets.all(5),
                           decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 224, 224, 224),
+                              color: canvasColor,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
                           height: 50,
@@ -251,13 +264,13 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                                 attachments_list[i],
                                 maxLines: 1,
                                 style: const TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.white70,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15),
                               ),
                               const Spacer(),
                               Checkbox(
-                                  activeColor: canvasColor,
+                                  activeColor: primaryColor,
                                   value: choosen_attachments_List
                                       .contains(attachments_list[i]),
                                   onChanged: (bool? newValue) {
@@ -301,21 +314,23 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => AgreementsScreen(
-                                company_name: company_name,
-                                company_uid: company_uid,
-                                descreption: descreption,
-                                job_title: job_title,
-                                location: location,
-                                post_image: post_image,
-                                post_uid: post_uid,
-                                yearsOfExperience: yearsOfExperience,
-                                choosen_attachments_List:
-                                    choosen_attachments_List,
-                              )));
+                              company_name: company_name,
+                              company_uid: company_uid,
+                              descreption: descreption,
+                              job_title: job_title,
+                              location: location,
+                              post_image: post_image,
+                              post_uid: post_uid,
+                              yearsOfExperience: yearsOfExperience,
+                              choosen_attachments_List:
+                                  choosen_attachments_List,
+                              type: type,
+                              formatted_timestamp: formatted_timestamp,
+                              major: major)));
                 },
                 child: Container(
                   decoration: const BoxDecoration(
-                      color: canvasColor,
+                      color: primaryColor,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   // color: Colors.blue,
                   child: const Padding(

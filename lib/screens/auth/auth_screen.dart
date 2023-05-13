@@ -1,3 +1,4 @@
+import 'package:careergy_mobile/constants.dart';
 import 'package:careergy_mobile/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +21,8 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color.fromARGB(255, 64, 72, 226).withOpacity(0.5),
-                  const Color.fromARGB(255, 34, 22, 112).withOpacity(0.9),
+                  canvasColor,
+                  primaryColor,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -34,35 +35,12 @@ class AuthScreen extends StatelessWidget {
               height: deviceSize.height,
               width: deviceSize.width,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Flexible(
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 40.0),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 8.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: const Color.fromARGB(117, 7, 0, 145),
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 8,
-                            color: Color.fromARGB(15, 0, 0, 0),
-                            offset: Offset(0, 2),
-                          )
-                        ],
-                      ),
-                      child: const Text(
-                        'Careergy',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 60,
-                          // fontFamily: 'Anton',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    child: Image.asset('assets/images/logo.png',
+                        height: 180, width: 180),
                   ),
                   Flexible(
                     flex: deviceSize.width > 600 ? 2 : 1,
@@ -183,6 +161,7 @@ class _AuthCardState extends State<AuthCard> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Card(
+      color: accentPrimaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25.0),
       ),
@@ -198,7 +177,19 @@ class _AuthCardState extends State<AuthCard> {
               children: _authMode == AuthMode.Signup
                   ? <Widget>[
                       TextFormField(
-                        decoration: const InputDecoration(labelText: 'Name'),
+                        style: const TextStyle(color: white),
+                        cursorColor: white,
+                        decoration: const InputDecoration(
+                          labelText: 'Name',
+                          icon: Icon(
+                            Icons.person,
+                            color: white,
+                          ),
+                          labelStyle: TextStyle(color: Colors.white70),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: white),
+                          ),
+                        ),
                         onSaved: (value) {
                           _authData['name'] = value!;
                         },
@@ -209,8 +200,19 @@ class _AuthCardState extends State<AuthCard> {
                         },
                       ),
                       TextFormField(
-                        decoration:
-                            const InputDecoration(labelText: 'Phone Number'),
+                        style: const TextStyle(color: white),
+                        cursorColor: white,
+                        decoration: const InputDecoration(
+                          labelText: 'Phone Number',
+                          icon: Icon(
+                            Icons.phone,
+                            color: white,
+                          ),
+                          labelStyle: TextStyle(color: Colors.white70),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: white),
+                          ),
+                        ),
                         keyboardType: TextInputType.phone,
                         onSaved: (value) {
                           _authData['phone'] = value!;
@@ -222,7 +224,19 @@ class _AuthCardState extends State<AuthCard> {
                         },
                       ),
                       TextFormField(
-                        decoration: const InputDecoration(labelText: 'E-Mail'),
+                        style: const TextStyle(color: white),
+                        cursorColor: white,
+                        decoration: const InputDecoration(
+                          labelText: 'E-Mail',
+                          icon: Icon(
+                            Icons.email,
+                            color: white,
+                          ),
+                          labelStyle: TextStyle(color: Colors.white70),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: white),
+                          ),
+                        ),
                         keyboardType: TextInputType.emailAddress,
                         autocorrect: false,
                         validator: (value) {
@@ -236,8 +250,19 @@ class _AuthCardState extends State<AuthCard> {
                         },
                       ),
                       TextFormField(
-                        decoration:
-                            const InputDecoration(labelText: 'Password'),
+                        style: const TextStyle(color: white),
+                        cursorColor: white,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          icon: Icon(
+                            Icons.password,
+                            color: white,
+                          ),
+                          labelStyle: TextStyle(color: Colors.white70),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: white),
+                          ),
+                        ),
                         obscureText: true,
                         controller: _passwordController,
                         validator: (value) {
@@ -252,8 +277,19 @@ class _AuthCardState extends State<AuthCard> {
                       if (_authMode == AuthMode.Signup)
                         TextFormField(
                           enabled: _authMode == AuthMode.Signup,
+                          style: const TextStyle(color: white),
+                          cursorColor: white,
                           decoration: const InputDecoration(
-                              labelText: 'Confirm Password'),
+                            labelText: 'Confirm Password',
+                            icon: Icon(
+                              Icons.password,
+                              color: white,
+                            ),
+                            labelStyle: TextStyle(color: Colors.white70),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: white),
+                            ),
+                          ),
                           obscureText: true,
                           validator: _authMode == AuthMode.Signup
                               ? (value) {
@@ -277,8 +313,8 @@ class _AuthCardState extends State<AuthCard> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                const Color.fromARGB(255, 0, 6, 114)),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(primaryColor),
                             padding: const MaterialStatePropertyAll(
                               EdgeInsets.symmetric(
                                   horizontal: 30.0, vertical: 8.0),
@@ -286,19 +322,31 @@ class _AuthCardState extends State<AuthCard> {
                           ),
                           child: Text(
                             _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP',
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255)),
+                            style: const TextStyle(color: white),
                           ),
                         ),
                       TextButton(
                         onPressed: _switchAuthMode,
                         child: Text(
-                            '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
+                            '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD',
+                            style: TextStyle(color: Colors.white70)),
                       ),
                     ]
                   : <Widget>[
                       TextFormField(
-                        decoration: const InputDecoration(labelText: 'E-Mail'),
+                        style: const TextStyle(color: white),
+                        cursorColor: white,
+                        decoration: const InputDecoration(
+                          labelText: 'E-mail',
+                          icon: Icon(
+                            Icons.email,
+                            color: white,
+                          ),
+                          labelStyle: TextStyle(color: Colors.white70),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: white),
+                          ),
+                        ),
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value!.isEmpty || !value.contains('@')) {
@@ -311,8 +359,19 @@ class _AuthCardState extends State<AuthCard> {
                         },
                       ),
                       TextFormField(
-                        decoration:
-                            const InputDecoration(labelText: 'Password'),
+                        style: const TextStyle(color: white),
+                        cursorColor: white,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          icon: Icon(
+                            Icons.password,
+                            color: white,
+                          ),
+                          labelStyle: TextStyle(color: Colors.white70),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: white),
+                          ),
+                        ),
                         obscureText: true,
                         controller: _passwordController,
                         validator: (value) {
@@ -352,8 +411,8 @@ class _AuthCardState extends State<AuthCard> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                const Color.fromARGB(255, 0, 6, 114)),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(primaryColor),
                             padding: const MaterialStatePropertyAll(
                               EdgeInsets.symmetric(
                                   horizontal: 30.0, vertical: 8.0),
@@ -361,8 +420,7 @@ class _AuthCardState extends State<AuthCard> {
                           ),
                           child: Text(
                             _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP',
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255)),
+                            style: const TextStyle(color: white),
                           ),
                         ),
                       TextButton(
@@ -373,7 +431,9 @@ class _AuthCardState extends State<AuthCard> {
                                     horizontal: 30.0, vertical: 4))),
                         // textColor: Theme.of(context).canvasColor,
                         child: Text(
-                            '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
+                          '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD',
+                          style: TextStyle(color: Colors.white70),
+                        ),
                       ),
                     ],
             ),

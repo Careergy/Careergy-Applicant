@@ -14,6 +14,9 @@ class AgreementsScreen extends StatefulWidget {
   final String location;
   final String company_name;
   final List choosen_attachments_List;
+  final String type;
+  final String major;
+  final String formatted_timestamp;
 
   const AgreementsScreen(
       {super.key,
@@ -25,6 +28,9 @@ class AgreementsScreen extends StatefulWidget {
       required this.yearsOfExperience,
       required this.location,
       required this.company_name,
+      required this.type,
+      required this.major,
+      required this.formatted_timestamp,
       required this.choosen_attachments_List});
 
   @override
@@ -42,6 +48,9 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
   String descreption = '';
   String yearsOfExperience = '';
   String location = '';
+  String type = '';
+  String formatted_timestamp = '';
+  String major = '';
 
   String company_name = '';
 
@@ -59,6 +68,9 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
     yearsOfExperience = widget.yearsOfExperience;
     location = widget.location;
     company_name = widget.company_name;
+    type = widget.type;
+    major = widget.major;
+    formatted_timestamp = widget.formatted_timestamp;
     choosen_attachments_List = widget.choosen_attachments_List;
   }
 
@@ -69,6 +81,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
           backgroundColor: canvasColor,
           title: const Text('Agreements'),
         ),
+        backgroundColor: accentCanvasColor,
         body: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -84,7 +97,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                       children: [
                         const Text(
                           'job',
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 10, color: white),
                         ),
                         // Spacer(),
                         SizedBox(
@@ -92,7 +105,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                         ),
                         const Text(
                           'attachments',
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 10, color: white),
                         ),
                         // Spacer(),
                         SizedBox(
@@ -100,12 +113,12 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                         ),
                         const Text(
                           'agreements',
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 10, color: white),
                         ),
                         const Spacer(),
                         const Text(
                           'overview',
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 10, color: white),
                         ),
                       ],
                     ),
@@ -118,7 +131,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                           width: 10,
                           height: 10,
                           decoration: const BoxDecoration(
-                            color: canvasColor,
+                            color: primaryColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -126,13 +139,13 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                           child: Container(
                               width: MediaQuery.of(context).size.width / 3,
                               height: 2,
-                              color: canvasColor),
+                              color: primaryColor),
                         ),
                         Container(
                           width: 10,
                           height: 10,
                           decoration: const BoxDecoration(
-                            color: canvasColor,
+                            color: primaryColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -140,14 +153,14 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                           child: Container(
                             width: MediaQuery.of(context).size.width / 3,
                             height: 2,
-                            color: canvasColor,
+                            color: primaryColor,
                           ),
                         ),
                         Container(
                           width: 15,
                           height: 15,
                           decoration: const BoxDecoration(
-                            color: canvasColor,
+                            color: primaryColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -177,7 +190,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                   height: MediaQuery.of(context).size.height / 2 - 70,
                   width: MediaQuery.of(context).size.width - 70,
                   decoration:
-                      BoxDecoration(border: Border.all(color: Colors.grey)),
+                      BoxDecoration(border: Border.all(color: canvasColor)),
                   child: Padding(
                     padding: const EdgeInsets.all(15),
                     child: Column(
@@ -188,6 +201,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                         Row(
                           children: [
                             Checkbox(
+                                activeColor: primaryColor,
                                 value: terms_of_service,
                                 onChanged: (bool? newValue) {
                                   setState(() {
@@ -200,9 +214,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                               width: MediaQuery.of(context).size.width / 2,
                               child: const Text(
                                 'I have read and accept the terms of service and privacy policy',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
+                                style: TextStyle(fontSize: 12, color: white),
                               ),
                             ),
                           ],
@@ -210,6 +222,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                         Row(
                           children: [
                             Checkbox(
+                                activeColor: primaryColor,
                                 value: acknowledge_correct_info,
                                 onChanged: (bool? newValue) {
                                   setState(() {
@@ -222,9 +235,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                               width: MediaQuery.of(context).size.width / 2,
                               child: const Text(
                                 'I acknowledge that all information are correct and belongs to me.',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
+                                style: TextStyle(fontSize: 12, color: white),
                               ),
                             ),
                           ],
@@ -240,7 +251,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                   width: MediaQuery.of(context).size.width - 70,
                   child: const Text(
                     '* all agreements must be marked to be able to send the application to the coresponding company.',
-                    style: TextStyle(fontSize: 10, color: Colors.grey),
+                    style: TextStyle(fontSize: 10, color: Colors.white70),
                   ),
                 ),
                 const Spacer(),
@@ -260,14 +271,17 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                                     post_uid: post_uid,
                                     yearsOfExperience: yearsOfExperience,
                                     choosen_attachments_List:
-                                        choosen_attachments_List)))
+                                        choosen_attachments_List,
+                                    type: type,
+                                    formatted_timestamp: formatted_timestamp,
+                                    major: major)))
                         : null;
                   },
                   child: Container(
                     decoration: BoxDecoration(
                         color: terms_of_service && acknowledge_correct_info
-                            ? canvasColor
-                            : Colors.black38,
+                            ? primaryColor
+                            : canvasColor,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(20))),
                     child: const Padding(

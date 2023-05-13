@@ -30,7 +30,17 @@ class _AppliedScreenState extends State<AppliedScreen> {
   List company_names = [];
   List company_photos = [];
 
+  bool finish = false;
+
   Future getApplications() async {
+    // setState(() {
+    applications.clear();
+    applications_uid.clear();
+    applied_posts.clear();
+    applied_posts_uid.clear();
+    company_names.clear();
+    company_photos.clear();
+    // });
     // Get docs from collection reference
     Query<Map<String, dynamic>> posts_ref = await FirebaseFirestore.instance
         .collection("applications")
@@ -39,38 +49,37 @@ class _AppliedScreenState extends State<AppliedScreen> {
     QuerySnapshot querySnapshot = await posts_ref.get();
 
     // Get data from docs and convert map to List
-    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    List allData = querySnapshot.docs.map((doc) => doc.data()).toList();
     final allDataUid =
         querySnapshot.docs.map((doc) => doc.reference.id).toList();
     setState(() {
       applications = allData;
       applications_uid = allDataUid;
     });
-
     // print(applications);
   }
 
   Future getAppliedPosts() async {
     CollectionReference companies =
         FirebaseFirestore.instance.collection('companies');
-    for (var i = applications.length - 1; i >= 0; i--) {
-      DocumentReference<Map<String, dynamic>> posts_ref = FirebaseFirestore
-          .instance
-          .collection("posts")
-          .doc(applications[i]['post_uid']);
+    for (var i = 0; i < applications.length; i++) {
+      DocumentReference<Map<String, dynamic>> posts_ref =
+          await FirebaseFirestore.instance
+              .collection("posts")
+              .doc(applications[i]['post_uid']);
       // .where('active', isEqualTo: true)
       // .orderBy("timestamp", descending: true);
 
-      posts_ref.get().then(
+      await posts_ref.get().then(
         (DocumentSnapshot doc) async {
           final data = doc.data() as Map<String, dynamic>;
           final allDataUid = doc.reference.id;
           setState(() {
             applied_posts.add(data);
-            applied_posts_uid.add(doc.reference.id);
+            applied_posts_uid.add(allDataUid);
           });
           // print(applied_posts);
-          companies.doc(data['uid']).get().then((DocumentSnapshot ds) {
+          await companies.doc(data['uid']).get().then((DocumentSnapshot ds) {
             if (ds.exists) {
               setState(() {
                 company_names.add(ds.data().toString().contains('name')
@@ -104,6 +113,9 @@ class _AppliedScreenState extends State<AppliedScreen> {
       EasyLoading.show(status: 'loading...');
       await getApplications();
       await getAppliedPosts();
+      setState(() {
+        finish = true;
+      });
       EasyLoading.dismiss();
     });
   }
@@ -114,7 +126,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
       drawer: const CustomDrawer(),
       appBar: const CustomAppBar(title: 'Applications'),
       backgroundColor: accentCanvasColor,
-      body: applied_posts.isNotEmpty
+      body: applied_posts.isNotEmpty && finish
           ? SingleChildScrollView(
               child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -129,11 +141,16 @@ class _AppliedScreenState extends State<AppliedScreen> {
                             children: List.generate(applications.length, (i) {
                               return InkWell(
                                 onTap: () {
+                                  setState(() {
+                                    finish = false;
+                                  });
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             AppliedOverviewScreen(
+                                              application_uid:
+                                                  applications_uid[i],
                                               company_uid: applied_posts[i]
                                                   ['uid'],
                                               post_uid: applied_posts_uid[i],
@@ -152,9 +169,24 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                   applications[i]
                                                       ['attachments'],
                                               company_name: company_names[i],
+                                              appointment_timestamp: applications[
+                                                          i][
+                                                      'appointment_timestamp'] ??
+                                                  0,
+                                              last_updated_timestamp:
+                                                  applications[i]
+                                                          ['last_updated'] ??
+                                                      0,
                                             )),
-                                  ).then((value) {
-                                    print('object');
+                                  ).then((value) async {
+                                    // print('object');
+                                    EasyLoading.show(status: 'loading...');
+                                    await getApplications();
+                                    await getAppliedPosts();
+                                    setState(() {
+                                      finish = true;
+                                    });
+                                    EasyLoading.dismiss();
                                   });
                                 },
                                 child: Padding(
@@ -163,7 +195,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                     width: 240,
                                     height: 100,
                                     decoration: BoxDecoration(
-                                        color: Colors.blue[100],
+                                        color: canvasColor,
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(15))),
                                     child: Padding(
@@ -206,7 +238,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                         fontSize: 13,
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        color: Colors.black),
+                                                        color: primaryColor),
                                                   ),
                                                   const SizedBox(
                                                     height: 3,
@@ -221,7 +253,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                         fontSize: 10,
                                                         fontWeight:
                                                             FontWeight.w300,
-                                                        color: Colors.black),
+                                                        color: white),
                                                   ),
                                                   const SizedBox(
                                                     height: 15,
@@ -234,7 +266,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                     style: const TextStyle(
                                                         fontSize: 10,
                                                         // fontWeight: FontWeight,
-                                                        color: Colors.black),
+                                                        color: white),
                                                   ),
                                                   Text(
                                                     'Lcation: ${applied_posts[i]['city']}',
@@ -245,7 +277,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                         fontSize: 10,
                                                         fontWeight:
                                                             FontWeight.w300,
-                                                        color: Colors.black),
+                                                        color: white),
                                                   ),
                                                 ],
                                               ),
@@ -253,17 +285,75 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                           ),
                                           const Spacer(),
                                           SizedBox(
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  applications[i]['status'],
-                                                  style: const TextStyle(
-                                                      fontSize: 11,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: Colors.black),
-                                                ),
-                                              ],
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 6,
+                                                            vertical: 3),
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: applications[
+                                                                            i][
+                                                                        'status'] ==
+                                                                    'pending'
+                                                                ? Colors.grey
+                                                                : applications[i][
+                                                                            'status'] ==
+                                                                        'waiting'
+                                                                    ? Colors
+                                                                        .orangeAccent
+                                                                    : applications[i]['status'] ==
+                                                                            'accepted'
+                                                                        ? primaryColor
+                                                                        : applications[i]['status'] ==
+                                                                                'approved'
+                                                                            ? Colors
+                                                                                .green
+                                                                            : Colors
+                                                                                .red),
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                    .all(
+                                                                Radius.circular(
+                                                                    15))),
+                                                    child: Text(
+                                                      applications[i]['status'],
+                                                      style: TextStyle(
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: applications[i]
+                                                                      [
+                                                                      'status'] ==
+                                                                  'pending'
+                                                              ? Colors.grey
+                                                              : applications[i][
+                                                                          'status'] ==
+                                                                      'waiting'
+                                                                  ? Colors
+                                                                      .orangeAccent
+                                                                  : applications[i]
+                                                                              [
+                                                                              'status'] ==
+                                                                          'accepted'
+                                                                      ? primaryColor
+                                                                      : applications[i]['status'] ==
+                                                                              'approved'
+                                                                          ? Colors
+                                                                              .green
+                                                                          : Colors
+                                                                              .red),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           )
                                         ],

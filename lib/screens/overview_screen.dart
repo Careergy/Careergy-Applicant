@@ -18,6 +18,9 @@ class OverviewScreen extends StatefulWidget {
   final String yearsOfExperience;
   final String location;
   final String company_name;
+  final String type;
+  final String major;
+  final String formatted_timestamp;
   final List choosen_attachments_List;
 
   const OverviewScreen(
@@ -30,6 +33,9 @@ class OverviewScreen extends StatefulWidget {
       required this.yearsOfExperience,
       required this.location,
       required this.company_name,
+      required this.type,
+      required this.major,
+      required this.formatted_timestamp,
       required this.choosen_attachments_List});
 
   @override
@@ -48,6 +54,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
   String descreption = '';
   String yearsOfExperience = '';
   String location = '';
+  String type = '';
+  String formatted_timestamp = '';
+  String major = '';
 
   String company_name = '';
 
@@ -65,6 +74,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
     yearsOfExperience = widget.yearsOfExperience;
     location = widget.location;
     company_name = widget.company_name;
+    type = widget.type;
+    major = widget.major;
+    formatted_timestamp = widget.formatted_timestamp;
     choosen_attachments_List = widget.choosen_attachments_List;
   }
 
@@ -75,6 +87,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
           backgroundColor: canvasColor,
           title: const Text('Overview'),
         ),
+        backgroundColor: accentCanvasColor,
         body: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -90,7 +103,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       children: [
                         const Text(
                           'job',
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 10, color: white),
                         ),
                         // Spacer(),
                         SizedBox(
@@ -98,7 +111,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                         ),
                         const Text(
                           'attachments',
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 10, color: white),
                         ),
                         // Spacer(),
                         SizedBox(
@@ -106,12 +119,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
                         ),
                         const Text(
                           'agreements',
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 10, color: white),
                         ),
                         const Spacer(),
                         const Text(
                           'overview',
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 10, color: white),
                         ),
                       ],
                     ),
@@ -124,7 +137,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           width: 10,
                           height: 10,
                           decoration: const BoxDecoration(
-                            color: canvasColor,
+                            color: primaryColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -132,13 +145,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           child: Container(
                               width: MediaQuery.of(context).size.width / 3,
                               height: 2,
-                              color: canvasColor),
+                              color: primaryColor),
                         ),
                         Container(
                           width: 10,
                           height: 10,
                           decoration: const BoxDecoration(
-                            color: canvasColor,
+                            color: primaryColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -146,14 +159,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           child: Container(
                             width: MediaQuery.of(context).size.width / 3,
                             height: 2,
-                            color: canvasColor,
+                            color: primaryColor,
                           ),
                         ),
                         Container(
                           width: 10,
                           height: 10,
                           decoration: const BoxDecoration(
-                            color: canvasColor,
+                            color: primaryColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -161,14 +174,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           child: Container(
                             width: MediaQuery.of(context).size.width / 3,
                             height: 2,
-                            color: canvasColor,
+                            color: primaryColor,
                           ),
                         ),
                         Container(
                           width: 15,
                           height: 15,
                           decoration: const BoxDecoration(
-                            color: canvasColor,
+                            color: primaryColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -183,7 +196,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   height: MediaQuery.of(context).size.height / 1.8,
                   width: MediaQuery.of(context).size.width - 70,
                   decoration:
-                      BoxDecoration(border: Border.all(color: Colors.grey)),
+                      BoxDecoration(border: Border.all(color: canvasColor)),
                   child: Padding(
                     padding: const EdgeInsets.all(15),
                     child: Column(
@@ -216,18 +229,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: white),
                                   ),
                                   Text(
                                     job_title,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: primaryColor),
                                   ),
                                   Text(
                                     location,
@@ -242,7 +255,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   Container(
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: canvasColor,
+                                          color: primaryColor,
                                         ),
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(5))),
@@ -252,7 +265,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                         '$yearsOfExperience years of experience',
                                         // maxLines: 1,
                                         // overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(fontSize: 9),
+                                        style: const TextStyle(
+                                            fontSize: 9, color: white),
                                       ),
                                     ),
                                   ),
@@ -261,7 +275,63 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             )
                           ],
                         ),
-                        const Divider(),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Divider(
+                          color: canvasColor,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              formatted_timestamp,
+                              style: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Text(
+                          'Major',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
+                        ),
+                        Text(
+                          major,
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: white),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Text(
+                          'Job type',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
+                        ),
+                        Text(
+                          type,
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: white),
+                        ),
                         const SizedBox(
                           height: 5,
                         ),
@@ -270,7 +340,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             Text(
                               'Job Description',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: primaryColor),
                             ),
                           ],
                         ),
@@ -283,10 +355,20 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             child: SingleChildScrollView(
                               child: Text(
                                 descreption,
-                                style: const TextStyle(fontSize: 11),
+                                style:
+                                    const TextStyle(fontSize: 11, color: white),
                               ),
                             ),
                           ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Divider(
+                          color: canvasColor,
+                        ),
+                        const SizedBox(
+                          height: 5,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -295,7 +377,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
                               Text(
                                 'Attachments',
                                 style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.bold),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: primaryColor),
                               ),
                             ],
                           ),
@@ -314,10 +398,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     child: Container(
                                       padding: const EdgeInsets.all(5),
                                       decoration: const BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 224, 224, 224),
+                                          color: titleBackground,
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(10))),
+                                              Radius.circular(5))),
                                       height: 30,
                                       width: double.infinity,
                                       alignment: Alignment.centerLeft,
@@ -333,7 +416,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
-                                                  color: Colors.black,
+                                                  color: Colors.white70,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize: 10),
                                             ),
@@ -387,7 +470,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   },
                   child: Container(
                     decoration: const BoxDecoration(
-                        color: canvasColor,
+                        color: primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     child: const Padding(
                         padding:
