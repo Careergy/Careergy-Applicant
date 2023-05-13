@@ -134,6 +134,8 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             AppliedOverviewScreen(
+                                              application_uid:
+                                                  applications_uid[i],
                                               company_uid: applied_posts[i]
                                                   ['uid'],
                                               post_uid: applied_posts_uid[i],

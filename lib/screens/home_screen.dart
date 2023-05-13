@@ -93,14 +93,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future getRecomendedPosts() async {
     // Get docs from collection reference
-    // print(user_majors);
     CollectionReference user__breifcv_ref =
         FirebaseFirestore.instance.collection('briefcvs');
-    // for (var i = 0; i < recommended_posts_uid.length; i++) {
     user__breifcv_ref.doc(user!.uid).get().then((DocumentSnapshot ds) async {
       if (ds.exists) {
         if (ds.data().toString().contains('majors')) {
-          // for (var i = 0; i < ds.get('majors').length; i++) {
           Query<Map<String, dynamic>> posts_ref =
               await FirebaseFirestore.instance
                   .collection("posts")
@@ -141,18 +138,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 print('Document does not exist on the database');
               }
             });
-            // }
           }
         }
       } else {
         print('Document does not exist on the database');
       }
     });
-    // print(user_majors[0]);
-    // setState(() {
-    //   finish = true;
-    // });
-    // print(allDataUid);
   }
 
   Future getLogo(String uid) async {
