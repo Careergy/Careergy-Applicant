@@ -12,6 +12,8 @@ class CompanyProfile extends StatefulWidget {
   final List jobs;
   final String bio;
   final String image;
+  final String email;
+  final String phone;
 
   const CompanyProfile({
     required this.companyName,
@@ -19,6 +21,8 @@ class CompanyProfile extends StatefulWidget {
     required this.bio,
     required this.image,
     Key? key,
+    required this.email,
+    required this.phone,
   }) : super(key: key);
 
   @override
@@ -45,7 +49,7 @@ class _CompanyProfileState extends State<CompanyProfile>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Company Profile'),
+        title: Text(widget.companyName),
         backgroundColor: canvasColor,
       ),
       body: Column(
@@ -53,13 +57,24 @@ class _CompanyProfileState extends State<CompanyProfile>
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
-              height: 64,
+              height: 90,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('image'),
+                  SizedBox(
+                    height: 90,
+                    width: 90,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        widget.image,
+                        // scale: 1,
+                        // fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
                   const SizedBox(width: 16),
-                  Text('Name'),
+                  Text(widget.companyName),
                 ],
               ),
             ),
@@ -85,7 +100,7 @@ class _CompanyProfileState extends State<CompanyProfile>
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Text('About content goes here'),
+                        child: Text(widget.bio),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -99,7 +114,7 @@ class _CompanyProfileState extends State<CompanyProfile>
                               children: [
                                 Icon(Icons.email_outlined, color: canvasColor),
                                 SizedBox(width: 16),
-                                Text('exa@email.com'),
+                                Text(widget.email),
                               ],
                             ),
                             SizedBox(height: 16),
@@ -107,7 +122,7 @@ class _CompanyProfileState extends State<CompanyProfile>
                               children: [
                                 Icon(Icons.phone, color: canvasColor),
                                 SizedBox(width: 16),
-                                Text('920000111'),
+                                Text(widget.phone),
                               ],
                             ),
                           ],
