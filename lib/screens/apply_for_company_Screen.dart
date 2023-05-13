@@ -79,6 +79,7 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
         backgroundColor: canvasColor,
         title: const Text('Job Applications'),
       ),
+      backgroundColor: accentCanvasColor,
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -111,18 +112,18 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: white),
                       ),
                       Text(
                         job_title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: primaryColor),
                       ),
                       Text(
                         location,
@@ -137,7 +138,7 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
                       Container(
                         decoration: BoxDecoration(
                             border: Border.all(
-                              color: canvasColor,
+                              color: primaryColor,
                             ),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(5))),
@@ -147,7 +148,7 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
                             '$yearsOfExperience Years of experience',
                             maxLines: 1,
                             // overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 13),
+                            style: const TextStyle(fontSize: 13, color: white),
                           ),
                         ),
                       ),
@@ -156,32 +157,34 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
                 )
               ],
             ),
-            const Divider(),
+            divider,
             const SizedBox(
               height: 15,
             ),
             Text(
-              major,
+              'Major: ${major}',
               style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  color: canvasColor),
+                  fontSize: 17, fontWeight: FontWeight.bold, color: white),
             ),
             const SizedBox(
-              height: 5,
+              height: 10,
             ),
             const Text(
               'Job Description',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
+                color: primaryColor,
               ),
             ),
             Expanded(
               child: Container(
                 // height: 200,
                 child: SingleChildScrollView(
-                  child: Text(descreption),
+                  child: Text(descreption,
+                      style: const TextStyle(
+                        color: white,
+                      )),
                 ),
               ),
             ),
@@ -204,7 +207,7 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
                   },
                   child: Container(
                     decoration: const BoxDecoration(
-                        color: canvasColor,
+                        color: primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     // color: Colors.blue,
                     child: const Padding(

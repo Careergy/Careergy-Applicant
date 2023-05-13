@@ -163,7 +163,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                     width: 240,
                                     height: 100,
                                     decoration: BoxDecoration(
-                                        color: Colors.blue[100],
+                                        color: canvasColor,
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(15))),
                                     child: Padding(
@@ -206,7 +206,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                         fontSize: 13,
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        color: Colors.black),
+                                                        color: primaryColor),
                                                   ),
                                                   const SizedBox(
                                                     height: 3,
@@ -221,7 +221,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                         fontSize: 10,
                                                         fontWeight:
                                                             FontWeight.w300,
-                                                        color: Colors.black),
+                                                        color: white),
                                                   ),
                                                   const SizedBox(
                                                     height: 15,
@@ -234,7 +234,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                     style: const TextStyle(
                                                         fontSize: 10,
                                                         // fontWeight: FontWeight,
-                                                        color: Colors.black),
+                                                        color: white),
                                                   ),
                                                   Text(
                                                     'Lcation: ${applied_posts[i]['city']}',
@@ -245,7 +245,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                         fontSize: 10,
                                                         fontWeight:
                                                             FontWeight.w300,
-                                                        color: Colors.black),
+                                                        color: white),
                                                   ),
                                                 ],
                                               ),
@@ -253,17 +253,75 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                           ),
                                           const Spacer(),
                                           SizedBox(
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  applications[i]['status'],
-                                                  style: const TextStyle(
-                                                      fontSize: 11,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: Colors.black),
-                                                ),
-                                              ],
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 6,
+                                                            vertical: 3),
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: applications[
+                                                                            i][
+                                                                        'status'] ==
+                                                                    'pending'
+                                                                ? Colors.grey
+                                                                : applications[i][
+                                                                            'status'] ==
+                                                                        'waiting'
+                                                                    ? Colors
+                                                                        .orangeAccent
+                                                                    : applications[i]['status'] ==
+                                                                            'accepted'
+                                                                        ? primaryColor
+                                                                        : applications[i]['status'] ==
+                                                                                'approved'
+                                                                            ? Colors
+                                                                                .green
+                                                                            : Colors
+                                                                                .red),
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                    .all(
+                                                                Radius.circular(
+                                                                    15))),
+                                                    child: Text(
+                                                      applications[i]['status'],
+                                                      style: TextStyle(
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          color: applications[i]
+                                                                      [
+                                                                      'status'] ==
+                                                                  'pending'
+                                                              ? Colors.grey
+                                                              : applications[i][
+                                                                          'status'] ==
+                                                                      'waiting'
+                                                                  ? Colors
+                                                                      .orangeAccent
+                                                                  : applications[i]
+                                                                              [
+                                                                              'status'] ==
+                                                                          'accepted'
+                                                                      ? primaryColor
+                                                                      : applications[i]['status'] ==
+                                                                              'approved'
+                                                                          ? Colors
+                                                                              .green
+                                                                          : Colors
+                                                                              .red),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           )
                                         ],
