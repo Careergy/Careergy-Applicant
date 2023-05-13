@@ -21,6 +21,7 @@ class RecentJobs extends StatefulWidget {
   final List recent_posts;
   final List recent_posts_uid;
   final List recent_posts_photos;
+  final String name;
   // final String doc_url;
   // final Reference doc_ref;
 
@@ -29,6 +30,7 @@ class RecentJobs extends StatefulWidget {
     required this.recent_posts,
     required this.recent_posts_uid,
     required this.recent_posts_photos,
+    required this.name,
   });
 
   @override
@@ -51,6 +53,7 @@ class _RecentJobsState extends State<RecentJobs> {
     recent_posts = widget.recent_posts;
     recent_posts_uid = widget.recent_posts_uid;
     recent_posts_photos = widget.recent_posts_photos;
+    // name = widget.name;
   }
 
   @override
@@ -58,7 +61,7 @@ class _RecentJobsState extends State<RecentJobs> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: canvasColor,
-          title: const Text('Recent jobs'),
+          title: Text(widget.name),
         ),
         backgroundColor: accentCanvasColor,
         body: SingleChildScrollView(

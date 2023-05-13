@@ -291,7 +291,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                                                   (value) async =>
                                                                       {
                                                                         await EasyLoading.showSuccess(
-                                                                            'Rejected succefully'),
+                                                                            'Refused succefully'),
                                                                         Timer(
                                                                             const Duration(seconds: 1),
                                                                             () {
@@ -328,7 +328,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                                                       horizontal:
                                                                           30),
                                                               child: Text(
-                                                                'Reject',
+                                                                'Refuse',
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .red,
@@ -350,7 +350,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                                   : status == 'refused'
                                                       ? Row(
                                                           children: [
-                                                            Text('Accepted')
+                                                            Text('Refused')
                                                           ],
                                                         )
                                                       : Row(

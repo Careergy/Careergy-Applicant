@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:careergy_mobile/models/user.dart' as usr;
 import 'package:careergy_mobile/constants.dart';
@@ -123,8 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
             recommended_posts_uid = allDataUid;
           });
 
-          if (recommended_posts.isEmpty) {
-            recommended_posts_note = 'No recommended posts found';
+          if (allData.isEmpty) {
+            setState(() {
+              recommended_posts_note = 'No recommended posts found';
+            });
           }
           CollectionReference companies =
               FirebaseFirestore.instance.collection('companies');
@@ -151,6 +154,11 @@ class _HomeScreenState extends State<HomeScreen> {
         print('Document does not exist on the database');
       }
     });
+    if (recommended_posts.isEmpty) {
+      setState(() {
+        recommended_posts_note = 'No recommended posts found';
+      });
+    }
     // setState(() {
     //   finish = true;
     // });
@@ -381,9 +389,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => RecentJobs(
-                                    recent_posts: recent_posts,
-                                    recent_posts_uid: recent_posts_uid,
-                                    recent_posts_photos: recent_posts_photos)),
+                                      recent_posts: recent_posts,
+                                      recent_posts_uid: recent_posts_uid,
+                                      recent_posts_photos: recent_posts_photos,
+                                      name: 'Recent Jobs',
+                                    )),
                           ).then((value) {
                             print('object');
                           });
@@ -629,10 +639,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => RecentJobs(
-                                    recent_posts: recommended_posts,
-                                    recent_posts_uid: recommended_posts_uid,
-                                    recent_posts_photos:
-                                        recommended_posts_photos)),
+                                      recent_posts: recommended_posts,
+                                      recent_posts_uid: recommended_posts_uid,
+                                      recent_posts_photos:
+                                          recommended_posts_photos,
+                                      name: 'Recommended Jobs',
+                                    )),
                           ).then((value) {
                             print('object');
                           });
@@ -650,45 +662,50 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 recommended_posts.isNotEmpty
                     ? !finish
-                        ? SizedBox(
-                            height: 120,
-                            child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: [
-                                  CardLoading(
-                                    curve: Curves.fastOutSlowIn,
-                                    animationDuration:
-                                        const Duration(milliseconds: 1000),
-                                    animationDurationTwo:
-                                        const Duration(milliseconds: 1000),
-                                    cardLoadingTheme: CardLoadingTheme(
-                                        colorOne: canvasColor.withOpacity(0.5),
-                                        colorTwo:
-                                            accentCanvasColor.withOpacity(0.5)),
-                                    height: 100,
-                                    width: 240,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    margin: EdgeInsets.only(bottom: 10),
-                                  ),
-                                  SizedBox(width: 10),
-                                  CardLoading(
-                                    curve: Curves.fastOutSlowIn,
-                                    animationDuration:
-                                        const Duration(milliseconds: 1000),
-                                    animationDurationTwo:
-                                        const Duration(milliseconds: 1000),
-                                    cardLoadingTheme: CardLoadingTheme(
-                                        colorOne: canvasColor.withOpacity(0.5),
-                                        colorTwo:
-                                            accentCanvasColor.withOpacity(0.5)),
-                                    height: 100,
-                                    width: 240,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    margin: EdgeInsets.only(bottom: 10),
-                                  ),
-                                ]),
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              height: 120,
+                              child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    CardLoading(
+                                      curve: Curves.fastOutSlowIn,
+                                      animationDuration:
+                                          const Duration(milliseconds: 1000),
+                                      animationDurationTwo:
+                                          const Duration(milliseconds: 1000),
+                                      cardLoadingTheme: CardLoadingTheme(
+                                          colorOne:
+                                              canvasColor.withOpacity(0.5),
+                                          colorTwo: accentCanvasColor
+                                              .withOpacity(0.5)),
+                                      height: 100,
+                                      width: 240,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      margin: EdgeInsets.only(bottom: 10),
+                                    ),
+                                    SizedBox(width: 10),
+                                    CardLoading(
+                                      curve: Curves.fastOutSlowIn,
+                                      animationDuration:
+                                          const Duration(milliseconds: 1000),
+                                      animationDurationTwo:
+                                          const Duration(milliseconds: 1000),
+                                      cardLoadingTheme: CardLoadingTheme(
+                                          colorOne:
+                                              canvasColor.withOpacity(0.5),
+                                          colorTwo: accentCanvasColor
+                                              .withOpacity(0.5)),
+                                      height: 100,
+                                      width: 240,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      margin: EdgeInsets.only(bottom: 10),
+                                    ),
+                                  ]),
+                            ),
                           )
                         : SizedBox(
                             // margin: const EdgeInsets.symmetric(vertical: 20.0),
@@ -849,13 +866,137 @@ class _HomeScreenState extends State<HomeScreen> {
                             ))
                     : Padding(
                         padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          recommended_posts_note,
-                          style: const TextStyle(color: Colors.grey),
+                        child: SizedBox(
+                          height: 120,
+                          child: Text(
+                            recommended_posts_note,
+                            style: const TextStyle(color: Colors.grey),
+                          ),
                         ),
                       ),
               ],
             ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Complete your profile !',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: white),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      finish
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.text_snippet_rounded,
+                                      color: user_provider!.briefcv == null
+                                          ? Colors.grey
+                                          : primaryColor,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Add a breif CV to your profile',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.account_circle_sharp,
+                                      color: user_provider!.photoUrl == null
+                                          ? Colors.grey
+                                          : primaryColor,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Add a new avatar to your profile',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.article_rounded,
+                                      color: user_provider!.bio == ''
+                                          ? Colors.grey
+                                          : primaryColor,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Add Bio to your profile',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.calendar_month_rounded,
+                                      color: user_provider!.birthdate == ''
+                                          ? Colors.grey
+                                          : primaryColor,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Add your birthdate to your profile',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                              ],
+                            )
+                          : Text('')
+                    ],
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
