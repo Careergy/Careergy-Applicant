@@ -152,6 +152,14 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                   applications[i]
                                                       ['attachments'],
                                               company_name: company_names[i],
+                                              appointment_timestamp: applications[
+                                                          i][
+                                                      'appointment_timestamp'] ??
+                                                  0,
+                                              last_updated_timestamp:
+                                                  applications[i]
+                                                          ['last_updated'] ??
+                                                      0,
                                             )),
                                   ).then((value) {
                                     print('object');
@@ -296,7 +304,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                       style: TextStyle(
                                                           fontSize: 13,
                                                           fontWeight:
-                                                              FontWeight.w300,
+                                                              FontWeight.bold,
                                                           color: applications[i]
                                                                       [
                                                                       'status'] ==
