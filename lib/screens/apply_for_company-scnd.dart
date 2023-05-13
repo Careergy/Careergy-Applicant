@@ -264,7 +264,7 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                                 attachments_list[i],
                                 maxLines: 1,
                                 style: const TextStyle(
-                                    color: accentPrimaryColor,
+                                    color: Colors.white70,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15),
                               ),

@@ -416,7 +416,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
-                                                  color: primaryColor,
+                                                  color: Colors.white70,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize: 10),
                                             ),
