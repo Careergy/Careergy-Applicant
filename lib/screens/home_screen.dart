@@ -397,7 +397,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             major: recent_posts[i]['major'],
                                           )),
                                 ).then((value) {
-                                  print('object');
+                                  // print('object');
                                 });
                               },
                               child: Padding(
@@ -420,7 +420,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
                                             child: Image.network(
-                                              recent_posts_photos.isNotEmpty
+                                              recent_posts_photos.isNotEmpty &&
+                                                      recent_posts_photos[i] !=
+                                                          null &&
+                                                      recent_posts_photos[i] !=
+                                                          ''
                                                   ? recent_posts_photos[i]
                                                   : 'https://firebasestorage.googleapis.com/v0/b/careergy-3e171.appspot.com/o/photos%2FCareergy.png?alt=media&token=d5d0a2b7-e143-4644-970d-c63fc573a5ba',
                                               // scale: 1,
@@ -593,7 +597,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 BorderRadius.circular(8.0),
                                             child: Image.network(
                                               recommended_posts_photos
-                                                      .isNotEmpty
+                                                          .isNotEmpty &&
+                                                      recommended_posts_photos[
+                                                              i] !=
+                                                          null &&
+                                                      recommended_posts_photos[
+                                                              i] !=
+                                                          ''
                                                   ? recommended_posts_photos[i]
                                                   : 'https://firebasestorage.googleapis.com/v0/b/careergy-3e171.appspot.com/o/photos%2FCareergy.png?alt=media&token=d5d0a2b7-e143-4644-970d-c63fc573a5ba',
                                               // scale: 1,

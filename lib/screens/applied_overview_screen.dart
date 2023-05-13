@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:intl/intl.dart' as intl;
 
 class AppliedOverviewScreen extends StatefulWidget {
   final String company_uid;
@@ -16,6 +17,8 @@ class AppliedOverviewScreen extends StatefulWidget {
   final String location;
   final String status;
   final String company_name;
+  final int appointment_timestamp;
+  final int last_updated_timestamp;
   final List choosen_attachments_List;
 
   const AppliedOverviewScreen(
@@ -29,6 +32,8 @@ class AppliedOverviewScreen extends StatefulWidget {
       required this.location,
       required this.status,
       required this.company_name,
+      required this.appointment_timestamp,
+      required this.last_updated_timestamp,
       required this.choosen_attachments_List});
 
   @override
@@ -48,6 +53,10 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
   String yearsOfExperience = '';
   String location = '';
   String status = '';
+  int appointment_timestamp = 0;
+  int last_updated_timestamp = 0;
+  String formatted_timestamp = '';
+  String formatted_last_updated = '';
 
   String company_name = '';
 
@@ -66,7 +75,14 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
     location = widget.location;
     status = widget.status;
     company_name = widget.company_name;
+    appointment_timestamp = widget.appointment_timestamp;
+    last_updated_timestamp = widget.last_updated_timestamp;
+    formatted_timestamp = intl.DateFormat('EEE, d MMM y | hh:mm a').format(
+        DateTime.fromMillisecondsSinceEpoch(widget.appointment_timestamp));
+    formatted_last_updated = intl.DateFormat('EEE, d MMM y').format(
+        DateTime.fromMillisecondsSinceEpoch(widget.last_updated_timestamp));
     choosen_attachments_List = widget.choosen_attachments_List;
+    // print(widget.appointment_timestamp);
   }
 
   @override
@@ -83,28 +99,138 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Row(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Status of job application',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          status,
-                          style: const TextStyle(
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Status of job application',
+                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: kBlue),
-                        )
-                      ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                status,
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: kBlue),
+                              ),
+                              const Spacer(),
+                              Text(
+                                'last updated: $formatted_last_updated',
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          appointment_timestamp != 0
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10)),
+                                      border: Border.all(color: Colors.grey)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      // height: 90,
+                                      width: MediaQuery.of(context).size.width -
+                                          50,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Interview appointment date & time',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            formatted_timestamp,
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: kBlue),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              TextButton(
+                                                  onPressed: () {},
+                                                  child: Container(
+                                                    decoration: const BoxDecoration(
+                                                        color: kBlue,
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    20))),
+                                                    child: const Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical: 5,
+                                                                horizontal: 30),
+                                                        child: Text(
+                                                          'Accept',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                  )),
+                                              TextButton(
+                                                  onPressed: () {},
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        // color: kBlue,
+                                                        border: Border.all(
+                                                            color: kBlue),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    20))),
+                                                    child: const Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical: 5,
+                                                                horizontal: 30),
+                                                        child: Text(
+                                                          'Reject',
+                                                          style: TextStyle(
+                                                              color: kBlue,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                  ))
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Text('')
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -112,7 +238,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                   height: 10,
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height / 1.5,
+                  height: MediaQuery.of(context).size.height - 300,
                   // width: MediaQuery.of(context).size.width - 70,
                   decoration:
                       BoxDecoration(border: Border.all(color: Colors.grey)),
@@ -283,6 +409,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                   ),
                 ),
                 const Spacer(),
+
                 // TextButton(
                 //   onPressed: () {
                 //     print('Apply');
