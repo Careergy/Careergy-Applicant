@@ -98,6 +98,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
           backgroundColor: canvasColor,
           title: const Text('Overview'),
         ),
+        backgroundColor: accentCanvasColor,
         body: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -118,16 +119,44 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: canvasColor),
+                                color: white),
+                          ),
+                          const SizedBox(
+                            height: 5,
                           ),
                           Row(
                             children: [
-                              Text(
-                                status,
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: kBlue),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 3),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: status == 'pending'
+                                            ? Colors.grey
+                                            : status == 'waiting'
+                                                ? Colors.orangeAccent
+                                                : status == 'accepted'
+                                                    ? primaryColor
+                                                    : status == 'approved'
+                                                        ? Colors.green
+                                                        : Colors.red),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15))),
+                                child: Text(
+                                  status,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: status == 'pending'
+                                          ? Colors.grey
+                                          : status == 'waiting'
+                                              ? Colors.orangeAccent
+                                              : status == 'accepted'
+                                                  ? primaryColor
+                                                  : status == 'approved'
+                                                      ? Colors.green
+                                                      : Colors.red),
+                                ),
                               ),
                               const Spacer(),
                               Text(
@@ -170,7 +199,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                             style: const TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
-                                                color: kBlue),
+                                                color: primaryColor),
                                           ),
                                           Row(
                                             mainAxisAlignment:
@@ -210,7 +239,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                                   },
                                                   child: Container(
                                                     decoration: const BoxDecoration(
-                                                        color: kBlue,
+                                                        color: Colors.green,
                                                         borderRadius:
                                                             BorderRadius.all(
                                                                 Radius.circular(
@@ -267,7 +296,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                                     decoration: BoxDecoration(
                                                         // color: kBlue,
                                                         border: Border.all(
-                                                            color: kBlue),
+                                                            color: Colors.red),
                                                         borderRadius:
                                                             BorderRadius.all(
                                                                 Radius.circular(
@@ -280,7 +309,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                                         child: Text(
                                                           'Reject',
                                                           style: TextStyle(
-                                                              color: kBlue,
+                                                              color: Colors.red,
                                                               fontSize: 12,
                                                               fontWeight:
                                                                   FontWeight
@@ -307,7 +336,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                   height: MediaQuery.of(context).size.height - 300,
                   // width: MediaQuery.of(context).size.width - 70,
                   decoration:
-                      BoxDecoration(border: Border.all(color: Colors.grey)),
+                      BoxDecoration(border: Border.all(color: canvasColor)),
                   child: Padding(
                     padding: const EdgeInsets.all(15),
                     child: Column(
@@ -340,18 +369,18 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: white),
                                   ),
                                   Text(
                                     job_title,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: primaryColor),
                                   ),
                                   Text(
                                     location,
@@ -366,7 +395,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                   Container(
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: canvasColor,
+                                          color: primaryColor,
                                         ),
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(5))),
@@ -376,7 +405,8 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                         '$yearsOfExperience years of experience',
                                         // maxLines: 1,
                                         // overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(fontSize: 9),
+                                        style: const TextStyle(
+                                            fontSize: 9, color: white),
                                       ),
                                     ),
                                   ),
@@ -394,7 +424,9 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                             Text(
                               'Job Description',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: primaryColor),
                             ),
                           ],
                         ),
@@ -407,7 +439,8 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                             child: SingleChildScrollView(
                               child: Text(
                                 descreption,
-                                style: const TextStyle(fontSize: 11),
+                                style:
+                                    const TextStyle(fontSize: 11, color: white),
                               ),
                             ),
                           ),
@@ -419,7 +452,9 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                               Text(
                                 'Attachments',
                                 style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.bold),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: primaryColor),
                               ),
                             ],
                           ),
@@ -438,8 +473,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                     child: Container(
                                       padding: const EdgeInsets.all(5),
                                       decoration: const BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 224, 224, 224),
+                                          color: titleBackground,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10))),
                                       height: 30,
@@ -457,7 +491,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
-                                                  color: Colors.black,
+                                                  color: primaryColor,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize: 10),
                                             ),

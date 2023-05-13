@@ -22,9 +22,13 @@ class _AboutScreenState extends State<AboutScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: const [
-            Text(
-              'Careergy is a platform for companies to post new jobs and for people to apply for them with ease.\nDeveloped as Software Engineering senior project in King Fahad University of Petroleum and Minerals in Spring semester (2022/2023).',
-              style: TextStyle(fontSize: 20, color: Colors.white),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Careergy is a platform for companies to post new jobs and for people to apply for them with ease.\nDeveloped as Software Engineering senior project in King Fahad University of Petroleum and Minerals in Spring semester (2022/2023).',
+                style: TextStyle(
+                    fontSize: 20, color: Colors.white, letterSpacing: 1.5),
+              ),
             ),
           ],
         ),
