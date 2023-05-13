@@ -69,7 +69,9 @@ class _AttachmentPreviewState extends State<AttachmentPreview> {
                 Row(
                   children: [
                     Text(
-                      doc_name,
+                      doc_name.length > 30
+                          ? doc_name.substring(0, 30) + '...'
+                          : doc_name,
                       style: const TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.w600,

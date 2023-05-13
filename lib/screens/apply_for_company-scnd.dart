@@ -261,7 +261,10 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                                 width: 10,
                               ),
                               Text(
-                                attachments_list[i],
+                                attachments_list[i].length > 30
+                                    ? attachments_list[i].substring(0, 30) +
+                                        '...'
+                                    : attachments_list[i],
                                 maxLines: 1,
                                 style: const TextStyle(
                                     color: Colors.white70,

@@ -138,7 +138,10 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
                                 width: 10,
                               ),
                               Text(
-                                attachments_list[i],
+                                attachments_list[i].length > 30
+                                    ? attachments_list[i].substring(0, 20) +
+                                        '...'
+                                    : attachments_list[i],
                                 maxLines: 1,
                                 style: const TextStyle(
                                     color: Colors.white70,
