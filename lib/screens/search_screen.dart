@@ -67,7 +67,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       height: 64,
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Image.network(profile.photoUrl),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(profile.photoUrl)),
                       )),
                   SizedBox(width: 8),
                   Text(
