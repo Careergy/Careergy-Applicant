@@ -51,6 +51,7 @@ dependencies:
   cloud_functions: ^4.2.0
   quickalert: ^1.0.1
   calendar_date_picker2: ^0.5.2
+  adaptive_theme: ^3.2.1
 
 dev_dependencies:
   flutter_test:
