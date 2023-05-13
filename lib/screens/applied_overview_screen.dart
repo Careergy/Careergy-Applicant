@@ -333,7 +333,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                   height: 10,
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height - 300,
+                  height: MediaQuery.of(context).size.height * 0.6,
                   // width: MediaQuery.of(context).size.width - 70,
                   decoration:
                       BoxDecoration(border: Border.all(color: canvasColor)),
