@@ -5,9 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart' as intl;
 
 class AppliedOverviewScreen extends StatefulWidget {
+  final String application_uid;
   final String company_uid;
   final String post_uid;
   final String post_image;
@@ -23,6 +25,7 @@ class AppliedOverviewScreen extends StatefulWidget {
 
   const AppliedOverviewScreen(
       {super.key,
+      required this.application_uid,
       required this.company_uid,
       required this.post_uid,
       required this.post_image,
@@ -41,10 +44,12 @@ class AppliedOverviewScreen extends StatefulWidget {
 }
 
 class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
   CollectionReference applications =
       FirebaseFirestore.instance.collection('applications');
   final user = FirebaseAuth.instance.currentUser;
 
+  String application_uid = '';
   String company_uid = '';
   String post_uid = '';
   String post_image = '';
@@ -66,6 +71,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    application_uid = widget.application_uid;
     company_uid = widget.company_uid;
     post_uid = widget.post_uid;
     post_image = widget.post_image;
@@ -165,7 +171,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                           const SizedBox(
                             height: 5,
                           ),
-                          appointment_timestamp != 0
+                          appointment_timestamp != 0 && status == 'waiting'
                               ? Container(
                                   decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
@@ -200,7 +206,37 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               TextButton(
-                                                  onPressed: () {},
+                                                  onPressed: () async {
+                                                    EasyLoading.show(
+                                                        status: 'accepting...');
+                                                    applications
+                                                        .doc(application_uid)
+                                                        .update({
+                                                          'status': 'accepted',
+                                                          'last_updated': DateTime
+                                                                  .now()
+                                                              .millisecondsSinceEpoch
+                                                        })
+                                                        .then((value) => {
+                                                              EasyLoading
+                                                                  .showSuccess(
+                                                                      'Accepted succefully'),
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .popUntil(
+                                                                      (route) =>
+                                                                          route
+                                                                              .isFirst),
+                                                            })
+                                                        .catchError((error,
+                                                                stackTrace) =>
+                                                            {
+                                                              EasyLoading
+                                                                  .showError(
+                                                                      'Failed'),
+                                                              print(error),
+                                                            });
+                                                  },
                                                   child: Container(
                                                     decoration: const BoxDecoration(
                                                         color: Colors.green,
@@ -225,7 +261,37 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                                         )),
                                                   )),
                                               TextButton(
-                                                  onPressed: () {},
+                                                  onPressed: () async {
+                                                    EasyLoading.show(
+                                                        status: 'rejecting...');
+                                                    applications
+                                                        .doc(application_uid)
+                                                        .update({
+                                                          'status': 'refused',
+                                                          'last_updated': DateTime
+                                                                  .now()
+                                                              .millisecondsSinceEpoch
+                                                        })
+                                                        .then((value) => {
+                                                              EasyLoading
+                                                                  .showSuccess(
+                                                                      'Rejected succefully'),
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .popUntil(
+                                                                      (route) =>
+                                                                          route
+                                                                              .isFirst),
+                                                            })
+                                                        .catchError((error,
+                                                                stackTrace) =>
+                                                            {
+                                                              EasyLoading
+                                                                  .showError(
+                                                                      'Failed'),
+                                                              print(error),
+                                                            });
+                                                  },
                                                   child: Container(
                                                     decoration: BoxDecoration(
                                                         // color: kBlue,
