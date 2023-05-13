@@ -77,10 +77,10 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: canvasColor,
-        title: const Text('Job Application'),
+        title: const Text('Job Applications'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

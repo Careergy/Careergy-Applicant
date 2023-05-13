@@ -82,14 +82,29 @@ class _SearchScreenState extends State<SearchScreen> {
                             documents[index].data() as Map<String, dynamic>;
                         return Column(
                           children: [
-                            ListTile(
-                              title: Text(
-                                data['name'],
-                                style: const TextStyle(color: primaryColor),
-                              ),
-                              subtitle: Text(
-                                data['email'],
-                                style: const TextStyle(color: Colors.white70),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CompanyProfile(
+                                      companyName: '',
+                                      bio: '',
+                                      image: '',
+                                      jobs: [],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: ListTile(
+                                title: Text(
+                                  data['name'],
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                subtitle: Text(
+                                  data['email'],
+                                  style: const TextStyle(color: Colors.white70),
+                                ),
                               ),
                             ),
                             divider,
