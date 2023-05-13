@@ -5,6 +5,7 @@ import 'package:careergy_mobile/constants.dart';
 import 'package:careergy_mobile/providers/auth_provider.dart';
 // import 'package:careergy_mobile/screens/apply_for_company_screen.dart';
 import 'package:careergy_mobile/screens/company_profile.dart';
+import 'package:careergy_mobile/screens/recent_jobs_screen.dart';
 import 'package:careergy_mobile/widgets/briefcv_field.dart';
 import 'package:careergy_mobile/widgets/custom_appbar.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
@@ -362,14 +363,40 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(10, 10, 0, 5),
-                  child: Text(
-                    'Recent Jobs',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: white),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Recent Jobs',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: white),
+                      ),
+                      Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RecentJobs(
+                                    recent_posts: recent_posts,
+                                    recent_posts_uid: recent_posts_uid,
+                                    recent_posts_photos: recent_posts_photos)),
+                          ).then((value) {
+                            print('object');
+                          });
+                        },
+                        child: Text(
+                          'show more',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10,
+                              color: white),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 recent_posts.isNotEmpty
@@ -584,14 +611,41 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.fromLTRB(10, 10, 0, 5),
-                  child: Text(
-                    'Recommended Jobs',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: white),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Recommended Jobs',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: white),
+                      ),
+                      Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RecentJobs(
+                                    recent_posts: recommended_posts,
+                                    recent_posts_uid: recommended_posts_uid,
+                                    recent_posts_photos:
+                                        recommended_posts_photos)),
+                          ).then((value) {
+                            print('object');
+                          });
+                        },
+                        child: Text(
+                          'show more',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10,
+                              color: white),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 recommended_posts.isNotEmpty
