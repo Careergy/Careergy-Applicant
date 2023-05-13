@@ -30,6 +30,8 @@ class _AppliedScreenState extends State<AppliedScreen> {
   List company_names = [];
   List company_photos = [];
 
+  bool finish = false;
+
   Future getApplications() async {
     // Get docs from collection reference
     Query<Map<String, dynamic>> posts_ref = await FirebaseFirestore.instance
@@ -39,38 +41,37 @@ class _AppliedScreenState extends State<AppliedScreen> {
     QuerySnapshot querySnapshot = await posts_ref.get();
 
     // Get data from docs and convert map to List
-    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    List allData = querySnapshot.docs.map((doc) => doc.data()).toList();
     final allDataUid =
         querySnapshot.docs.map((doc) => doc.reference.id).toList();
     setState(() {
       applications = allData;
       applications_uid = allDataUid;
     });
-
     // print(applications);
   }
 
   Future getAppliedPosts() async {
     CollectionReference companies =
         FirebaseFirestore.instance.collection('companies');
-    for (var i = applications.length - 1; i >= 0; i--) {
-      DocumentReference<Map<String, dynamic>> posts_ref = FirebaseFirestore
-          .instance
-          .collection("posts")
-          .doc(applications[i]['post_uid']);
+    for (var i = 0; i < applications.length; i++) {
+      DocumentReference<Map<String, dynamic>> posts_ref =
+          await FirebaseFirestore.instance
+              .collection("posts")
+              .doc(applications[i]['post_uid']);
       // .where('active', isEqualTo: true)
       // .orderBy("timestamp", descending: true);
 
-      posts_ref.get().then(
+      await posts_ref.get().then(
         (DocumentSnapshot doc) async {
           final data = doc.data() as Map<String, dynamic>;
           final allDataUid = doc.reference.id;
           setState(() {
             applied_posts.add(data);
-            applied_posts_uid.add(doc.reference.id);
+            applied_posts_uid.add(allDataUid);
           });
           // print(applied_posts);
-          companies.doc(data['uid']).get().then((DocumentSnapshot ds) {
+          await companies.doc(data['uid']).get().then((DocumentSnapshot ds) {
             if (ds.exists) {
               setState(() {
                 company_names.add(ds.data().toString().contains('name')
@@ -104,6 +105,9 @@ class _AppliedScreenState extends State<AppliedScreen> {
       EasyLoading.show(status: 'loading...');
       await getApplications();
       await getAppliedPosts();
+      setState(() {
+        finish = true;
+      });
       EasyLoading.dismiss();
     });
   }
@@ -114,7 +118,7 @@ class _AppliedScreenState extends State<AppliedScreen> {
       drawer: const CustomDrawer(),
       appBar: const CustomAppBar(title: 'Applications'),
       backgroundColor: accentCanvasColor,
-      body: applied_posts.isNotEmpty
+      body: applied_posts.isNotEmpty && finish
           ? SingleChildScrollView(
               child: Padding(
                   padding: const EdgeInsets.all(8.0),

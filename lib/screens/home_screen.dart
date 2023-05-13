@@ -5,6 +5,7 @@ import 'package:careergy_mobile/constants.dart';
 import 'package:careergy_mobile/providers/auth_provider.dart';
 // import 'package:careergy_mobile/screens/apply_for_company_screen.dart';
 import 'package:careergy_mobile/screens/company_profile.dart';
+import 'package:careergy_mobile/widgets/briefcv_field.dart';
 import 'package:careergy_mobile/widgets/custom_appbar.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -99,11 +100,15 @@ class _HomeScreenState extends State<HomeScreen> {
     user__breifcv_ref.doc(user!.uid).get().then((DocumentSnapshot ds) async {
       if (ds.exists) {
         if (ds.data().toString().contains('majors')) {
+          final briefCVMap = ds.data() as Map<String, dynamic>;
+          final briefCVList = briefCVMap['majors']!
+              .map((e) => e.toString().toLowerCase())
+              .toList();
           Query<Map<String, dynamic>> posts_ref =
               await FirebaseFirestore.instance
                   .collection("posts")
                   .where('active', isEqualTo: true)
-                  .where('major', whereIn: ds.get('majors')) //////////
+                  .where('major', whereIn: briefCVList) //////////
                   .orderBy("timestamp", descending: true);
           QuerySnapshot querySnapshot = await posts_ref.get();
 
@@ -123,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
           CollectionReference companies =
               FirebaseFirestore.instance.collection('companies');
           for (var i = 0; i < recommended_posts_uid.length; i++) {
-            companies
+            await companies
                 .doc(recommended_posts[i]['uid'])
                 .get()
                 .then((DocumentSnapshot ds) {
@@ -145,11 +150,17 @@ class _HomeScreenState extends State<HomeScreen> {
         print('Document does not exist on the database');
       }
     });
+    // setState(() {
+    //   finish = true;
+    // });
   }
 
-  Future getLogo(String uid) async {
-    //TODO: Get image from the uid of getPosts
-  }
+  // Future getLogo() async {
+  //   //TODO: Get image from the uid of getPosts
+  //   setState(() {
+  //     finish = true;
+  //   });
+  // }
 
   Future popup() async {
     userAppliedStream.listen((event) {
@@ -461,7 +472,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
                                                 child: Image.network(
-                                                  recent_posts_photos.isNotEmpty
+                                                  finish &&
+                                                          i <
+                                                              recent_posts_photos
+                                                                  .length
                                                       ? recent_posts_photos[i]
                                                       : 'https://firebasestorage.googleapis.com/v0/b/careergy-3e171.appspot.com/o/photos%2FCareergy.png?alt=media&token=d5d0a2b7-e143-4644-970d-c63fc573a5ba',
                                                 ),
@@ -675,8 +689,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
                                                 child: Image.network(
-                                                  recommended_posts_photos
-                                                          .isNotEmpty
+                                                  finish &&
+                                                          i <
+                                                              recommended_posts_photos
+                                                                  .length
                                                       ? recommended_posts_photos[
                                                           i]
                                                       : 'https://firebasestorage.googleapis.com/v0/b/careergy-3e171.appspot.com/o/photos%2FCareergy.png?alt=media&token=d5d0a2b7-e143-4644-970d-c63fc573a5ba',
