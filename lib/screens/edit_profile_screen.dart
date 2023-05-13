@@ -11,6 +11,7 @@ import '../constants.dart';
 import '../widgets/custom_appbar.dart';
 import 'package:careergy_mobile/widgets/custom_drawer.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 import '../models/user.dart' as usr;
 
@@ -85,8 +86,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  bool isLoading = false;
+  DateTime? _date;
 
+  datePickerDialog() {
+    return showCalendarDatePicker2Dialog(
+      context: context,
+      config: CalendarDatePicker2WithActionButtonsConfig(
+        calendarType: CalendarDatePicker2Type.single,
+      ),
+      dialogSize: Size(325, 400),
+      value: [
+        birthdate_controller.text != ''
+            ? DateTime.parse(birthdate_controller.text)
+            : DateTime.now()
+      ],
+    );
+  }
+
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<usr.User>(context);
@@ -100,8 +117,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
-        backgroundColor: kBlue,
+        backgroundColor: canvasColor,
       ),
+      backgroundColor: accentCanvasColor,
       body: FutureBuilder(
           future: null,
           builder: (context, snapshot) {
@@ -134,7 +152,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 child: IconButton(
                                   icon: const Icon(Icons.camera_alt),
                                   iconSize: 20.0,
-                                  color: Colors.blue,
+                                  color: primaryColor,
                                   onPressed: () {
                                     pickImage();
                                   },
@@ -156,14 +174,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
-                                      color: Colors.blue),
+                                      color: primaryColor),
                                 )
                               ],
                             ),
                             TextField(
+                              cursorColor: primaryColor,
+                              style: TextStyle(
+                                color: white,
+                              ),
                               controller: name_controller,
-                              decoration: const InputDecoration(
-                                  constraints: BoxConstraints(maxHeight: 30)),
+                              decoration: InputDecoration(
+                                isDense: false,
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: primaryColor,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                constraints: BoxConstraints(maxHeight: 30),
+                              ),
                             ),
                             const SizedBox(
                               height: 20,
@@ -176,14 +206,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
-                                      color: Colors.blue),
+                                      color: primaryColor),
                                 )
                               ],
                             ),
                             TextField(
+                              cursorColor: primaryColor,
+                              style: TextStyle(
+                                color: white,
+                              ),
                               controller: email_controller,
-                              decoration: const InputDecoration(
-                                  constraints: BoxConstraints(maxHeight: 30)),
+                              decoration: InputDecoration(
+                                isDense: false,
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: primaryColor,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                constraints: BoxConstraints(maxHeight: 30),
+                              ),
                             ),
                             const SizedBox(
                               height: 20,
@@ -196,14 +238,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
-                                      color: Colors.blue),
+                                      color: primaryColor),
                                 )
                               ],
                             ),
                             TextField(
+                              cursorColor: primaryColor,
+                              style: TextStyle(
+                                color: white,
+                              ),
                               controller: phone_controller,
-                              decoration: const InputDecoration(
-                                  constraints: BoxConstraints(maxHeight: 30)),
+                              decoration: InputDecoration(
+                                isDense: false,
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: primaryColor,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                constraints: BoxConstraints(maxHeight: 30),
+                              ),
                             ),
                             const SizedBox(
                               height: 20,
@@ -216,7 +270,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
-                                      color: Colors.blue),
+                                      color: primaryColor),
                                 )
                               ],
                             ),
@@ -224,26 +278,58 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
                               controller: bio_controller,
+                              cursorColor: primaryColor,
+                              style: TextStyle(
+                                color: white,
+                              ),
+                              decoration: InputDecoration(
+                                isDense: false,
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: primaryColor,
+                                    width: 2.0,
+                                  ),
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               height: 20,
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text(
                                   'Birthdate',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
-                                      color: Colors.blue),
-                                )
+                                      color: primaryColor),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                InkWell(
+                                    onTap: () => datePickerDialog(),
+                                    child: Icon(Icons.edit_calendar,
+                                        color: primaryColor))
                               ],
                             ),
                             TextField(
+                              cursorColor: primaryColor,
+                              style: TextStyle(
+                                color: white,
+                              ),
                               controller: birthdate_controller,
-                              decoration: const InputDecoration(
-                                  constraints: BoxConstraints(maxHeight: 30)),
+                              decoration: InputDecoration(
+                                isDense: false,
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: primaryColor,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                constraints: BoxConstraints(maxHeight: 30),
+                              ),
                             ),
                           ],
                         ),
@@ -255,6 +341,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             );
           }),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
         onPressed: () async {
           EasyLoading.show(status: 'Saving...');
           if (image != null) {

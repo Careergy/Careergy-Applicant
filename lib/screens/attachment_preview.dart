@@ -57,9 +57,10 @@ class _AttachmentPreviewState extends State<AttachmentPreview> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: kBlue,
+          backgroundColor: canvasColor,
           title: const Text('Attachment preview'),
         ),
+        backgroundColor: accentCanvasColor,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(15),
@@ -70,7 +71,7 @@ class _AttachmentPreviewState extends State<AttachmentPreview> {
                     Text(
                       doc_name,
                       style: const TextStyle(
-                          color: kBlue,
+                          color: primaryColor,
                           fontWeight: FontWeight.w600,
                           fontSize: 15),
                     ),
@@ -81,7 +82,7 @@ class _AttachmentPreviewState extends State<AttachmentPreview> {
                         },
                         child: const Icon(
                           Icons.delete,
-                          color: Colors.black,
+                          color: Colors.red,
                         )),
                   ],
                 ),

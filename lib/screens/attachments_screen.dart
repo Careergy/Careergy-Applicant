@@ -83,65 +83,76 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
     return Scaffold(
       drawer: CustomDrawer(),
       appBar: const CustomAppBar(title: 'Attachments'),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              for (var i = 0; i < attachments_list.length; i++)
-                TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.black,
-                  ),
-                  onPressed: () async {
-                    String url = await attachments_ref_list[i].getDownloadURL();
-                    // print(attachments_ref_list[i]);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AttachmentPreview(
-                                  doc_name: attachments_list[i],
-                                  doc_url: url,
-                                  doc_ref: attachments_ref_list[i],
-                                ))).then((value) {
-                      getUserAttachments(user!.uid);
-                    });
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 224, 224, 224),
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    height: 50,
-                    width: double.infinity,
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: [
-                        attachments_format_list[i] == 'pdf'
-                            ? Icon(Icons.picture_as_pdf)
-                            : attachments_format_list[i] == 'png' ||
-                                    attachments_format_list[i] == 'jpeg' ||
-                                    attachments_format_list[i] == 'jpg'
-                                ? Icon(Icons.image)
-                                : Icon(Icons.attach_file),
-                        SizedBox(
-                          width: 10,
+      backgroundColor: accentCanvasColor,
+      body: attachments_list.length == 0
+          ? Center(
+              child: Text(
+                'No Attachments',
+                style: TextStyle(color: primaryColor),
+              ),
+            )
+          : SingleChildScrollView(
+              child: Container(
+                child: Column(
+                  children: [
+                    for (var i = 0; i < attachments_list.length; i++)
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.black,
                         ),
-                        Text(
-                          attachments_list[i],
-                          maxLines: 1,
-                          style: const TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18),
+                        onPressed: () async {
+                          String url =
+                              await attachments_ref_list[i].getDownloadURL();
+                          // print(attachments_ref_list[i]);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AttachmentPreview(
+                                        doc_name: attachments_list[i],
+                                        doc_url: url,
+                                        doc_ref: attachments_ref_list[i],
+                                      ))).then((value) {
+                            getUserAttachments(user!.uid);
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: const BoxDecoration(
+                              color: titleBackground,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          height: 50,
+                          width: double.infinity,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              attachments_format_list[i] == 'pdf'
+                                  ? Icon(Icons.picture_as_pdf)
+                                  : attachments_format_list[i] == 'png' ||
+                                          attachments_format_list[i] ==
+                                              'jpeg' ||
+                                          attachments_format_list[i] == 'jpg'
+                                      ? Icon(Icons.image)
+                                      : Icon(Icons.attach_file),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                attachments_list[i],
+                                maxLines: 1,
+                                style: const TextStyle(
+                                    color: primaryColor,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                  ],
                 ),
-            ],
-          ),
-        ),
-      ),
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final path = await FlutterDocumentPicker.openDocument();
@@ -151,6 +162,7 @@ class _AttatchmentsScreenState extends State<AttatchmentsScreen> {
             showAlertDialog(context, mainReference, user, path, doc_name);
           }
         },
+        backgroundColor: primaryColor,
         child: Icon(Icons.add),
       ),
     );

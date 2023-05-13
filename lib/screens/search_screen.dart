@@ -36,6 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: const CustomAppBar(title: 'Search'),
+      backgroundColor: accentCanvasColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -46,9 +47,18 @@ class _SearchScreenState extends State<SearchScreen> {
                 controller: _searchController,
                 decoration: const InputDecoration(
                   hintText: 'Search...',
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: primaryColor),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: accentPrimaryColor),
+                  ),
                 ),
+                cursorColor: primaryColor,
+                style: TextStyle(color: white),
               ),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
                 onPressed: _search,
                 child: const Text('Search'),
               ),
@@ -70,9 +80,35 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (context, index) {
                         final Map<String, dynamic> data =
                             documents[index].data() as Map<String, dynamic>;
-                        return ListTile(
-                          title: Text(data['name']),
-                          subtitle: Text(data['phone']),
+                        return Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CompanyProfile(
+                                      companyName: '',
+                                      bio: '',
+                                      image: '',
+                                      jobs: [],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: ListTile(
+                                title: Text(
+                                  data['name'],
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                subtitle: Text(
+                                  data['email'],
+                                  style: const TextStyle(color: Colors.white70),
+                                ),
+                              ),
+                            ),
+                            divider,
+                          ],
                         );
                       },
                     );

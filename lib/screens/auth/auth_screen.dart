@@ -371,7 +371,7 @@ class _AuthCardState extends State<AuthCard> {
                             padding: MaterialStatePropertyAll(
                                 EdgeInsets.symmetric(
                                     horizontal: 30.0, vertical: 4))),
-                        // textColor: Theme.of(context).primaryColor,
+                        // textColor: Theme.of(context).canvasColor,
                         child: Text(
                             '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
                       ),

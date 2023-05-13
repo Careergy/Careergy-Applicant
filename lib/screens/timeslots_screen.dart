@@ -15,7 +15,7 @@ class _TimeslotScreenState extends State<TimeslotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: kBlue,
+          backgroundColor: canvasColor,
           title: const Text('Timeslots'),
         ),
         body: Center(

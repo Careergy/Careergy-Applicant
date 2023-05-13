@@ -124,9 +124,10 @@ class _BriefCVState extends State<BriefCV> {
     // }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kBlue,
+        backgroundColor: canvasColor,
         title: const Text('Brief CV'),
       ),
+      backgroundColor: accentCanvasColor,
       body: FutureBuilder(
           future: user.getBriefCV(),
           builder: (context, snapshot) {
@@ -141,13 +142,13 @@ class _BriefCVState extends State<BriefCV> {
                     children: [
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
                             'Let us know you better !',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.blue),
+                                fontSize: 18,
+                                color: accentPrimaryColor),
                           )
                         ],
                       ),
@@ -162,7 +163,7 @@ class _BriefCVState extends State<BriefCV> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.blue),
+                                color: primaryColor),
                           )
                         ],
                       ),
@@ -188,7 +189,7 @@ class _BriefCVState extends State<BriefCV> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.blue),
+                                color: primaryColor),
                           )
                         ],
                       ),
@@ -214,7 +215,7 @@ class _BriefCVState extends State<BriefCV> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.blue),
+                                color: primaryColor),
                           )
                         ],
                       ),
@@ -240,7 +241,7 @@ class _BriefCVState extends State<BriefCV> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.blue),
+                                color: primaryColor),
                           )
                         ],
                       ),
@@ -266,7 +267,7 @@ class _BriefCVState extends State<BriefCV> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.blue),
+                                color: primaryColor),
                           )
                         ],
                       ),
@@ -292,7 +293,7 @@ class _BriefCVState extends State<BriefCV> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.blue),
+                                color: primaryColor),
                           )
                         ],
                       ),
@@ -301,7 +302,7 @@ class _BriefCVState extends State<BriefCV> {
                       ),
                       BriefCVField(
                         label: 'Other Skills:',
-                        helper: 'Skills are separated using a Comma (,)',
+                        helper: '*Skills are separated using a Comma (,)',
                         controller: otherSkillsController,
                         mode: false,
                         separaters: const [','],
@@ -320,7 +321,7 @@ class _BriefCVState extends State<BriefCV> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.blue),
+                                color: primaryColor),
                           )
                         ],
                       ),
@@ -524,7 +525,7 @@ class _BriefCVState extends State<BriefCV> {
                             });
 
                             user.briefcv = {
-                              'majors' : majorsController.getTags,
+                              'majors': majorsController.getTags,
                               'job_title': jobTitleController.getTags,
                               'major_skills': majorSkillsController.getTags,
                               'soft_skills': softSkillsController.getTags,
@@ -543,7 +544,7 @@ class _BriefCVState extends State<BriefCV> {
                           child: Container(
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Colors.blue,
+                                  color: primaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(20))),
@@ -553,7 +554,7 @@ class _BriefCVState extends State<BriefCV> {
                                     vertical: 10, horizontal: 100),
                                 child: Text(
                                   'Save',
-                                  // style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: primaryColor),
                                 )),
                           ))
                     ],

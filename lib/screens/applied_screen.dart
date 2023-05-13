@@ -113,164 +113,180 @@ class _AppliedScreenState extends State<AppliedScreen> {
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: const CustomAppBar(title: 'Applications'),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              applied_posts.isNotEmpty
-                  ? SizedBox(
-                      // margin: const EdgeInsets.symmetric(vertical: 20.0),
-                      height: MediaQuery.of(context).size.height,
-                      child: ListView(
-                        physics: NeverScrollableScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        children: List.generate(applications.length, (i) {
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AppliedOverviewScreen(
-                                          company_uid: applied_posts[i]['uid'],
-                                          post_uid: applied_posts_uid[i],
-                                          post_image: company_photos[i],
-                                          job_title: applied_posts[i]
-                                              ['job_title'],
-                                          descreption: applied_posts[i]
-                                              ['descreption'],
-                                          yearsOfExperience: applied_posts[i]
-                                              ['experience_years'],
-                                          location: applied_posts[i]['city'],
-                                          status: applications[i]['status'],
-                                          choosen_attachments_List:
-                                              applications[i]['attachments'],
-                                          company_name: company_names[i],
-                                          appointment_timestamp: applications[i]
-                                                  ['appointment_timestamp'] ??
-                                              0,
-                                          last_updated_timestamp:
-                                              applications[i]['last_updated'] ??
+      backgroundColor: accentCanvasColor,
+      body: applied_posts.isNotEmpty
+          ? SingleChildScrollView(
+              child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                          // margin: const EdgeInsets.symmetric(vertical: 20.0),
+                          height: MediaQuery.of(context).size.height,
+                          child: ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            children: List.generate(applications.length, (i) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AppliedOverviewScreen(
+                                              company_uid: applied_posts[i]
+                                                  ['uid'],
+                                              post_uid: applied_posts_uid[i],
+                                              post_image: company_photos[i],
+                                              job_title: applied_posts[i]
+                                                  ['job_title'],
+                                              descreption: applied_posts[i]
+                                                  ['descreption'],
+                                              yearsOfExperience:
+                                                  applied_posts[i]
+                                                      ['experience_years'],
+                                              location: applied_posts[i]
+                                                  ['city'],
+                                              status: applications[i]['status'],
+                                              choosen_attachments_List:
+                                                  applications[i]
+                                                      ['attachments'],
+                                              company_name: company_names[i],
+                                              appointment_timestamp: applications[
+                                                          i][
+                                                      'appointment_timestamp'] ??
                                                   0,
-                                        )),
-                              ).then((value) {
-                                print('object');
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: 240,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                    color: Colors.blue[100],
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(15))),
+                                              last_updated_timestamp:
+                                                  applications[i]
+                                                          ['last_updated'] ??
+                                                      0,
+                                            )),
+                                  ).then((value) {
+                                    print('object');
+                                  });
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        height: 70,
-                                        width: 70,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          child: Image.network(
-                                            company_photos.isNotEmpty
-                                                ? company_photos[i]
-                                                : 'https://firebasestorage.googleapis.com/v0/b/careergy-3e171.appspot.com/o/photos%2FCareergy.png?alt=media&token=d5d0a2b7-e143-4644-970d-c63fc573a5ba',
-                                            // scale: 1,
-                                            // fit: BoxFit.fitWidth,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 170,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                applied_posts[i]['job_title'],
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black),
+                                  child: Container(
+                                    width: 240,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                        color: Colors.blue[100],
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(15))),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            height: 70,
+                                            width: 70,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.network(
+                                                company_photos.isNotEmpty
+                                                    ? company_photos[i]
+                                                    : 'https://firebasestorage.googleapis.com/v0/b/careergy-3e171.appspot.com/o/photos%2FCareergy.png?alt=media&token=d5d0a2b7-e143-4644-970d-c63fc573a5ba',
+                                                // scale: 1,
+                                                // fit: BoxFit.fitWidth,
                                               ),
-                                              const SizedBox(
-                                                height: 3,
-                                              ),
-                                              Text(
-                                                applied_posts[i]['descreption'],
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w300,
-                                                    color: Colors.black),
-                                              ),
-                                              const SizedBox(
-                                                height: 15,
-                                              ),
-                                              Text(
-                                                '${applied_posts[i]['experience_years']} years of experience',
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    fontSize: 10,
-                                                    // fontWeight: FontWeight,
-                                                    color: Colors.black),
-                                              ),
-                                              Text(
-                                                'Lcation: ${applied_posts[i]['city']}',
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w300,
-                                                    color: Colors.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      SizedBox(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              applications[i]['status'],
-                                              style: const TextStyle(
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Colors.black),
                                             ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                          ),
+                                          SizedBox(
+                                            width: 170,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    applied_posts[i]
+                                                        ['job_title'],
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 3,
+                                                  ),
+                                                  Text(
+                                                    applied_posts[i]
+                                                        ['descreption'],
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        color: Colors.black),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  Text(
+                                                    '${applied_posts[i]['experience_years']} years of experience',
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 10,
+                                                        // fontWeight: FontWeight,
+                                                        color: Colors.black),
+                                                  ),
+                                                  Text(
+                                                    'Lcation: ${applied_posts[i]['city']}',
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        color: Colors.black),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          SizedBox(
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  applications[i]['status'],
+                                                  style: const TextStyle(
+                                                      fontSize: 11,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: Colors.black),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          );
-                        }),
-                      ))
-                  : Text(note),
-            ],
-          ),
-        ),
-      ),
+                              );
+                            }),
+                          )),
+                    ],
+                  )),
+            )
+          : Center(
+              child: Text(note, style: const TextStyle(color: primaryColor))),
     );
   }
 }

@@ -48,9 +48,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kBlue,
+        backgroundColor: canvasColor,
         title: const Text('Contact Us'),
       ),
+      backgroundColor: accentCanvasColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
@@ -87,6 +88,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
               ),
               SizedBox(height: 32),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _sendData();

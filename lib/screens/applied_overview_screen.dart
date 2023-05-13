@@ -89,7 +89,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: kBlue,
+          backgroundColor: canvasColor,
           title: const Text('Overview'),
         ),
         body: Padding(
@@ -110,9 +110,9 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                           const Text(
                             'Status of job application',
                             style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: canvasColor),
                           ),
                           Row(
                             children: [
@@ -300,7 +300,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                   Container(
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: kBlue,
+                                          color: canvasColor,
                                         ),
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(5))),
@@ -431,7 +431,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                 //   },
                 //   child: Container(
                 //     decoration: const BoxDecoration(
-                //         color: kBlue,
+                //         color: canvasColor,
                 //         borderRadius: BorderRadius.all(Radius.circular(20))),
                 //     child: const Padding(
                 //         padding:

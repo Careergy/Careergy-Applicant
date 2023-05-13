@@ -8,41 +8,118 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'apply_for_company_Screen.dart';
 
 class CompanyProfile extends StatefulWidget {
-  const CompanyProfile({super.key});
+  final String companyName;
+  final List jobs;
+  final String bio;
+  final String image;
+
+  const CompanyProfile({
+    required this.companyName,
+    required this.jobs,
+    required this.bio,
+    required this.image,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CompanyProfile> createState() => _CompanyProfileState();
 }
 
-class _CompanyProfileState extends State<CompanyProfile> {
+class _CompanyProfileState extends State<CompanyProfile>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Company Profile'),
-        backgroundColor: kBlue,
+        backgroundColor: canvasColor,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Here will be a company profile'),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CompanyAboutProfile()));
-              },
-              child: const Text('About Us'),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SizedBox(
+              height: 64,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text('image'),
+                  const SizedBox(width: 16),
+                  Text('Name'),
+                ],
+              ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CompanyJobsProfile()));
-              },
-              child: const Text('Jobs'),
-            )
-          ],
-        ),
+          ),
+          const Divider(),
+          Expanded(
+            child: Column(
+              children: [
+                TabBar(
+                  indicatorColor: canvasColor,
+                  labelColor: canvasColor,
+                  //padding: EdgeInsets.all(8),
+                  controller: _tabController,
+                  tabs: [
+                    Tab(text: 'About'),
+                    Tab(text: 'Jobs'),
+                    Tab(text: 'Contact us')
+                  ],
+                ),
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text('About content goes here'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text('Jobs content goes here'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.email_outlined, color: canvasColor),
+                                SizedBox(width: 16),
+                                Text('exa@email.com'),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Icon(Icons.phone, color: canvasColor),
+                                SizedBox(width: 16),
+                                Text('920000111'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

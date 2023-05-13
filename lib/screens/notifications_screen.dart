@@ -12,6 +12,8 @@ class NotificationScreen extends StatefulWidget {
   State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
+List notificationList = [];
+
 class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
@@ -27,18 +29,24 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ),
         title: Text('Notifications'),
         automaticallyImplyLeading: true,
-        backgroundColor: kBlue,
+        backgroundColor: canvasColor,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: const [
-              Text('Notifications Screen'),
-            ],
-          ),
-        ),
-      ),
+      backgroundColor: accentCanvasColor,
+      body: notificationList.isEmpty
+          ? const Center(
+              child: Text(
+                'No Notifications',
+                style: TextStyle(color: primaryColor),
+              ),
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: const [],
+                ),
+              ),
+            ),
     );
   }
 }
