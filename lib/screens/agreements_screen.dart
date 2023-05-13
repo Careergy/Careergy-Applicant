@@ -14,6 +14,9 @@ class AgreementsScreen extends StatefulWidget {
   final String location;
   final String company_name;
   final List choosen_attachments_List;
+  final String type;
+  final String major;
+  final String formatted_timestamp;
 
   const AgreementsScreen(
       {super.key,
@@ -25,6 +28,9 @@ class AgreementsScreen extends StatefulWidget {
       required this.yearsOfExperience,
       required this.location,
       required this.company_name,
+      required this.type,
+      required this.major,
+      required this.formatted_timestamp,
       required this.choosen_attachments_List});
 
   @override
@@ -42,6 +48,9 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
   String descreption = '';
   String yearsOfExperience = '';
   String location = '';
+  String type = '';
+  String formatted_timestamp = '';
+  String major = '';
 
   String company_name = '';
 
@@ -59,6 +68,9 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
     yearsOfExperience = widget.yearsOfExperience;
     location = widget.location;
     company_name = widget.company_name;
+    type = widget.type;
+    major = widget.major;
+    formatted_timestamp = widget.formatted_timestamp;
     choosen_attachments_List = widget.choosen_attachments_List;
   }
 
@@ -259,7 +271,10 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                                     post_uid: post_uid,
                                     yearsOfExperience: yearsOfExperience,
                                     choosen_attachments_List:
-                                        choosen_attachments_List)))
+                                        choosen_attachments_List,
+                                    type: type,
+                                    formatted_timestamp: formatted_timestamp,
+                                    major: major)))
                         : null;
                   },
                   child: Container(

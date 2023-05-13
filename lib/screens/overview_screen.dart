@@ -18,6 +18,9 @@ class OverviewScreen extends StatefulWidget {
   final String yearsOfExperience;
   final String location;
   final String company_name;
+  final String type;
+  final String major;
+  final String formatted_timestamp;
   final List choosen_attachments_List;
 
   const OverviewScreen(
@@ -30,6 +33,9 @@ class OverviewScreen extends StatefulWidget {
       required this.yearsOfExperience,
       required this.location,
       required this.company_name,
+      required this.type,
+      required this.major,
+      required this.formatted_timestamp,
       required this.choosen_attachments_List});
 
   @override
@@ -48,6 +54,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
   String descreption = '';
   String yearsOfExperience = '';
   String location = '';
+  String type = '';
+  String formatted_timestamp = '';
+  String major = '';
 
   String company_name = '';
 
@@ -65,6 +74,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
     yearsOfExperience = widget.yearsOfExperience;
     location = widget.location;
     company_name = widget.company_name;
+    type = widget.type;
+    major = widget.major;
+    formatted_timestamp = widget.formatted_timestamp;
     choosen_attachments_List = widget.choosen_attachments_List;
   }
 
@@ -268,6 +280,57 @@ class _OverviewScreenState extends State<OverviewScreen> {
                         ),
                         const Divider(
                           color: canvasColor,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              formatted_timestamp,
+                              style: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Text(
+                          'Major',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
+                        ),
+                        Text(
+                          major,
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: white),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Text(
+                          'Job type',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
+                        ),
+                        Text(
+                          type,
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: white),
                         ),
                         const SizedBox(
                           height: 5,

@@ -19,6 +19,9 @@ class ApplyForCompanyScnd extends StatefulWidget {
   final String yearsOfExperience;
   final String location;
   final String company_name;
+  final String type;
+  final String formatted_timestamp;
+  final String major;
 
   const ApplyForCompanyScnd(
       {super.key,
@@ -29,7 +32,10 @@ class ApplyForCompanyScnd extends StatefulWidget {
       required this.descreption,
       required this.yearsOfExperience,
       required this.location,
-      required this.company_name});
+      required this.company_name,
+      required this.type,
+      required this.major,
+      required this.formatted_timestamp});
 
   @override
   State<ApplyForCompanyScnd> createState() => _ApplyForCompanyScndState();
@@ -48,6 +54,9 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
   String descreption = '';
   String yearsOfExperience = '';
   String location = '';
+  String type = '';
+  String formatted_timestamp = '';
+  String major = '';
 
   String company_name = '';
 
@@ -91,6 +100,9 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
     yearsOfExperience = widget.yearsOfExperience;
     location = widget.location;
     company_name = widget.company_name;
+    type = widget.type;
+    major = widget.major;
+    formatted_timestamp = widget.formatted_timestamp;
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       getUserAttachments(user!.uid);
     });
@@ -302,17 +314,19 @@ class _ApplyForCompanyScndState extends State<ApplyForCompanyScnd> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => AgreementsScreen(
-                                company_name: company_name,
-                                company_uid: company_uid,
-                                descreption: descreption,
-                                job_title: job_title,
-                                location: location,
-                                post_image: post_image,
-                                post_uid: post_uid,
-                                yearsOfExperience: yearsOfExperience,
-                                choosen_attachments_List:
-                                    choosen_attachments_List,
-                              )));
+                              company_name: company_name,
+                              company_uid: company_uid,
+                              descreption: descreption,
+                              job_title: job_title,
+                              location: location,
+                              post_image: post_image,
+                              post_uid: post_uid,
+                              yearsOfExperience: yearsOfExperience,
+                              choosen_attachments_List:
+                                  choosen_attachments_List,
+                              type: type,
+                              formatted_timestamp: formatted_timestamp,
+                              major: major)));
                 },
                 child: Container(
                   decoration: const BoxDecoration(

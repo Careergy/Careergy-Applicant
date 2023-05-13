@@ -447,6 +447,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 location: recent_posts[i]
                                                     ['city'],
                                                 major: recent_posts[i]['major'],
+                                                type: recent_posts[i]['type'],
+                                                timestamp: recent_posts[i]
+                                                    ['timestamp'],
                                               )),
                                     ).then((value) {
                                       print('object');
@@ -665,6 +668,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     ['city'],
                                                 major: recommended_posts[i]
                                                     ['major'],
+                                                type: recent_posts[i]['type'],
+                                                timestamp: recent_posts[i]
+                                                    ['timestamp'],
                                               )),
                                     ).then((value) {
                                       print('object');

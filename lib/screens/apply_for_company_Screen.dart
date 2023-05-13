@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:intl/intl.dart' as intl;
 
 import '../constants.dart';
 
@@ -15,17 +16,22 @@ class ApplyForCompanyScreen extends StatefulWidget {
   final String yearsOfExperience;
   final String location;
   final String major;
+  final String type;
+  final String timestamp;
 
-  const ApplyForCompanyScreen(
-      {super.key,
-      required this.company_uid,
-      required this.post_uid,
-      required this.post_image,
-      required this.job_title,
-      required this.descreption,
-      required this.yearsOfExperience,
-      required this.location,
-      required this.major});
+  const ApplyForCompanyScreen({
+    super.key,
+    required this.company_uid,
+    required this.post_uid,
+    required this.post_image,
+    required this.job_title,
+    required this.descreption,
+    required this.yearsOfExperience,
+    required this.location,
+    required this.major,
+    required this.type,
+    required this.timestamp,
+  });
 
   @override
   State<ApplyForCompanyScreen> createState() => _ApplyForCompanyScreenState();
@@ -42,6 +48,9 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
   String yearsOfExperience = '';
   String location = '';
   String major = '';
+  String type = '';
+  String timestamp = '';
+  String formatted_timestamp = '';
 
   String company_name = '';
 
@@ -70,6 +79,10 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
     yearsOfExperience = widget.yearsOfExperience;
     location = widget.location;
     major = widget.major;
+    type = widget.type;
+    timestamp = widget.timestamp;
+    formatted_timestamp = intl.DateFormat('EEE, d MMM y | hh:mm a').format(
+        DateTime.fromMillisecondsSinceEpoch(int.parse(widget.timestamp)));
   }
 
   @override
@@ -102,57 +115,65 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
                 const SizedBox(
                   width: 10,
                 ),
-                SizedBox(
-                  width: 220,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        company_name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: white),
-                      ),
-                      Text(
-                        job_title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: primaryColor),
-                      ),
-                      Text(
-                        location,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey),
-                      ),
-                      // SizedBox(height: 8),
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: primaryColor,
+                Flexible(
+                  child: SizedBox(
+                    // width: 220,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              company_name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: white),
                             ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5))),
-                        child: Padding(
-                          padding: const EdgeInsets.all(2),
-                          child: Text(
-                            '$yearsOfExperience Years of experience',
-                            maxLines: 1,
-                            // overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 13, color: white),
+                            // Spacer(),
+                          ],
+                        ),
+                        Text(
+                          job_title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: primaryColor),
+                        ),
+                        Text(
+                          location,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey),
+                        ),
+                        // SizedBox(height: 8),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: primaryColor,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(5))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2),
+                            child: Text(
+                              '$yearsOfExperience Years of experience',
+                              maxLines: 1,
+                              // overflow: TextOverflow.ellipsis,
+                              style:
+                                  const TextStyle(fontSize: 13, color: white),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -161,10 +182,49 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
             const SizedBox(
               height: 15,
             ),
-            Text(
-              'Major: ${major}',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  formatted_timestamp,
+                  style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.grey),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const Text(
+              'Major',
               style: TextStyle(
-                  fontSize: 17, fontWeight: FontWeight.bold, color: white),
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: primaryColor,
+              ),
+            ),
+            Text(
+              major,
+              style: TextStyle(
+                  fontSize: 13, fontWeight: FontWeight.bold, color: white),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const Text(
+              'Job type',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: primaryColor,
+              ),
+            ),
+            Text(
+              type,
+              style: TextStyle(
+                  fontSize: 13, fontWeight: FontWeight.bold, color: white),
             ),
             const SizedBox(
               height: 10,
@@ -203,7 +263,10 @@ class _ApplyForCompanyScreenState extends State<ApplyForCompanyScreen> {
                                 location: location,
                                 post_image: post_image,
                                 post_uid: post_uid,
-                                yearsOfExperience: yearsOfExperience)));
+                                yearsOfExperience: yearsOfExperience,
+                                type: type,
+                                formatted_timestamp: formatted_timestamp,
+                                major: major)));
                   },
                   child: Container(
                     decoration: const BoxDecoration(

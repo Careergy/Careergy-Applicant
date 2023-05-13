@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:careergy_mobile/constants.dart';
 import 'package:careergy_mobile/screens/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -171,7 +173,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                           const SizedBox(
                             height: 5,
                           ),
-                          appointment_timestamp != 0 && status == 'waiting'
+                          appointment_timestamp != 0
                               ? Container(
                                   decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
@@ -201,123 +203,161 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                                 fontWeight: FontWeight.bold,
                                                 color: primaryColor),
                                           ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              TextButton(
-                                                  onPressed: () async {
-                                                    EasyLoading.show(
-                                                        status: 'accepting...');
-                                                    applications
-                                                        .doc(application_uid)
-                                                        .update({
-                                                          'status': 'accepted',
-                                                          'last_updated': DateTime
-                                                                  .now()
-                                                              .millisecondsSinceEpoch
-                                                        })
-                                                        .then((value) => {
-                                                              EasyLoading
-                                                                  .showSuccess(
-                                                                      'Accepted succefully'),
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .popUntil(
-                                                                      (route) =>
-                                                                          route
-                                                                              .isFirst),
-                                                            })
-                                                        .catchError((error,
-                                                                stackTrace) =>
-                                                            {
-                                                              EasyLoading
-                                                                  .showError(
-                                                                      'Failed'),
-                                                              print(error),
-                                                            });
-                                                  },
-                                                  child: Container(
-                                                    decoration: const BoxDecoration(
-                                                        color: Colors.green,
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    20))),
-                                                    child: const Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 5,
-                                                                horizontal: 30),
-                                                        child: Text(
-                                                          'Accept',
-                                                          style: TextStyle(
+                                          status == 'waiting'
+                                              ? Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    TextButton(
+                                                        onPressed: () async {
+                                                          EasyLoading.show(
+                                                              status:
+                                                                  'accepting...');
+                                                          applications
+                                                              .doc(
+                                                                  application_uid)
+                                                              .update({
+                                                                'status':
+                                                                    'accepted',
+                                                                'last_updated':
+                                                                    DateTime.now()
+                                                                        .millisecondsSinceEpoch
+                                                              })
+                                                              .then(
+                                                                  (value) async =>
+                                                                      {
+                                                                        await EasyLoading.showSuccess(
+                                                                            'Accepted succefully'),
+                                                                        Timer(
+                                                                            const Duration(seconds: 1),
+                                                                            () {
+                                                                          Navigator.of(context).popUntil((route) =>
+                                                                              route.isFirst);
+                                                                        }),
+                                                                      })
+                                                              .catchError((error,
+                                                                      stackTrace) =>
+                                                                  {
+                                                                    EasyLoading
+                                                                        .showError(
+                                                                            'Failed'),
+                                                                    print(
+                                                                        error),
+                                                                  });
+                                                        },
+                                                        child: Container(
+                                                          decoration: const BoxDecoration(
                                                               color:
-                                                                  Colors.white,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                                  Colors.green,
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          20))),
+                                                          child: const Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          5,
+                                                                      horizontal:
+                                                                          30),
+                                                              child: Text(
+                                                                'Accept',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )),
                                                         )),
-                                                  )),
-                                              TextButton(
-                                                  onPressed: () async {
-                                                    EasyLoading.show(
-                                                        status: 'rejecting...');
-                                                    applications
-                                                        .doc(application_uid)
-                                                        .update({
-                                                          'status': 'refused',
-                                                          'last_updated': DateTime
-                                                                  .now()
-                                                              .millisecondsSinceEpoch
-                                                        })
-                                                        .then((value) => {
-                                                              EasyLoading
-                                                                  .showSuccess(
-                                                                      'Rejected succefully'),
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .popUntil(
-                                                                      (route) =>
-                                                                          route
-                                                                              .isFirst),
-                                                            })
-                                                        .catchError((error,
-                                                                stackTrace) =>
-                                                            {
-                                                              EasyLoading
-                                                                  .showError(
-                                                                      'Failed'),
-                                                              print(error),
-                                                            });
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        // color: kBlue,
-                                                        border: Border.all(
-                                                            color: Colors.red),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    20))),
-                                                    child: const Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 5,
-                                                                horizontal: 30),
-                                                        child: Text(
-                                                          'Reject',
-                                                          style: TextStyle(
-                                                              color: Colors.red,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )),
-                                                  ))
-                                            ],
-                                          )
+                                                    TextButton(
+                                                        onPressed: () async {
+                                                          EasyLoading.show(
+                                                              status:
+                                                                  'rejecting...');
+                                                          applications
+                                                              .doc(
+                                                                  application_uid)
+                                                              .update({
+                                                                'status':
+                                                                    'refused',
+                                                                'last_updated':
+                                                                    DateTime.now()
+                                                                        .millisecondsSinceEpoch
+                                                              })
+                                                              .then(
+                                                                  (value) async =>
+                                                                      {
+                                                                        await EasyLoading.showSuccess(
+                                                                            'Rejected succefully'),
+                                                                        Timer(
+                                                                            const Duration(seconds: 1),
+                                                                            () {
+                                                                          Navigator.of(context).popUntil((route) =>
+                                                                              route.isFirst);
+                                                                        }),
+                                                                      })
+                                                              .catchError((error,
+                                                                      stackTrace) =>
+                                                                  {
+                                                                    EasyLoading
+                                                                        .showError(
+                                                                            'Failed'),
+                                                                    print(
+                                                                        error),
+                                                                  });
+                                                        },
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  // color: kBlue,
+                                                                  border: Border.all(
+                                                                      color: Colors
+                                                                          .red),
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              20))),
+                                                          child: const Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          5,
+                                                                      horizontal:
+                                                                          30),
+                                                              child: Text(
+                                                                'Reject',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )),
+                                                        ))
+                                                  ],
+                                                )
+                                              : status == 'accepted'
+                                                  ? Row(
+                                                      children: [
+                                                        Text('Accepted')
+                                                      ],
+                                                    )
+                                                  : status == 'refused'
+                                                      ? Row(
+                                                          children: [
+                                                            Text('Accepted')
+                                                          ],
+                                                        )
+                                                      : Row(
+                                                          children: [
+                                                            Text(status)
+                                                          ],
+                                                        )
                                         ],
                                       ),
                                     ),

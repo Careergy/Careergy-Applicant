@@ -33,6 +33,14 @@ class _AppliedScreenState extends State<AppliedScreen> {
   bool finish = false;
 
   Future getApplications() async {
+    // setState(() {
+    applications.clear();
+    applications_uid.clear();
+    applied_posts.clear();
+    applied_posts_uid.clear();
+    company_names.clear();
+    company_photos.clear();
+    // });
     // Get docs from collection reference
     Query<Map<String, dynamic>> posts_ref = await FirebaseFirestore.instance
         .collection("applications")
@@ -133,6 +141,9 @@ class _AppliedScreenState extends State<AppliedScreen> {
                             children: List.generate(applications.length, (i) {
                               return InkWell(
                                 onTap: () {
+                                  setState(() {
+                                    finish = false;
+                                  });
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -167,8 +178,15 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                           ['last_updated'] ??
                                                       0,
                                             )),
-                                  ).then((value) {
-                                    print('object');
+                                  ).then((value) async {
+                                    // print('object');
+                                    EasyLoading.show(status: 'loading...');
+                                    await getApplications();
+                                    await getAppliedPosts();
+                                    setState(() {
+                                      finish = true;
+                                    });
+                                    EasyLoading.dismiss();
                                   });
                                 },
                                 child: Padding(
