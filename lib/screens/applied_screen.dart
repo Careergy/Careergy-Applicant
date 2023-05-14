@@ -177,6 +177,9 @@ class _AppliedScreenState extends State<AppliedScreen> {
                                                   applications[i]
                                                           ['last_updated'] ??
                                                       0,
+                                              address: applications[i]
+                                                      ['address'] ??
+                                                  '',
                                             )),
                                   ).then((value) async {
                                     // print('object');

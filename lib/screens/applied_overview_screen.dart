@@ -20,6 +20,7 @@ class AppliedOverviewScreen extends StatefulWidget {
   final String yearsOfExperience;
   final String location;
   final String status;
+  final String address;
   final String company_name;
   final int appointment_timestamp;
   final int last_updated_timestamp;
@@ -36,6 +37,7 @@ class AppliedOverviewScreen extends StatefulWidget {
       required this.yearsOfExperience,
       required this.location,
       required this.status,
+      required this.address,
       required this.company_name,
       required this.appointment_timestamp,
       required this.last_updated_timestamp,
@@ -60,6 +62,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
   String yearsOfExperience = '';
   String location = '';
   String status = '';
+  String address = '';
   int appointment_timestamp = 0;
   int last_updated_timestamp = 0;
   String formatted_timestamp = '';
@@ -82,6 +85,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
     yearsOfExperience = widget.yearsOfExperience;
     location = widget.location;
     status = widget.status;
+    address = widget.address;
     company_name = widget.company_name;
     appointment_timestamp = widget.appointment_timestamp;
     last_updated_timestamp = widget.last_updated_timestamp;
@@ -147,7 +151,7 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                 child: Text(
                                   status,
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       color: status == 'pending'
                                           ? Colors.grey
@@ -192,9 +196,9 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                           const Text(
                                             'Interview appointment date & time',
                                             style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
                                           ),
                                           Text(
                                             formatted_timestamp,
@@ -202,6 +206,27 @@ class _AppliedOverviewScreenState extends State<AppliedOverviewScreen> {
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                                 color: primaryColor),
+                                          ),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    100,
+                                                child: Text(
+                                                  'Address: $address',
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                           status == 'waiting'
                                               ? Row(
